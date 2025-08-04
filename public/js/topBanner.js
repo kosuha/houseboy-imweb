@@ -47,7 +47,6 @@
     });
 
     let currentSlide = 0;
-    const totalSlides = bannerData.length + 1;
     
     setInterval(() => {
       currentSlide++;
