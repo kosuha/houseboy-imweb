@@ -45,10 +45,12 @@
 
 .option-button.active .product-name {
   color: #fff !important;
+  text-align: left;
 }
 
 .option-button.active .product-price {
   color: #fff !important;
+  text-align: left;
 }
 
 .option-button.active:hover {
@@ -76,8 +78,10 @@
 
 .option-button.sold-out > .product-name {
   color: #d7d7d7 !important;
+  text-align: left;
 }
 
 .option-button.sold-out > .product-price {
   color: #d7d7d7 !important;
+  text-align: left;
 }
