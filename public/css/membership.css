@@ -1,0 +1,43 @@
+/* title */
+div.lp_table > .title {
+
+}
+
+/* table */
+div.lp_table .table > thead {
+
+}
+
+div.lp_table .table > thead > tr {
+
+}
+
+div.lp_table .table > thead > tr > th {
+  font-weight: inherit;
+  border-top: 1px solid #ddd !important;
+  font-weight: bold;
+}
+
+div.lp_table .table > tbody {
+
+}
+
+div.lp_table .table > tbody > tr {
+  
+}
+
+div.lp_table .table > tbody > tr > td {
+  font-weight: inherit;
+}
+
+/* notice */
+div.lp_table .notice {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+div.lp_table .notice p {
+  padding: 0px;
+  margin: 0px;
+}
