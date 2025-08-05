@@ -91,6 +91,7 @@
             topBannerMobile.style.marginLeft = '0px';
             topBannerMobile.style.width = '100%';
             topBannerMobile.style.left = '0px';
+
             headerMobileNav.style.top = '28px';
           } else {
             topBannerMobile.style.zIndex = 'auto';
@@ -99,7 +100,8 @@
             topBannerMobile.style.marginLeft = '';
             topBannerMobile.style.width = '100%';
             topBannerMobile.style.left = '';
-            headerMobileNav.style.top = '28px';
+            
+            headerMobileNav.style.top = '0px';
           }
         }
       });

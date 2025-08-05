@@ -19,6 +19,7 @@
   회원 등급, 쿠폰, 적립금은 마이페이지에서 확인 가능합니다.
   구매 적립금은 배송 완료 7일 후 발급되며, 적립금은 구매금액에 상관없이 사용 가능합니다.
 */
+
 {
   const membershipTableContainer = document.querySelector('#list-popover > div.lp_content_wrap > div.lp_table');
   const membershipData = [
