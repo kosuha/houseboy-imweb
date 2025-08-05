@@ -87,11 +87,10 @@
           if (mutation.target.className.includes('tansparent_bg')) {
             topBannerMobile.style.zIndex = '2000';
             topBannerMobile.style.position = 'fixed';
-            topBannerMobile.style.top = '0px';
+            topBannerMobile.style.top = '28px';
             topBannerMobile.style.marginLeft = '0px';
             topBannerMobile.style.width = '100%';
             topBannerMobile.style.left = '0px';
-            headerMobileNav.style.marginTop = '28px';
           } else {
             topBannerMobile.style.zIndex = 'auto';
             topBannerMobile.style.position = 'relative';
