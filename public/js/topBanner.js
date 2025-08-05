@@ -70,6 +70,7 @@
   const headerFixed = document.querySelector('header#doz_header_wrap > #doz_header > .new_fixed_header > #inline_header_fixed > .inline-section-wrap');
   const headerNormal = document.querySelector('header#doz_header_wrap > #doz_header > .new_org_header > #inline_header_normal > .inline-section-wrap');
   const headerMobile = document.querySelector('header#doz_header_wrap > #doz_header > .new_org_header > #inline_header_mobile');
+  const headerMobileNav = document.querySelector('header#doz_header_wrap > #doz_header > .new_org_header > #inline_header_mobile > .inline-section-wrap');
 
   const topBannerFixed = createBannerSlider();
   headerFixed.insertAdjacentElement('afterbegin', topBannerFixed);
@@ -90,6 +91,7 @@
             topBannerMobile.style.marginLeft = '0px';
             topBannerMobile.style.width = '100%';
             topBannerMobile.style.left = '0px';
+            headerMobileNav.style.marginTop = '28px';
           } else {
             topBannerMobile.style.zIndex = 'auto';
             topBannerMobile.style.position = 'relative';
