@@ -1,3 +1,129 @@
+// CSS를 문자열로 정의
+const cssString = `
+  /* Product Options Button Styles */
+.option-buttons-container {
+  margin: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.option-button {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-family: inherit;
+  color: #333;
+}
+
+.option-button:hover {
+  background-color: #f0f0f0;
+  border-color: #ccc;
+}
+
+.option-button .product-name {
+  display: block;
+}
+
+.option-button .product-price {
+  display: block;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.option-button.active {
+  background-color: #999;
+  border-color: #777;
+}
+
+.option-button.active .product-name {
+  color: #fff !important;
+  text-align: left;
+}
+
+.option-button.active .product-price {
+  color: #fff !important;
+  text-align: left;
+}
+
+.option-button.active:hover {
+  background-color: #777;
+  border-color: #555;
+  color: #fff !important;
+}
+
+.goods_select > div:nth-child(2) {
+  background: #f7f7f7;
+  margin-top: 0;
+  margin-bottom: 10px;
+  margin-left: 0;
+  margin-right: 0;
+  padding-top: 14px;
+  border-radius: 4px;
+}
+
+.option-button.sold-out {
+  border: 1px dashed #ccc;
+  background-color: #d7d7d700;
+  color: #d7d7d7;
+  cursor: not-allowed;
+}
+
+.option-button.sold-out > .product-name {
+  color: #d7d7d7 !important;
+  text-align: left;
+}
+
+.option-button.sold-out > .product-price {
+  color: #d7d7d7 !important;
+  text-align: left;
+}
+
+/* 옵션 그룹 */
+.opt-group.option-group {
+  display: block !important;
+}
+
+.buy-button-container {
+  display: flex !important;
+}
+
+.social-buy-button-container {
+  display: flex;
+}
+
+/* 소셜 구매 버튼 가시성 보장 */
+div._social_m_position * {
+  visibility: visible !important;
+}
+
+div.social-pay {
+  display: flex !important;
+  visibility: visible !important;
+  flex-direction: column;
+  gap: 8px;
+}
+    
+@media (min-width: 768px) {
+  .prod-buy-container {
+    display: block;
+  }
+
+  div.social-pay {
+    margin-top: 8px;
+  }
+}
+`;
+
 {
   // 선택된 상품들과 일치하는 버튼을 활성화하는 함수
   function updateButtonStates() {
@@ -170,9 +296,7 @@
   prodBuyContainer.classList.add('prod-buy-container');
   prodBuyContainer.appendChild(optionGroup);
   prodBuyContainer.appendChild(buyButtonContainer);
-  if (socialBuyButtonContentPC) {
-    prodBuyContainer.appendChild(socialBuyButtonContentPC);
-  }
+  prodBuyContainer.appendChild(socialBuyButtonContentPC);
   
   const goodsSummary = document.querySelector('.goods_summary');
   if (goodsSummary) {
@@ -186,9 +310,7 @@
       // 모바일 동작
       prodBuyContainer.appendChild(socialBuyButtonContentM);
     } else {
-      if (socialBuyButtonContentPC) {
-        prodBuyContainer.appendChild(socialBuyButtonContentPC);
-      }
+      prodBuyContainer.appendChild(socialBuyButtonContentPC);
     }
   }
 
@@ -229,12 +351,10 @@
   const mobileGiftButton = document.querySelector('._btn_mobile_gift');
   const mobileNpayButton = document.querySelector('._btn_mobile_npay');
   const mobileKakaoPayButton = document.querySelector('._btn_mobile_kakaopay');
-  if (mobileBuyButton && mobileGiftButton && mobileNpayButton && mobileKakaoPayButton) {
-    mobileBuyButton.addEventListener('click', () => mobileBuyButtonEvent());
-    mobileGiftButton.addEventListener('click', () => mobileBuyButtonEvent());
-    mobileNpayButton.addEventListener('click', () => mobileBuyButtonEvent());
-    mobileKakaoPayButton.addEventListener('click', () => mobileBuyButtonEvent());
-  }
+  mobileBuyButton.addEventListener('click', () => mobileBuyButtonEvent());
+  mobileGiftButton.addEventListener('click', () => mobileBuyButtonEvent());
+  mobileNpayButton.addEventListener('click', () => mobileBuyButtonEvent());
+  mobileKakaoPayButton.addEventListener('click', () => mobileBuyButtonEvent());
 
   const mobileCloseButton = document.querySelector('.btn_clse');
   mobileCloseButton.addEventListener('click', () => {

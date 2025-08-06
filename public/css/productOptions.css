@@ -101,7 +101,6 @@
 
 /* 소셜 구매 버튼 가시성 보장 */
 div._social_m_position * {
-  /* display: block !important; */
   visibility: visible !important;
 }
 
@@ -111,16 +110,6 @@ div.social-pay {
   flex-direction: column;
   gap: 8px;
 }
-
-/* .social-buy-button-container-pc,
-.social-buy-button-container-mobile {
-  display: block !important;
-  visibility: visible !important;
-  } */
-  
-  /* .goods_form .prod-buy-container .goods_wrap {
-    max-height: none !important;
-    } */
     
 @media (min-width: 768px) {
   .prod-buy-container {
@@ -130,4 +119,12 @@ div.social-pay {
   div.social-pay {
     margin-top: 8px;
   }
+}
+
+.opt-group .option_title {
+  display: table-cell !important;
+}
+
+.opt-group-top-bg {
+  display: none;
 }
