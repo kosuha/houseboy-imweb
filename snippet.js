@@ -1,365 +1,145 @@
+{
 // CSS를 문자열로 정의
 const cssString = `
-  /* Product Options Button Styles */
-.option-buttons-container {
-  margin: 10px 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  .opt_block {
+  background: transparent !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
-.option-button {
+.opt_product_area {
   display: flex;
   flex-direction: row;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 16px;
-  border: 1px solid #ddd;
-  background: #fff;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+}
+
+.area_tit > span {
+  font-size: 14px !important;
+  color: #898989 !important
+}
+
+.area_tit.holder {
+  flex: 1;
+}
+
+.area_price {
+  position: relative;
+  margin-top: 12px;
+  top: 0;
+}
+
+.area_price > span {
   font-size: 14px;
-  font-family: inherit;
-  color: #333;
-}
-
-.option-button:hover {
-  background-color: #f0f0f0;
-  border-color: #ccc;
-}
-
-.option-button .product-name {
-  display: block;
-}
-
-.option-button .product-price {
-  display: block;
   font-weight: bold;
-  font-size: 0.9em;
 }
 
-.option-button.active {
-  background-color: #999;
-  border-color: #777;
+.opt_product_area .area_tit:before {
+  border: none !important;
 }
 
-.option-button.active .product-name {
-  color: #fff !important;
-  text-align: left;
-}
-
-.option-button.active .product-price {
-  color: #fff !important;
-  text-align: left;
-}
-
-.option-button.active:hover {
-  background-color: #777;
-  border-color: #555;
-  color: #fff !important;
-}
-
-.goods_select > div:nth-child(2) {
-  background: #f7f7f7;
-  margin-top: 0;
-  margin-bottom: 10px;
-  margin-left: 0;
-  margin-right: 0;
-  padding-top: 14px;
-  border-radius: 4px;
-}
-
-.option-button.sold-out {
-  border: 1px dashed #ccc;
-  background-color: #d7d7d700;
-  color: #d7d7d7;
-  cursor: not-allowed;
-}
-
-.option-button.sold-out > .product-name {
-  color: #d7d7d7 !important;
-  text-align: left;
-}
-
-.option-button.sold-out > .product-price {
-  color: #d7d7d7 !important;
-  text-align: left;
-}
-
-/* 옵션 그룹 */
-.opt-group.option-group {
-  display: block !important;
-}
-
-.buy-button-container {
-  display: flex !important;
-}
-
-.social-buy-button-container {
+.option_btn_wrap {
   display: flex;
+  flex-direction: row;
 }
 
-/* 소셜 구매 버튼 가시성 보장 */
-div._social_m_position * {
-  visibility: visible !important;
+.area_count > .option_btn_wrap > a {
+  position: relative;
+  margin-top: 16px;
+  margin-left: 12px;
 }
 
-div.social-pay {
-  display: flex !important;
-  visibility: visible !important;
-  flex-direction: column;
-  gap: 8px;
+.opt_product_area > .area_count > .option_btn_wrap > .option_btn_tools > input {
+  height: 30px !important;
+  border: none !important;
 }
-    
-@media (min-width: 768px) {
-  .prod-buy-container {
-    display: block;
-  }
 
-  div.social-pay {
-    margin-top: 8px;
-  }
+.opt_product_area > .area_count > .option_btn_wrap > .option_btn_tools > a {
+  font-size: 14px;
+}
+
+.goods_payment {
+  border-top: 1px solid #eee;
+  border-radius: 0;
+  margin-top: 28px;
+}
+
+.goods_payment > .opt_block.bottom {
+  border-top: 1px solid #eee;
+  border-radius: 0;
+}
+
+.shop-content .goods_wrap > .goods_payment > .opt_block.bottom > p {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.shop-content .goods_wrap > .goods_payment > .opt_block.bottom > p > span:nth-child(1) {
+  font-weight: bold;
+}
+
+.shop-content .goods_wrap > .goods_payment > .opt_block.bottom > p > span:nth-child(2) {
+  font-size: 22px !important;
 }
 `;
 
-{
-  // 선택된 상품들과 일치하는 버튼을 활성화하는 함수
-  function updateButtonStates() {
-    const selectedOptions = Array.from(document.querySelectorAll('#prod_selected_options .opt_block'))
-      .filter(element => !element.classList.contains('total') && !element.classList.contains('bottom'));
-    const allButtons = document.querySelectorAll('.option-button');
-    
-    // 모든 버튼 선택 해제
-    allButtons.forEach(btn => btn.classList.remove('active'));
-    
-    selectedOptions.forEach(selectedOption => {
-      const fullText = selectedOption.querySelector('.area_tit span').textContent.trim();
-      // ": " 뒤의 실제 옵션 이름만 추출
-      const colonIndex = fullText.lastIndexOf(':');
-      const optionText = fullText.substring(colonIndex + 2).trim();
-      
-      // 해당 텍스트와 일치하는 버튼 찾아서 활성화
-      allButtons.forEach(button => {
-        const productNameSpan = button.querySelector('.product-name');
-        const buttonText = productNameSpan ? productNameSpan.textContent.trim() : button.textContent.trim();
-        if (buttonText === optionText) {
-          button.classList.add('active');
-        }
-      });
-    });
-  }
-  
-  // 드롭다운을 숨기고 버튼으로 변경하는 함수
-  function replaceDropdownsWithButtons() {
-    const dropdownMenus = document.querySelectorAll('#prod_options > div > div > div.form-select-wrap');
-    
-    dropdownMenus.forEach((menu) => {
-      // 이미 처리된 메뉴는 건너뛰기
-      if (menu.style.display === 'none' || menu.dataset.processed === 'true') {
-        return;
-      }
-      
-      const options = menu.querySelectorAll('div.dropdown-menu > div.dropdown-item');
-      
-      // 버튼 컨테이너 생성
-      const buttonContainer = document.createElement('div');
-      buttonContainer.className = 'option-buttons-container';
-      
-      options.forEach(option => {
-        const button = document.createElement('button');
-        button.className = 'option-button';
-        
-        const spans = option.querySelectorAll('span');
-        if (spans.length >= 2) {
-          const productName = document.createElement('span');
-          productName.className = 'product-name';
-          productName.textContent = spans[0].textContent.trim();
-          
-          const productPrice = document.createElement('span');
-          productPrice.className = 'product-price';
-          productPrice.textContent = spans[1].textContent.trim();
-          
-          button.appendChild(productName);
-          button.appendChild(productPrice);
-        } else {
-          button.textContent = option.innerText.trim();
-        }
-        
-        // 품절 상품인지 확인하고 클래스 추가
-        const priceText = spans.length >= 2 ? spans[1].textContent.trim() : option.innerText.trim();
-        const isSoldOut = priceText.includes('(품절)');
-        
-        if (isSoldOut) {
-          button.classList.add('sold-out');
-        }
-        
-        // 버튼 클릭 시 실제 옵션의 onclick 함수 실행
-        button.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          
-          const linkElement = option.querySelector('a');
-          if (linkElement && linkElement.onclick) {
-            linkElement.onclick.call(linkElement, e);
-          }
-          
-          // 선택된 상품과 버튼 상태 업데이트
-          setTimeout(() => {
-            updateButtonStates();
-          }, 50);
-        });
-        
-        buttonContainer.appendChild(button);
-      });
-      
-      // 원래 드롭다운 메뉴 위치에 버튼 컨테이너 삽입
-      menu.parentNode.insertBefore(buttonContainer, menu);
-      
-      // 드롭다운 메뉴 숨김 및 처리 완료 표시
-      menu.style.display = 'none';
-      menu.dataset.processed = 'true';
-    });
-    
-    // 초기 버튼 상태 업데이트
-    updateButtonStates();
-  }
+// 스타일 태그를 생성하고 CSS를 삽입
+const style = document.createElement('style');
+style.type = 'text/css';
+style.appendChild(document.createTextNode(cssString));
 
-  function keepElementsVisible(parentSelector) {
-    // 강제로 보이게 하는 함수
-    function forceVisible(element) {
-      element.style.setProperty('display', 'block', 'important');
-      element.style.setProperty('visibility', 'visible', 'important');
+// 문서의 head에 스타일 태그를 추가
+document.head.appendChild(style);
+
+
+  // option_btn_tools
+function moveOptionBtnTools() {
+  const prodSelectedOptions = document.querySelector('#prod_selected_options').children;
+  Array.from(prodSelectedOptions).forEach(e => {
+    const areaTit = e.querySelector('.area_tit');
+    const areaPrice = e.querySelector('.area_price');
+    
+    // 이미 이동되었는지 체크
+    if (areaTit && areaPrice && !areaTit.contains(areaPrice)) {
+      areaTit.appendChild(areaPrice);
     }
+    
+    // 정확한 닫기 버튼 선택 (absolute_right 클래스를 가진 a 태그)
+    const closeBtn = e.querySelector('.area_tit a.absolute_right');
+    const areaCount = e.querySelector('.area_count > .option_btn_wrap');
 
-    // MutationObserver로 DOM 변경 감지
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
-          const target = mutation.target;
-          const parent = document.querySelector(parentSelector);
-          
-          // 부모 요소 하위에 있는지 확인
-          if (parent && (parent === target || parent.contains(target))) {
-            console.log('Forcing visibility for:', target);
-            forceVisible(target);
-          }
+    if (closeBtn && areaCount && !areaCount.contains(closeBtn)) {
+      areaCount.appendChild(closeBtn);
+    }
+  });
+}
+
+let isMoving = false;
+
+// MutationObserver로 #prod_selected_options 변화 감지
+const observer = new MutationObserver((mutations) => {
+    if (isMoving) return; // 이동 중이면 무시
+    
+    mutations.forEach((mutation) => {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+            isMoving = true;
+            requestAnimationFrame(() => {
+                moveOptionBtnTools();
+                isMoving = false;
+            });
         }
-      });
     });
+});
 
-    // 전체 문서 감시
-    observer.observe(document.body, {
-      attributes: true,
-      attributeFilter: ['style', 'class'],
-      subtree: true
+// 관찰 시작
+const prodSelectedOptions = document.getElementById('prod_selected_options');
+if (prodSelectedOptions) {
+    observer.observe(prodSelectedOptions, {
+        childList: true,
+        subtree: true
     });
-
+    
     // 초기 실행
-    const parentElement = document.querySelector(parentSelector);
-    if (parentElement) {
-      forceVisible(parentElement);
-    }
-  }
-
-  // _social_m_position 요소 하위 모든 요소 항상 보이게 하기
-  keepElementsVisible('._social_m_position');
-
-  // 초기 실행
-  replaceDropdownsWithButtons();
-  
-  // DOM 변화 감지해서 새로 생성된 드롭다운도 처리
-  const observer = new MutationObserver(() => {
-    replaceDropdownsWithButtons();
-  });
-  
-  observer.observe(document.querySelector('#prod_options'), {
-    childList: true,
-    subtree: true
-  });
-  
-  // 옵션 그룹
-  const optionGroup = document.querySelector('.opt-group');
-  optionGroup.classList.add('option-group');
-  
-  // 구매 버튼
-  const buyButtonContainer = document.querySelector('#prod_goods_form > div.buy_btns.holder.pc');
-  buyButtonContainer.classList.add('buy-button-container');
-  
-  // 소셜 구매 버튼 _social_pc_position의 innerHTML이 비어있다면 _social_m_position 클래스의 innerHTML을 복사
-  const socialBuyButtonContentPC = document.querySelector('div._social_pc_position');
-  const socialBuyButtonContentM = document.querySelector('div._social_m_position');
-
-  // 상품 구매 컨테이너
-  const prodBuyContainer = document.createElement('div');
-  prodBuyContainer.classList.add('prod-buy-container');
-  prodBuyContainer.appendChild(optionGroup);
-  prodBuyContainer.appendChild(buyButtonContainer);
-  prodBuyContainer.appendChild(socialBuyButtonContentPC);
-  
-  const goodsSummary = document.querySelector('.goods_summary');
-  if (goodsSummary) {
-    goodsSummary.insertAdjacentElement('afterend', prodBuyContainer);
-  }
-
-  const mobileQuery = window.matchMedia('(max-width: 787px)');
-
-  function handleScreenChange() {
-    if (mobileQuery.matches) {
-      // 모바일 동작
-      prodBuyContainer.appendChild(socialBuyButtonContentM);
-    } else {
-      prodBuyContainer.appendChild(socialBuyButtonContentPC);
-    }
-  }
-
-  // 초기 실행
-  handleScreenChange();
-
-  // 화면 크기 변경 감지
-  mobileQuery.addEventListener('change', handleScreenChange);
-
-  // 스크롤이 prodBuyContainer를 지나갈 때 실행할 코드
-  function handleScrollPastContainer() {
-    const containerRect = prodBuyContainer.getBoundingClientRect();
-    const isScrolledPast = containerRect.bottom < 0; // 컨테이너가 화면 위로 완전히 벗어났을 때
-    const cartButton = document.querySelector('.cart_btn');
-    if (isScrolledPast) {
-      cartButton.style.display = 'flex';
-    } else {
-      cartButton.style.display = 'none';
-    }
-  }
-
-  // 초기 실행
-  handleScrollPastContainer();
-  // 스크롤 이벤트 리스너 추가
-  window.addEventListener('scroll', handleScrollPastContainer);
-
-  const goodsWrap = document.querySelector('.goods_wrap');
-  goodsWrap.style.maxHeight = 'none';
-
-  const mobileBuyButtonEvent = () => {
-    const cartButton = document.querySelector('.cart_btn');
-    cartButton.appendChild(socialBuyButtonContentM);
-    const goodsWrap = document.querySelector('.goods_wrap');
-    goodsWrap.style.maxHeight = '340px';
-  }
-
-  const mobileBuyButton = document.querySelector('._btn_mobile_buy');
-  const mobileGiftButton = document.querySelector('._btn_mobile_gift');
-  const mobileNpayButton = document.querySelector('._btn_mobile_npay');
-  const mobileKakaoPayButton = document.querySelector('._btn_mobile_kakaopay');
-  mobileBuyButton.addEventListener('click', () => mobileBuyButtonEvent());
-  mobileGiftButton.addEventListener('click', () => mobileBuyButtonEvent());
-  mobileNpayButton.addEventListener('click', () => mobileBuyButtonEvent());
-  mobileKakaoPayButton.addEventListener('click', () => mobileBuyButtonEvent());
-
-  const mobileCloseButton = document.querySelector('.btn_clse');
-  mobileCloseButton.addEventListener('click', () => {
-    prodBuyContainer.appendChild(socialBuyButtonContentM);
-    const goodsWrap = document.querySelector('.goods_wrap');
-    goodsWrap.style.maxHeight = 'none';
-  });
+    moveOptionBtnTools();
+}
 }
