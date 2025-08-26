@@ -71,12 +71,15 @@ const getProdData = async (prodId) => {
 // 메인 실행 함수
 const initReviewSlider = async () => {
   try {
-    const newReviewPosition = document.querySelector(".houseboy-slide-review-section");
+    const reviewPositions = document.querySelectorAll(".houseboy-slide-review-section");
     
-    if (!newReviewPosition) {
+    if (reviewPositions.length === 0) {
       console.warn('리뷰 위치를 찾을 수 없습니다.');
       return;
     }
+    
+    // 각 위치마다 개별적으로 처리
+    for (const newReviewPosition of reviewPositions) {
     
     const review = document.createElement('div');
     review.classList.add('hb-review');
@@ -84,8 +87,8 @@ const initReviewSlider = async () => {
     // 모든 리뷰 데이터를 병렬로 가져오기
     const reviewData = JSON.parse(newReviewPosition.dataset.reviews);
     if (!Array.isArray(reviewData)) {
-      console.warn('리뷰 데이터 형식이 올바르지 않습니다.');
-      return;
+      console.warn('리뷰 데이터 형식이 올바르지 않습니다. 스킵합니다.');
+      continue;
     }
     const reviewPromises = reviewData.map(async (item, index) => {
       const vReview = await getVReviewData(item.id);
@@ -194,8 +197,8 @@ const initReviewSlider = async () => {
     const filteredContent = reviewContent.filter(content => content);
     
     if (filteredContent.length === 0) {
-      console.warn('표시할 리뷰가 없습니다.');
-      return;
+      console.warn('표시할 리뷰가 없습니다. 스킵합니다.');
+      continue;
     }
     
     // HTML 삽입
@@ -430,6 +433,7 @@ const initReviewSlider = async () => {
     
     console.log('리뷰 슬라이더 초기화 완료');
     
+    } // for문 끝
   } catch (error) {
     console.error('리뷰 슬라이더 초기화 실패:', error);
   }

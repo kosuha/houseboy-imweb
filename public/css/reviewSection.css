@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  max-width: 1045px; /* 슬라이더의 최대 너비를 설정하여 오버플로우 유도 */
+  max-width: 90vw; /* 슬라이더의 최대 너비를 설정하여 오버플로우 유도 */
   width: 100%; /* 부모 너비에 맞추되 max-width를 넘지 않도록 */
   overflow: hidden;
 }
@@ -33,6 +33,7 @@
   -webkit-user-select: none; /* Webkit 브라우저용 */
   -moz-user-select: none; /* Firefox용 */
   -ms-user-select: none; /* IE/Edge용 */
+  padding: 0 14px;
 }
 
 .hb-review-card {
@@ -523,6 +524,32 @@
 }
 
 @media (max-width: 768px) {
+  .hb-review {
+    padding: 60px 0 60px 0;
+  }
+  
+  .hb-review-content-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 100vw; /* 슬라이더의 최대 너비를 설정하여 오버플로우 유도 */
+    width: 100%; /* 부모 너비에 맞추되 max-width를 넘지 않도록 */
+    overflow: hidden;
+  }
+
+
+  .hb-review-content {
+    display: flex;
+    gap: 7px;
+    overflow: hidden; /* 스크롤바 숨기기 */
+    user-select: none; /* 드래그 중 텍스트 선택 방지 */
+    flex-wrap: nowrap; /* 자식 요소들이 한 줄에 있도록 설정 */
+    -webkit-user-select: none; /* Webkit 브라우저용 */
+    -moz-user-select: none; /* Firefox용 */
+    -ms-user-select: none; /* IE/Edge용 */
+    padding: 0 14px;
+  }
+
   .hb-modal-content {
     height: 100vh;
     width: 100vw;
