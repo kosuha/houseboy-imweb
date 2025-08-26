@@ -156,6 +156,392 @@
   text-decoration: line-through;
 }
 
+/* 모달 스타일 */
+#hb-review-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99999;
+}
+
+#hb-review-modal[style*="display: block"] {
+  display: block !important;
+}
+
+.hb-modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.hb-modal-content-wrapper {
+  width: 480px;
+  height: 720px;
+  max-width: 90vw;
+  max-height: 90vh;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+
+.hb-modal-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.hb-modal-header {
+  width: 100%;
+  padding: 12px 16px;
+  position: relative;
+}
+
+.hb-modal-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.hb-modal-close {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  display: flex;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.hb-modal-close:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.hb-modal-close svg {
+  width: 16px;
+  height: 16px;
+  color: #666;
+}
+
+.hb-modal-body {
+  background: #f8f9fa;
+  position: relative;
+  display: flex;
+  height: calc(100% - 56px);
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  padding-bottom: 120px;
+}
+
+.hb-modal-product-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 16px 0;
+}
+
+.hb-modal-product-image {
+  width: 32px;
+  height: 32px;
+  margin: 2px 0;
+  cursor: pointer;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.hb-modal-product-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hb-modal-product-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  line-height: 18px;
+  margin: 0;
+}
+
+.hb-modal-product-rating {
+  color: #666;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14px;
+  margin: 0;
+}
+
+.hb-modal-image-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hb-modal-main-image {
+  position: relative;
+  height: 480px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: black;
+  margin: 0 16px;
+}
+
+.hb-modal-current-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.hb-modal-thumbnail-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hb-modal-thumbnails {
+  display: flex;
+  max-width: 100%;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 0 16px;
+}
+
+.hb-modal-thumbnail {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 2px solid transparent;
+}
+
+.hb-modal-thumbnail.active {
+  border-color: #007bff;
+}
+
+.hb-modal-thumbnail:not(.active)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.hb-modal-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hb-modal-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #e9ecef;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 0 16px;
+}
+
+.hb-modal-user-details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hb-modal-username {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  line-height: 17px;
+  margin: 0;
+}
+
+.hb-modal-user-attributes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.hb-modal-user-attribute {
+  color: #666;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.hb-modal-purchase-options {
+  font-size: 12px;
+  font-weight: 400;
+  color: #666;
+  line-height: 17px;
+  margin: 0;
+}
+
+.hb-modal-review-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 16px;
+}
+
+.hb-modal-rating-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hb-modal-stars {
+  display: flex;
+  gap: 1px;
+}
+
+.hb-modal-star {
+  width: 14px;
+  height: 14px;
+  color: #ffc107;
+}
+
+.hb-modal-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hb-modal-question {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hb-modal-question-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+}
+
+.hb-modal-question-answer {
+  font-size: 12px;
+  font-weight: 400;
+  color: #333;
+}
+
+.hb-modal-review-text {
+  font-size: 14px;
+  font-weight: 400;
+  color: #333;
+  word-break: break-all;
+  line-height: 1.4;
+  margin: 0;
+  white-space: pre-line;
+}
+
+.hb-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 0 16px;
+}
+
+.hb-modal-helpful,
+.hb-modal-comments {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  gap: 4px;
+}
+
+.hb-modal-helpful svg,
+.hb-modal-comments svg {
+  color: #6c757d;
+}
+
+.hb-modal-helpful-text,
+.hb-modal-comments-text {
+  font-size: 14px;
+  font-weight: 400;
+  color: #666;
+}
+
+.hb-modal-report {
+  font-size: 14px;
+  font-weight: 400;
+  color: #666;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.hb-modal-comments-section {
+  border-top: 4px solid rgba(0, 0, 0, 0.03);
+  padding-top: 0;
+}
+
+.hb-modal-comments-title {
+  font-size: 14px;
+  font-weight: 400;
+  color: #333;
+  padding: 12px 16px;
+  margin: 0;
+}
+
+.hb-modal-no-comments {
+  font-size: 14px;
+  font-weight: 400;
+  color: #666;
+  padding: 16px;
+  text-align: center;
+  margin: 0;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hb-modal-content {
+    height: 100vh;
+    width: 100vw;
+    max-height: 100vh;
+    max-width: 100vw;
+    border-radius: 0;
+  }
+  
+  .hb-modal-backdrop {
+    padding: 0;
+  }
+}
+
+/* 애니메이션 - 파일 끝에 위치 */
 @keyframes slideDown {
   from {
     opacity: 0;
