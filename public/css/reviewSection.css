@@ -28,16 +28,11 @@
   display: flex;
   gap: 7px;
   overflow: hidden; /* 스크롤바 숨기기 */
-  cursor: grab; /* 드래그 가능함을 나타내는 커서 */
   user-select: none; /* 드래그 중 텍스트 선택 방지 */
   flex-wrap: nowrap; /* 자식 요소들이 한 줄에 있도록 설정 */
   -webkit-user-select: none; /* Webkit 브라우저용 */
   -moz-user-select: none; /* Firefox용 */
   -ms-user-select: none; /* IE/Edge용 */
-}
-
-.hb-review-content.grabbing {
-  cursor: grabbing; /* 드래그 중 커서 변경 */
 }
 
 .hb-review-card {

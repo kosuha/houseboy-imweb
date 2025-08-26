@@ -153,8 +153,9 @@ const initReviewSlider = async () => {
               key=${index}
               style='left: ${x}%; top: ${y}%;'
               data-product-id='${vReview.product_origin_id || ''}'
+              data-state='closed'
             >
-              <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+              <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg' style='transition: transform 0.2s ease;'>
                 <circle cx='12' cy='12' r='11' fill='#212121' stroke='#333' stroke-width='1'/>
                 <path d='M12 6v12M6 12h12' stroke='white' stroke-width='2' stroke-linecap='round'/>
               </svg>
@@ -230,10 +231,9 @@ const initReviewSlider = async () => {
       
       // 마우스 이벤트
       slider.addEventListener('mousedown', (e) => {
-        // 아이콘이나 상품 카드, 리뷰 이미지 클릭 시 드래그 방지
+        // 아이콘이나 상품 카드 클릭 시 드래그 방지
         if (e.target.closest('.hb-review-icon') || 
-            e.target.closest('.hb-product-mini-card') || 
-            e.target.closest('.hb-review-thumbnail-image')) return;
+            e.target.closest('.hb-product-mini-card')) return;
         
         isDown = true;
         hasDragged = false;
@@ -269,8 +269,7 @@ const initReviewSlider = async () => {
       // 터치 이벤트 (모바일 지원)
       slider.addEventListener('touchstart', (e) => {
         if (e.target.closest('.hb-review-icon') || 
-            e.target.closest('.hb-product-mini-card') || 
-            e.target.closest('.hb-review-thumbnail-image')) return;
+            e.target.closest('.hb-product-mini-card')) return;
         
         isDown = true;
         hasDragged = false;
@@ -303,23 +302,41 @@ const initReviewSlider = async () => {
       icon.addEventListener('click', (e) => {
         e.stopPropagation();
         
-        // 현재 열려있는 다른 카드들 모두 닫기
-        document.querySelectorAll('.hb-product-mini-card').forEach(card => {
-          if (icon.getAttribute('key') !== card.getAttribute('key') && card.style.display === 'flex') {
-            card.style.display = 'none';
+        // 현재 열려있는 다른 카드들과 아이콘들 모두 닫기
+        document.querySelectorAll('.hb-review-icon').forEach(otherIcon => {
+          if (icon !== otherIcon) {
+            const otherWrapper = otherIcon.closest('.hb-review-thumbnail-image-wrap');
+            const otherCard = otherWrapper.querySelector('.hb-product-mini-card');
+            
+            if (otherCard && otherCard.style.display === 'flex') {
+              otherCard.style.display = 'none';
+              // 다른 아이콘들을 + 상태로 변경 (회전 초기화)
+              const otherSvg = otherIcon.querySelector('svg');
+              if (otherSvg) {
+                otherSvg.style.transform = 'rotate(0deg)';
+                otherIcon.setAttribute('data-state', 'closed');
+              }
+            }
           }
         });
         
         // 해당 아이콘의 카드 찾기
         const wrapper = icon.closest('.hb-review-thumbnail-image-wrap');
         const card = wrapper.querySelector('.hb-product-mini-card');
+        const svg = icon.querySelector('svg');
         
-        if (card) {
+        if (card && svg) {
           // 토글
           if (card.style.display === 'flex') {
+            // 카드 닫기
             card.style.display = 'none';
+            svg.style.transform = 'rotate(0deg)';
+            icon.setAttribute('data-state', 'closed');
           } else {
+            // 카드 열기
             card.style.display = 'flex';
+            svg.style.transform = 'rotate(45deg)';
+            icon.setAttribute('data-state', 'opened');
           }
         }
       });
@@ -337,53 +354,59 @@ const initReviewSlider = async () => {
     
     // 리뷰 이미지 클릭 이벤트 - 모달 열기
     review.querySelectorAll('.hb-review-thumbnail-image').forEach((img) => {
-      let clickStartX, clickStartY;
-      let isDragging = false;
+      let mouseDownX, mouseDownY;
+      let hasMouseMoved = false;
+      let isMouseDown = false;
       
       img.addEventListener('mousedown', (e) => {
-        clickStartX = e.pageX;
-        clickStartY = e.pageY;
-        isDragging = false;
+        mouseDownX = e.pageX;
+        mouseDownY = e.pageY;
+        hasMouseMoved = false;
+        isMouseDown = true;
         
         const mouseMoveHandler = (moveEvent) => {
-          const deltaX = Math.abs(moveEvent.pageX - clickStartX);
-          const deltaY = Math.abs(moveEvent.pageY - clickStartY);
+          if (!isMouseDown) return;
+          
+          const deltaX = Math.abs(moveEvent.pageX - mouseDownX);
+          const deltaY = Math.abs(moveEvent.pageY - mouseDownY);
+          
+          // 5px 이상 움직이면 드래그로 판단
           if (deltaX > 5 || deltaY > 5) {
-            isDragging = true;
+            hasMouseMoved = true;
           }
         };
         
         const mouseUpHandler = () => {
+          isMouseDown = false;
           document.removeEventListener('mousemove', mouseMoveHandler);
           document.removeEventListener('mouseup', mouseUpHandler);
+          
+          // 마우스업 시점에서 움직임이 없었다면 모달 열기
+          if (!hasMouseMoved) {
+            // 리뷰 카드에서 리뷰 ID 가져오기
+            const reviewCard = img.closest('.hb-review-card');
+            const reviewId = reviewCard.getAttribute('data-review-id');
+            
+            console.log('이미지 클릭됨 (드래그 없음), 리뷰 ID:', reviewId);
+            
+            // 저장된 vReview 데이터 가져오기
+            if (window.vReviewsData && window.vReviewsData[reviewId]) {
+              console.log('모달 열기');
+              openReviewModal(window.vReviewsData[reviewId]);
+            } else {
+              console.log('리뷰 데이터 없음');
+            }
+          }
         };
         
         document.addEventListener('mousemove', mouseMoveHandler);
         document.addEventListener('mouseup', mouseUpHandler);
       });
       
+      // click 이벤트는 무조건 방지 (mouseup에서 처리)
       img.addEventListener('click', (e) => {
-        if (isDragging) {
-          e.preventDefault();
-          e.stopPropagation();
-          return;
-        }
-        
+        e.preventDefault();
         e.stopPropagation();
-        
-        // 리뷰 카드에서 리뷰 ID 가져오기
-        const reviewCard = img.closest('.hb-review-card');
-        const reviewId = reviewCard.getAttribute('data-review-id');
-        
-        console.log('이미지 클릭됨, 리뷰 ID:', reviewId);
-        
-        // 저장된 vReview 데이터 가져오기
-        if (window.vReviewsData && window.vReviewsData[reviewId]) {
-          console.log('모달 열기');
-          openReviewModal(window.vReviewsData[reviewId]);
-        } else {
-          console.log('리뷰 데이터 없음');
-        }
       });
     });
     
@@ -392,6 +415,15 @@ const initReviewSlider = async () => {
       if (!e.target.closest('.hb-review-icon') && !e.target.closest('.hb-product-mini-card')) {
         document.querySelectorAll('.hb-product-mini-card').forEach(card => {
           card.style.display = 'none';
+        });
+        
+        // 모든 아이콘을 + 상태로 변경 (회전 초기화)
+        document.querySelectorAll('.hb-review-icon').forEach(icon => {
+          const svg = icon.querySelector('svg');
+          if (svg) {
+            svg.style.transform = 'rotate(0deg)';
+            icon.setAttribute('data-state', 'closed');
+          }
         });
       }
     });
