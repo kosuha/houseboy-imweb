@@ -1,0 +1,441 @@
+{
+  "msg": "SUCCESS",
+  "data": [
+    {
+      "idx": 10,
+      "sort_no": 40,
+      "sort_no_desc": -40,
+      "site_code": "S20230424610d85b7e8034",
+      "code": "s20230821474d0ad9ce9b3",
+      "custom_prod_code": "H00300009",
+      "migration_prod_code": null,
+      "name": "[선물포장] 세안수건 하우스그린 2개입",
+      "price": 24900,
+      "price_org": 32000,
+      "price_supply": 0,
+      "price_tax": true,
+      "price_none": false,
+      "group_code": "",
+      "add_time": "2023-08-21 20:04:25",
+      "edit_time": "2025-08-25 16:09:17",
+      "use_mobile_prod_content": true,
+      "mobile_content": "",
+      "mobile_content_plain": "",
+      "content": "",
+      "content_plain": "",
+      "deliv_type": "default",
+      "deliv_price_after": false,
+      "deliv_price_type": "",
+      "deliv_pay_type": "",
+      "deliv_price_fix": "0.0000",
+      "deliv_price_flexable_key": 0,
+      "deliv_price_flexable_value": 0,
+      "deliv_price_mix": false,
+      "deliv_guid_type": "config",
+      "deliv_guid": "",
+      "shipping_template_code": "",
+      "deliv_data": [
+          {
+              "deliv_code": "d2023042486136fa0455ea",
+              "deliv_price_mix": true,
+              "installation_costs": false,
+              "default_island_use": true,
+              "deliv_use": true,
+              "use_today_default_config": true,
+              "deliv_type": "default",
+              "parcel": true,
+              "visit": false,
+              "quick": false,
+              "cvs": false,
+              "deliv_pay_type": "default",
+              "deliv_price_type": "standard",
+              "deliv_price_fix": 2500,
+              "deliv_price_flexable_key": 50000,
+              "deliv_price_flexable_value": 2500,
+              "weight_default_start_size": 0,
+              "weight_default_price": 0,
+              "weight_start_size": [
+                  0
+              ],
+              "weight_price": [
+                  0
+              ],
+              "quantity_default_price": 0,
+              "quantity_default_start_count": 1,
+              "quantity_start_count": [
+                  0
+              ],
+              "quantity_price": [
+                  0
+              ],
+              "quantity_repeat_price": 0,
+              "quantity_repeat_count": 0,
+              "quantity_section_type": "section",
+              "amount_default_start_price": 0,
+              "amount_default_price": 0,
+              "amount_start_price": [
+                  0
+              ],
+              "amount_price": [
+                  0
+              ],
+              "use_default_deliv_additional_price": false,
+              "cvs_use_same_refund_price": true,
+              "use_deliv_additional_price": false,
+              "additional_price_type": "default",
+              "deliv_additional_price_list": [],
+              "jeju_price": 0,
+              "land_price": 0,
+              "shopping_additional_price_msg": "",
+              "use_shop_return": false,
+              "shop_return_accept_day": 0,
+              "non_refundable_content": "",
+              "deliv_post_name": "",
+              "deliv_group_code": "",
+              "today_deliv_use_type": "D",
+              "today_deliv_type": "three",
+              "today_arrival_time": "0:00",
+              "today_deliv_day_expect": null,
+              "today_deliv_day_avg": null,
+              "cvs_data": [],
+              "cvs_config": false
+          }
+      ],
+      "options": [
+          {
+              "idx": 137119788,
+              "site_code": "S20230424610d85b7e8034",
+              "prod_code": "s20230821474d0ad9ce9b3",
+              "no": 1,
+              "type": "default",
+              "code": "O202309176506f36a8ba80",
+              "name": "구성",
+              "value_list": {
+                  "O202312083071124149339": "2개입 선물포장",
+                  "O2023120813c0b04ac0882": "4개입 선물포장"
+              },
+              "badge_list": [],
+              "is_require": true,
+              "stock_sku_no": "",
+              "user_input_msg": [],
+              "data": []
+          },
+          {
+              "idx": 137119789,
+              "site_code": "S20230424610d85b7e8034",
+              "prod_code": "s20230821474d0ad9ce9b3",
+              "no": 2,
+              "type": "default",
+              "code": "O20231107654a4b4fd91a0",
+              "name": "선물하기",
+              "value_list": {
+                  "O202311078453d91859395": "선물용 쇼핑백"
+              },
+              "badge_list": [],
+              "is_require": false,
+              "stock_sku_no": "",
+              "user_input_msg": [],
+              "data": []
+          },
+          {
+              "idx": 137119790,
+              "site_code": "S20230424610d85b7e8034",
+              "prod_code": "s20230821474d0ad9ce9b3",
+              "no": 3,
+              "type": "default",
+              "code": "O202312086572b646d3bf5",
+              "name": "함께 구매하면 좋은 상품",
+              "value_list": {
+                  "O202312088755600596de7": "[하우스그린] 주방수건 선물포장 3P",
+                  "O2025041303438f1ef4334": "[스트라이프그린] 주방수건 선물포장 3P"
+              },
+              "badge_list": [],
+              "is_require": false,
+              "stock_sku_no": "",
+              "user_input_msg": [],
+              "data": []
+          }
+      ],
+      "options_detail": [
+          {
+              "idx": 236185208,
+              "code": "od20250324f10cb667d4853",
+              "prod_code": "s20230821474d0ad9ce9b3",
+              "no": 1,
+              "option_code_list": [
+                  "O202309176506f36a8ba80"
+              ],
+              "value_code_list": [
+                  "O202312083071124149339"
+              ],
+              "badge_list": [],
+              "is_require": true,
+              "price": 24900,
+              "price_supply": "0",
+              "stock": 80,
+              "stock_change": 0,
+              "stock_sku": "FT0HG02",
+              "status": "SALE"
+          },
+          {
+              "idx": 236185207,
+              "code": "od20250324faf3100fa41c9",
+              "prod_code": "s20230821474d0ad9ce9b3",
+              "no": 2,
+              "option_code_list": [
+                  "O202309176506f36a8ba80"
+              ],
+              "value_code_list": [
+                  "O2023120813c0b04ac0882"
+              ],
+              "badge_list": [],
+              "is_require": true,
+              "price": 45900,
+              "price_supply": "0",
+              "stock": 95,
+              "stock_change": 0,
+              "stock_sku": "FT0HG04",
+              "status": "SALE"
+          },
+          {
+              "idx": 159543195,
+              "code": "od202311072c1da8f0e37d7",
+              "prod_code": "s20230821474d0ad9ce9b3",
+              "no": 3,
+              "option_code_list": [
+                  "O20231107654a4b4fd91a0"
+              ],
+              "value_code_list": [
+                  "O202311078453d91859395"
+              ],
+              "badge_list": [],
+              "is_require": false,
+              "price": "1000",
+              "price_supply": "0",
+              "stock": 1845,
+              "stock_change": 0,
+              "stock_sku": "GIFT0BAG01",
+              "status": "SALE"
+          },
+          {
+              "idx": 166092441,
+              "code": "od20231208d4a9b29888354",
+              "prod_code": "s20230821474d0ad9ce9b3",
+              "no": 4,
+              "option_code_list": [
+                  "O202312086572b646d3bf5"
+              ],
+              "value_code_list": [
+                  "O202312088755600596de7"
+              ],
+              "badge_list": [],
+              "is_require": false,
+              "price": "22900",
+              "price_supply": "0",
+              "stock": 1,
+              "stock_change": 0,
+              "stock_sku": "KT0HG03",
+              "status": "SALE"
+          },
+          {
+              "idx": 237944448,
+              "code": "od202504136c249f370ea39",
+              "prod_code": "s20230821474d0ad9ce9b3",
+              "no": 5,
+              "option_code_list": [
+                  "O202312086572b646d3bf5"
+              ],
+              "value_code_list": [
+                  "O2025041303438f1ef4334"
+              ],
+              "badge_list": [],
+              "is_require": false,
+              "price": "24900",
+              "price_supply": "0",
+              "stock": 1,
+              "stock_change": 0,
+              "stock_sku": "KT0SG03",
+              "status": "SALE"
+          }
+      ],
+      "option_mix_type": "MIX",
+      "options_hash": "4f666006eca97d15763e67ace365870b30eecd26",
+      "prod_status": "sale",
+      "prod_soldout_status": "sale",
+      "images": [
+          "f2025032626b64856da1f0",
+          "f20230918c7049a30f23d8",
+          "f20230918a68eb146cc797",
+          "f202309183eb8f04ba3d3b",
+          "f20230918d8a0d38eb5899",
+          "f202309184117e9af919b0"
+      ],
+      "image_url": {
+          "f2025032626b64856da1f0": "https://cdn-optimized.imweb.me/upload/S20230424610d85b7e8034/c67df71578ccd.jpg?w=368",
+          "f20230918c7049a30f23d8": "https://cdn-optimized.imweb.me/upload/S20230424610d85b7e8034/ba004613e052e.jpg?w=368",
+          "f20230918a68eb146cc797": "https://cdn-optimized.imweb.me/upload/S20230424610d85b7e8034/29ba1aa8bcd64.jpg?w=368",
+          "f202309183eb8f04ba3d3b": "https://cdn-optimized.imweb.me/upload/S20230424610d85b7e8034/c3f31f039ec39.jpg?w=368",
+          "f20230918d8a0d38eb5899": "https://cdn-optimized.imweb.me/upload/S20230424610d85b7e8034/5d3d67feb16af.jpg?w=368",
+          "f202309184117e9af919b0": "https://cdn-optimized.imweb.me/upload/S20230424610d85b7e8034/541a3825cc98c.jpg?w=368"
+      },
+      "ep_image_file_code": "f20250420c3df004d37d31",
+      "categories": [
+          "s202001076e572e08e1f9d"
+      ],
+      "origin": "KOREA",
+      "maker": "HOUSEBOY 협력업체",
+      "brand": "HOUSEBOY",
+      "showcase": [
+          "c2024061310bac95f34cdd"
+      ],
+      "showcase_order": [],
+      "give_point_value_type": "percent",
+      "give_point_value": 0,
+      "give_point_type": "common",
+      "stock_use": true,
+      "stock_unlimit": true,
+      "stock_no_option": 0,
+      "sku_no_option": "10",
+      "simple_content": "<div style=\"width:100%;margin:0 auto;padding:4px; font-family:'Pretendard',sans-serif;\"><div style=\"width:100%;margin:0 auto;padding:0px;\"><!-- 단품 가격 & 할인 안내 --><details open=\"\" style=\"background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.1);margin-bottom:16px;overflow:hidden;\"><summary style=\"background:#271f20;padding:16px;color:#fff;font-size:16px;font-weight:600;cursor:pointer;position:relative;\">상시 할인 안내<span style=\"position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:18px;\">⌄</span></summary><div style=\"background:#fbfaf6;padding:6px 16px;\"><p style=\"margin:0;text-align:center;font-size:12px;color:#271f20;\"><strong>한정세일 최대 29% 할인</strong></p></div><ul style=\"list-style:none;padding:16px;margin:0;\"><li style=\"display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid #e5e5e5;\"><div><div style=\"font-size:12px;font-weight:500;color:#1c1c1e;\">🎫 플친 추가 <strong>10%</strong> 할인쿠폰</div></div><div style=\"text-align:right;white-space:nowrap;\"><a href=\"http://pf.kakao.com/_bjGQxj\" style=\"text-decoration:none;\">&nbsp;<span style=\"\r\n      display: inline-block;\r\n      width: 20px;\r\n      height: 20px;\r\n      background-color: #271f20;\r\n      color: #fff;\r\n      border-radius: 50%;\r\n      font-size: 12px;\r\n      line-height: 18px;\r\n      text-align: center;\r\n      font-weight: 400;\">&nbsp;&rarr; &nbsp;</span>&nbsp;</a></div></li><li style=\"display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;position:relative;\"><div><div style=\"font-size:12px;font-weight:500;color:#1c1c1e;\">🎫 신규회원가입 <strong>2,000원&nbsp;</strong>할인쿠폰</div><div style=\"display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left; padding-top:4px; padding-left:16px;\"><span style=\"background:#271f20 !important;color:#fff !important;padding:1px 6px !important;border-radius:12px !important;font-size:10px !important;line-height:14px !important;font-weight:600 !important;display:inline-block !important;letter-spacing:-0.2px !important;\">+ <strong>무료배송쿠폰</strong> 지급&nbsp;</span></div></div><div style=\"display:flex;flex-direction:column;align-items:flex-end;gap:4px;white-space:nowrap;text-align:right;\"><div style=\"text-align:right;white-space:nowrap;\"><a href=\"https://houseboy.kr/login?back_url=L0hvbWU%3D&used_login_btn=Y\" style=\"text-decoration:none;\">&nbsp;<span style=\"\r\n      display: inline-block;\r\n      width: 20px;\r\n      height: 20px;\r\n      background-color: #271f20;\r\n      color: #fff;\r\n      border-radius: 50%;\r\n      font-size: 12px;\r\n      line-height: 18px;\r\n      text-align: center;\r\n      font-weight: 400;\">&nbsp;&rarr; &nbsp;</span>&nbsp;</a></div></div></li></ul></details><!-- 제품 정보 --><details open=\"\" style=\"background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.1);margin-bottom:16px;overflow:hidden;\"><summary style=\"padding:16px;font-size:16px;font-weight:600;cursor:pointer;color:#1c1c1e;position:relative;\">제품 정보 &nbsp;<span style=\"position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:18px;\">⌄</span><div style=\"font-size:12px;color:#8e8e93;font-weight:400;margin-top:2px;\">구매 전, 꼭 확인하세요!</div></summary><div style=\"padding:0 16px 16px;\"><ul style=\"list-style:none;padding:0;margin:0;display:grid;row-gap:12px;\"><li style=\"display:grid;grid-template-columns:80px 1fr;gap:16px;font-size:12px;color:#1c1c1e;padding:12px 0;border-bottom:1px solid #f0f0f0;align-items:start;\"><span style=\"font-weight:600;color:#1c1c1e;\">원단</span>&nbsp;100% 콤팩트 코마사</li><li style=\"display:grid;grid-template-columns:80px 1fr;gap:16px;font-size:12px;color:#1c1c1e;padding:12px 0;border-bottom:1px solid #f0f0f0;align-items:start;\"><span style=\"font-weight:600;color:#1c1c1e;\">무게</span> <span style=\"color:#1c1c1e;\">190g</span></li><li style=\"display:grid;grid-template-columns:80px 1fr;gap:16px;font-size:12px;color:#1c1c1e;padding:12px 0;border-bottom:1px solid #f0f0f0;align-items:start;\"><span style=\"font-weight:600;color:#1c1c1e;\">크기</span> <span style=\"color:#1c1c1e;\">40x80(cm)</span></li><li style=\"display:grid;grid-template-columns:80px 1fr;gap:16px;font-size:12px;color:#1c1c1e;padding:12px 0;align-items:start;\"><span style=\"font-weight:600;color:#1c1c1e;\">구성</span> <span style=\"color:#1c1c1e;\">동일 색상 <strong>2개입/4개입</strong><em><strong>(택1)</strong></em> 1BOX</span></li></ul></div></details><!-- 배송 안내 --><details style=\"background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.1);margin-bottom:16px;overflow:hidden;\"><summary style=\"padding:16px;font-size:16px;font-weight:600;cursor:pointer;color:#1c1c1e;position:relative;\">배송 안내<span style=\"position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:18px;\">⌄</span><div style=\"font-size:12px;color:#8e8e93;font-weight:400;margin-top:2px;\">5만원 이상 구매 시 무료배송</div></summary><div style=\"padding:0 16px 16px;\"><!-- 배송비 안내 블록 --><div style=\"margin-bottom:16px;\"><div style=\"font-size:12px;color:#1c1c1e;margin-bottom:4px;\">- 기본 배송비 3,000원</div><div style=\"font-size:12px;color:#1c1c1e;margin-top:8px;\">- 제주 +3,000원 / 도서산간 +3,000원</div><div style=\"font-size:11px;color:#8e8e93;font-weight:400;margin-top:2px;\">* 교환과 반품은 상품 수령일 기준 일주일 이내에만 가능합니다.</div></div><!-- 배송 일정 블록 --><div><div style=\"font-size:14px;font-weight:600;color:#1c1c1e;margin-bottom:6px;\"><br></div><div style=\"font-size:14px;font-weight:600;color:#1c1c1e;margin-bottom:6px;\">배송 일정</div><div style=\"font-size:12px;color:#1c1c1e;margin-bottom:4px;\">- 영업일 기준 1~2일 내 출고</div><div style=\"margin-bottom:4px;\"><div style=\"font-size:11px;color:#8e8e93;font-weight:400;margin-top:2px;\"><span style=\"background-color: rgb(255, 242, 204); color: rgb(0, 0, 0);\">* 오후 1시 전까지 주문 시 당일 배송</span></div></div></div></div></details><!-- 구매 혜택 --><details style=\"background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.1);margin-bottom:18px;overflow:hidden;\"><summary style=\"padding:16px;font-size:16px;font-weight:600;cursor:pointer;color:#1c1c1e;position:relative;\">구매 혜택<span style=\"position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:18px;\">⌄</span></summary><div style=\"padding:0 16px 16px;\"><div style=\"margin-bottom:4px;\"><div style=\"font-size:12px;color:#1c1c1e;margin-bottom:4px;\">사진 리뷰 작성 시, 2,000원 적립금 지급</div></div></div></details><!--— CTA 버튼 —--><div style=\"margin:28px 0;\"><a href=\"https://houseboy.kr/FAQ/?q=YToxOntzOjEyOiJrZXl3b3JkX3R5cGUiO3M6MzoiYWxsIjt9&bmode=view&idx=123803843&t=board\" style=\"display:block;padding:14px;border:1px solid #d2d2d7;border-radius:8px;text-align:center;font-weight:500;font-size:15px;color:#271f20;background:#fff;text-decoration:none;\">첫 세탁법 🧺</a></div></div></div>",
+      "simple_content_plain": "상시 할인 안내⌄\n\n한정세일 최대 29% 할인\n\n-\n\n🎫 플친 추가 10% 할인쿠폰\n→\n-\n\n🎫 신규회원가입 2,000원 할인쿠폰\n+ 무료배송쿠폰 지급\n\n→\n제품 정보 ⌄\n구매 전, 꼭 확인하세요!\n\n- 원단 100% 콤팩트 코마사\n- 무게 190g\n- 크기 40x80(cm)\n- 구성 동일 색상 2개입/4개입(택1) 1BOX\n배송 안내⌄\n5만원 이상 구매 시 무료배송\n\n- 기본 배송비 3,000원\n- 제주 +3,000원 / 도서산간 +3,000원\n* 교환과 반품은 상품 수령일 기준 일주일 이내에만 가능합니다.\n\n배송 일정\n- 영업일 기준 1~2일 내 출고\n\n* 오후 1시 전까지 주문 시 당일 배송구매 혜택⌄\n\n사진 리뷰 작성 시, 2,000원 적립금 지급\n첫 세탁법 🧺",
+      "product_flag": "소매",
+      "product_condition": "신상품",
+      "product_rental_period": 0,
+      "import_flag": false,
+      "is_culture_benefit": false,
+      "parallel_import": false,
+      "order_made": false,
+      "adult": false,
+      "use_unipass_number": "default",
+      "pay_product_name": "하우스보이 부드러운 크림수건 190g, 하우스그린 2P",
+      "event_words": "한정세일 ~36% off",
+      "minimum_purchase_quantity": 0,
+      "maximum_purchase_quantity": 0,
+      "member_maximum_purchase_quantity": 0,
+      "maximum_purchase_quantity_type": "",
+      "optional_limit_type": "relative",
+      "optional_limit": 9,
+      "installation_costs": false,
+      "display": [
+          "DAUM",
+          "NAVER",
+          "NPAY",
+          "FACEBOOK",
+          "CRITEO",
+          "TALKPAY"
+      ],
+      "display_unit": [
+          "u20230424644653b1c7e3f",
+          "u20230424644653b1c7e3f"
+      ],
+      "popularity_point": 0,
+      "popularity_point_update_time": "2025-08-24 03:00:02",
+      "review_count": 289,
+      "prodinfo": {
+          "site_code": null,
+          "no": 10,
+          "name": null,
+          "product": "의류",
+          "producttype": null,
+          "energyperformance": null,
+          "passnumber": null,
+          "optionaltour": null,
+          "guidetip": null,
+          "purpose": null,
+          "genetic": null,
+          "productname": null,
+          "kc": null,
+          "energy": null,
+          "material": "Compact combed yarn 40s",
+          "color": "하우스그린, 오가닉화이트, 챠콜",
+          "size": "세안수건 : 40*80(cm) / 주방수건 : 40*40(cm)",
+          "manufacturer": "웜브레드 OEM",
+          "manufacturecountry": "대한민국",
+          "precautions": "상품상세 참조",
+          "customercaution": null,
+          "date": "상품상세 참조",
+          "warranty": "본 제품에 이상이 있을 경우, 공정거래위원회 고시 '소비자 분쟁 해결 기준'에 의해 보상해 드립니다.",
+          "director": "주식회사 웜브레드 / 02-355-8889",
+          "kinds": null,
+          "configuration": null,
+          "installation": null,
+          "specifications": null,
+          "carrier": null,
+          "phonejoin": null,
+          "charge": null,
+          "area": null,
+          "carreturn": null,
+          "reward": null,
+          "method": null,
+          "limit": null,
+          "receipt": null,
+          "accommodation": null,
+          "expenses": null,
+          "weight": null,
+          "age": null,
+          "pages": null,
+          "laws": null,
+          "possibility": null,
+          "function": null,
+          "phrases": null,
+          "resupply": null,
+          "weight_limit": null,
+          "expiredate": null
+      },
+      "deleted": false,
+      "weight": "0.6",
+      "prod_type": "normal",
+      "prod_type_data": {
+          "type": "normal",
+          "digital_data": {
+              "use_limit": false,
+              "period": 0,
+              "maximum": 0,
+              "download": 0,
+              "is_old_order": false,
+              "expire_time": 0
+          },
+          "subscribe_data": {
+              "group_code": "",
+              "period": 30,
+              "real_period": 0,
+              "is_complete": false,
+              "expire_date": "",
+              "real_expire_time": 0
+          },
+          "download_chk": true
+      },
+      "seo_title": null,
+      "seo_description": null,
+      "common_header_setting": "h6271119a40e6b",
+      "common_footer_setting": "fb0631f3d2e34d",
+      "integration_category": null,
+      "is_badge_new": false,
+      "is_badge_best": false,
+      "is_badge_md": false,
+      "is_badge_hot": false,
+      "use_pre_sale": false,
+      "pre_sale_start_date": null,
+      "pre_sale_end_date": null,
+      "use_apply_coupon": true,
+      "product_discount_options": {
+          "coupon": true,
+          "point": true,
+          "shopping_group_dc": true,
+          "period": false
+      },
+      "period_discount_data": {
+          "target": [],
+          "use_period": false,
+          "start_time": null,
+          "end_time": null
+      },
+      "enable_gift": false,
+      "naver_category": "50008588",
+      "seo_access_bot": true,
+      "use_period_discount": false,
+      "real_idx": 0,
+      "is_search_excluded": false
+    }
+  ]
+}

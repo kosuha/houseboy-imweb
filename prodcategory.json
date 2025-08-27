@@ -1,0 +1,90 @@
+{
+  "msg": "SUCCESS",
+  "data": [
+    {
+      "code": "s202001076e572e08e1f9d",
+      "parent_code": "s20231129bc961793ab87d",
+      "name": {
+        "u201911265ddc8ecc24cf2": "Class Shop",
+        "u20230424644653b1c7e3f": "Bathroom"
+      },
+      "is_leaf_node": true,
+      "no": 1,
+      "sort_no": 0,
+      "permission": "guest",
+      "permission_group": [],
+      "menu_code": [],
+      "menu_url": []
+    },
+    {
+      "code": "s20231129bc961793ab87d",
+      "parent_code": "",
+      "name": {
+        "u20230424644653b1c7e3f": "Shop"
+      },
+      "is_leaf_node": false,
+      "no": 4,
+      "sort_no": 0,
+      "permission": "guest",
+      "permission_group": [],
+      "menu_code": [],
+      "menu_url": []
+    },
+    {
+      "code": "s202403080dbb64f667199",
+      "parent_code": "",
+      "name": {
+        "u20230424644653b1c7e3f": "\uc885\ub8cc\ub41c \ub51c"
+      },
+      "is_leaf_node": true,
+      "no": 5,
+      "sort_no": 1,
+      "permission": "group",
+      "permission_group": [],
+      "menu_code": [],
+      "menu_url": []
+    },
+    {
+      "code": "s20240308abd3943e5af5b",
+      "parent_code": "s20231129bc961793ab87d",
+      "name": {
+        "u20230424644653b1c7e3f": "\uc2dc\ud06c\ub9bf \ub9c1\ud06c"
+      },
+      "is_leaf_node": true,
+      "no": 6,
+      "sort_no": 1,
+      "permission": "guest",
+      "permission_group": [],
+      "menu_code": [],
+      "menu_url": []
+    },
+    {
+      "code": "s20231129fdd9fb6bf7807",
+      "parent_code": "s20231129bc961793ab87d",
+      "name": {
+        "u20230424644653b1c7e3f": "\uac1c\uc778 \uacb0\uc81c\ucc3d"
+      },
+      "is_leaf_node": true,
+      "no": 2,
+      "sort_no": 2,
+      "permission": "guest",
+      "permission_group": [],
+      "menu_code": [],
+      "menu_url": []
+    },
+    {
+      "code": "s202311290af67584a6a45",
+      "parent_code": "",
+      "name": {
+        "u20230424644653b1c7e3f": "test"
+      },
+      "is_leaf_node": true,
+      "no": 3,
+      "sort_no": 2,
+      "permission": "admin",
+      "permission_group": [],
+      "menu_code": [],
+      "menu_url": []
+    }
+  ]
+}

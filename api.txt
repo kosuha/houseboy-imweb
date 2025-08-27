@@ -1,0 +1,45 @@
+# 브이리뷰
+
+리뷰 데이터 여러개
+  request
+    method: GET
+    url: https://one.vreview.tv/api/embed/v2/d078aac4-6258-4061-bdbe-d93ab978f521/reviews?offset=0&limit=24&ordering=-helpful_count&expand=created_at%2Cproduct%2Crating
+  response
+    content-type: application/json
+
+리뷰 데이터
+  request
+    method: GET
+    url: https://one.vreview.tv/api/embed/v2/d078aac4-6258-4061-bdbe-d93ab978f521/reviews/21185975
+  response
+    content-type: application/json
+
+리뷰 요약
+  request
+    method: GET
+    url: https://one.vreview.tv/api/embed/v2/d078aac4-6258-4061-bdbe-d93ab978f521/products/10/summary
+  response
+    content-type: application/json
+
+# 아임웹
+
+카테고리 데이터
+  request
+    method: POST
+    url: https://houseboy.imweb.me/admin/ajax/shop/prod_category_list.cm
+  response
+    content-type: text/html; charset=utf-8
+
+상품 데이터
+  request
+    method: GET
+    url: https://houseboy.kr/ajax/oms/OMS_get_product.cm?prod_idx=10
+  response
+    content-type: application/json; charset=utf-8
+
+상품 데이터 여러개
+  request
+    method: GET
+    url: https://houseboy.kr/ajax/oms/OMS_get_products.cm?prod_nos%5B%5D=10
+  response
+    content-type: application/json; charset=utf-8
