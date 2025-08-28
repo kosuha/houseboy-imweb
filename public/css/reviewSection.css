@@ -1,26 +1,29 @@
+/* === 공통 섹션 구조 스타일 === */
+.hb-section {
+
+}
+
+.hb-section-container {
+
+}
+
+/* === 리뷰 섹션 스타일 === */
 .hb-review {
-  display: flex;
-  justify-content: center;
-  background-color: #F0E7D9;
-  padding: 94px 20px 94px 20px;
+
 }
 
 .hb-review-content-wrap {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  max-width: 90vw; /* 슬라이더의 최대 너비를 설정하여 오버플로우 유도 */
-  width: 100%; /* 부모 너비에 맞추되 max-width를 넘지 않도록 */
   overflow: hidden;
 }
 
 .hb-review-title {
-  max-width: 1200px; /* 슬라이더의 최대 너비를 설정하여 오버플로우 유도 */
-  width: 100%; /* 부모 너비에 맞추되 max-width를 넘지 않도록 */
-  margin: 0 auto; /* 중앙 정렬 */
-  font-weight: 600;
-  font-size: 24px;
-  color: #212121;
+  width: 100%; /* 부모 컨테이너 너비에 맞춤 */
+  font-weight: 600 !important;
+  font-size: 24px !important;
+  color: #212121 !important;
   text-align: center;
 }
 
@@ -33,7 +36,6 @@
   -webkit-user-select: none; /* Webkit 브라우저용 */
   -moz-user-select: none; /* Firefox용 */
   -ms-user-select: none; /* IE/Edge용 */
-  padding: 0 14px;
 }
 
 .hb-review-card {
@@ -524,17 +526,12 @@
 }
 
 @media (max-width: 768px) {
-  .hb-review {
-    padding: 60px 0 60px 0;
+  .hb-section {
+    margin-left: -15px;
+    margin-right: -15px;
   }
   
   .hb-review-content-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    max-width: 100vw; /* 슬라이더의 최대 너비를 설정하여 오버플로우 유도 */
-    width: 100%; /* 부모 너비에 맞추되 max-width를 넘지 않도록 */
-    overflow: hidden;
   }
 
   .hb-review-content {
@@ -546,7 +543,7 @@
     -webkit-user-select: none; /* Webkit 브라우저용 */
     -moz-user-select: none; /* Firefox용 */
     -ms-user-select: none; /* IE/Edge용 */
-    padding: 0 14px;
+    padding: 0 7px;
   }
 
   .hb-modal-content {

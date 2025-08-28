@@ -84,7 +84,7 @@
 
     for (const position of recommendedProductsPositions) {
       const recommended = document.createElement('div');
-      recommended.classList.add('hb-recommended', 'hb-desktop-only');
+      recommended.classList.add('hb-recommended', 'hb-desktop-only', 'hb-section');
   
       const prodRecommendedContents = JSON.parse(position.dataset.prodRecommendedContent);
       if (!prodRecommendedContents) continue;
@@ -142,7 +142,7 @@
       }));
   
       const sectionHTML = `
-        <div class="hb-recommended-products">
+        <div class="hb-recommended-products hb-section-container">
           <div class="hb-swiper-container">
             <div class="hb-swiper-wrapper">
               ${cardHTMLs.map(cardHTML => `<div class="hb-swiper-slide">${cardHTML}</div>`).join('')}
@@ -170,7 +170,7 @@
   
     for (const position of recommendedProductsPositions) {
       const recommended = document.createElement('div');
-      recommended.classList.add('hb-recommended', 'hb-mobile-only');
+      recommended.classList.add('hb-recommended', 'hb-mobile-only', 'hb-section');
   
       const prodRecommendedContents = JSON.parse(position.dataset.prodRecommendedContent);
       if (!prodRecommendedContents) continue;
@@ -240,7 +240,7 @@
       }));
   
       const sectionHTML = `
-        <div class="hb-recommended-products">
+        <div class="hb-recommended-products hb-section-container">
           ${cardHTMLs.join('')}
         </div>
       `;

@@ -85,7 +85,7 @@
       for (const newReviewPosition of reviewPositions) {
       
       const review = document.createElement('div');
-      review.classList.add('hb-review');
+      review.classList.add('hb-review', 'hb-section');
       
       // 모든 리뷰 데이터를 병렬로 가져오기
       const reviewData = JSON.parse(newReviewPosition.dataset.reviews);
@@ -204,7 +204,7 @@
       
       // HTML 삽입
       review.innerHTML = `
-        <div class='hb-review-container'>
+        <div class='hb-section-container'>
           <div class='hb-review-content-wrap'>
             <h3 class='hb-review-title'>하우스보이와 함께하는 온라인 집들이 🏠</h3>
             <div class='hb-review-content'>
