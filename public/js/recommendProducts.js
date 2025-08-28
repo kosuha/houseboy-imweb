@@ -70,25 +70,103 @@ const getCategoryData = () => {
   return categoryMap;
 };
 
-const initRecommendedProducts = async () => {
+const initDesktopRecommendedProducts = async () => {
   const categoryData = getCategoryData();
-
   const recommendedProductsPositions = document.querySelectorAll(".houseboy-recommended-products-section");
 
-  if (recommendedProductsPositions.length === 0) {
-    console.warn('추천 상품 위치를 찾을 수 없습니다.');
-    return;
-  }
+  if (recommendedProductsPositions.length === 0) return;
 
   for (const position of recommendedProductsPositions) {
     const recommended = document.createElement('div');
-    recommended.classList.add('hb-recommended');
+    recommended.classList.add('hb-recommended', 'hb-desktop-only');
 
     const prodRecommendedContents = JSON.parse(position.dataset.prodRecommendedContent);
-    if (!prodRecommendedContents) {
-      console.warn('data-prod-recommended-content 속성이 없습니다.');
-      continue;
+    if (!prodRecommendedContents) continue;
+
+    const cardHTMLs = await Promise.all(prodRecommendedContents.map(async prodRecommendedContent => {
+      const prodIdArray = prodRecommendedContent.productIds;
+      const title = prodRecommendedContent.title;
+      const subtitle = prodRecommendedContent.subtitle;
+      const button = prodRecommendedContent.button;
+      const buttonLink = prodRecommendedContent.buttonLink;
+
+      const productCardsHTML = await Promise.all(prodIdArray.map(async id => {
+        const prodData = await getProdData(id);
+        if (!prodData || !prodData.data || prodData.data.length === 0) {
+          return `<span>상품 ${id} 로드 실패</span>`;
+        }
+
+        const product = prodData.data;
+        const imageUrl = product.image_url ? Object.values(product.image_url)[0] : '';
+        const categoryName = product.categories && product.categories.length > 0 
+          ? categoryData[product.categories[0]] || '카테고리 없음' 
+          : '카테고리 없음';
+
+        return `
+          <div class="hb-product-card" data-product-id="${id}" style="cursor: pointer;">
+            <img src="${imageUrl}" alt="${product.name}" />
+            <div class="hb-product-info">
+              <h4>${product.name}</h4>
+              <span class="hb-category">${categoryName}</span>
+              <div class="hb-price">
+                <span class="hb-price-current">${product.price.toLocaleString()}원</span>
+                <span class="hb-price-org">${product.price_org.toLocaleString()}원</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }));
+
+      return `
+        <div class="hb-recommended-card">
+          <div class="hb-card-header">
+            <h3>${title}</h3>
+            <p>${subtitle}</p>
+            <button onclick="location.href='${buttonLink}'">
+              <span>${button}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+          <div class="hb-products-container">
+            ${productCardsHTML.join('')}
+          </div>
+        </div>
+      `;
+    }));
+
+    const sectionHTML = `
+      <div class="hb-recommended-products">
+        <div class="hb-swiper-container">
+          <div class="hb-swiper-wrapper">
+            ${cardHTMLs.map(cardHTML => `<div class="hb-swiper-slide">${cardHTML}</div>`).join('')}
+          </div>
+          <div class="hb-swiper-pagination"></div>
+        </div>
+      </div>
+    `;
+
+    recommended.innerHTML = sectionHTML;
+    position.appendChild(recommended);
+
+    const swiperContainer = recommended.querySelector('.hb-swiper-container');
+    if (swiperContainer) {
+      initSwiper(swiperContainer);
     }
+  }
+};
+
+const initMobileRecommendedProducts = async () => {
+  const categoryData = getCategoryData();
+  const recommendedProductsPositions = document.querySelectorAll(".houseboy-recommended-products-section");
+
+  if (recommendedProductsPositions.length === 0) return;
+
+  for (const position of recommendedProductsPositions) {
+    const recommended = document.createElement('div');
+    recommended.classList.add('hb-recommended', 'hb-mobile-only');
+
+    const prodRecommendedContents = JSON.parse(position.dataset.prodRecommendedContent);
+    if (!prodRecommendedContents) continue;
 
     const cardHTMLs = await Promise.all(prodRecommendedContents.map(async prodRecommendedContent => {
       const prodIdArray = prodRecommendedContent.productIds;
@@ -125,24 +203,12 @@ const initRecommendedProducts = async () => {
         `;
       }));
 
-      // 모바일에서 2개씩 그룹화
-      const isMobile = window.innerWidth <= 768;
-      let productSlidesHTML = '';
-      
-      if (isMobile) {
-        const productPairs = [];
-        for (let i = 0; i < productCardsHTML.length; i += 2) {
-          productPairs.push(productCardsHTML.slice(i, i + 2));
-        }
-        
-        productSlidesHTML = productPairs.map(pair => `
-          <div class="hb-product-slide">
-            ${pair.join('')}
-          </div>
-        `).join('');
+      const productPairs = [];
+      for (let i = 0; i < productCardsHTML.length; i += 2) {
+        productPairs.push(productCardsHTML.slice(i, i + 2));
       }
 
-      const cardHTML = `
+      return `
         <div class="hb-recommended-card">
           <div class="hb-card-header" style="background-image: url('${bannerImage}');">
             <h3>${title}</h3>
@@ -152,38 +218,37 @@ const initRecommendedProducts = async () => {
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
             </button>
           </div>
-          <div class="hb-products-container ${isMobile ? 'mobile-slider' : ''}">
-            ${isMobile ? productSlidesHTML : productCardsHTML.join('')}
+          <div class="hb-mobile-product-slider">
+            <div class="hb-mobile-slider-wrapper">
+              ${productPairs.map(pair => `
+                <div class="hb-mobile-slide">
+                  ${pair.join('')}
+                </div>
+              `).join('')}
+            </div>
+            <div class="hb-mobile-pagination"></div>
           </div>
         </div>
       `;
-      return cardHTML;
     }));
 
     const sectionHTML = `
       <div class="hb-recommended-products">
-        <div class="hb-swiper-container">
-          <div class="hb-swiper-wrapper">
-            ${cardHTMLs.map(cardHTML => `<div class="hb-swiper-slide">${cardHTML}</div>`).join('')}
-          </div>
-          <div class="hb-swiper-pagination"></div>
-        </div>
+        ${cardHTMLs.join('')}
       </div>
     `;
 
     recommended.innerHTML = sectionHTML;
     position.appendChild(recommended);
 
-    // 데스크톱에서는 기존 스와이프, 모바일에서는 상품 슬라이더
-    if (window.innerWidth > 768) {
-      const swiperContainer = recommended.querySelector('.hb-swiper-container');
-      initSwiper(swiperContainer);
-    } else {
-      // 모바일 상품 슬라이더 초기화
-      const mobileSliders = recommended.querySelectorAll('.mobile-slider');
-      mobileSliders.forEach(slider => initMobileProductSlider(slider));
-    }
+    const mobileSliders = recommended.querySelectorAll('.hb-mobile-product-slider');
+    mobileSliders.forEach(slider => initMobileProductSlider(slider));
   }
+};
+
+const initRecommendedProducts = () => {
+  initDesktopRecommendedProducts();
+  initMobileRecommendedProducts();
 };
 
 const initSwiper = (container) => {
@@ -357,6 +422,179 @@ const initSwiper = (container) => {
   container.addEventListener('mouseleave', () => {
     if (isDragging) {
       updateSlidePosition(); // 원래 위치로 복귀
+      isDragging = false;
+      setTimeout(() => {
+        hasMoved = false;
+      }, 100);
+    }
+  });
+};
+
+const initMobileProductSlider = (container) => {
+  const wrapper = container.querySelector('.hb-mobile-slider-wrapper');
+  const slides = container.querySelectorAll('.hb-mobile-slide');
+  const pagination = container.querySelector('.hb-mobile-pagination');
+  
+  if (slides.length <= 1) return;
+  
+  let currentIndex = 0;
+  let startX = 0;
+  let currentX = 0;
+  let isDragging = false;
+  let initialTransform = 0;
+  let hasMoved = false;
+  
+  // 페이지네이션 생성
+  slides.forEach((_, index) => {
+    const dot = document.createElement('span');
+    dot.classList.add('hb-pagination-dot');
+    if (index === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => goToSlide(index));
+    pagination.appendChild(dot);
+  });
+  
+  const updateSlidePosition = (immediate = false) => {
+    wrapper.style.transition = immediate ? 'none' : 'transform 0.3s ease';
+    wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+    
+    // 페이지네이션 업데이트
+    pagination.querySelectorAll('.hb-pagination-dot').forEach((dot, index) => {
+      dot.classList.toggle('active', index === currentIndex);
+    });
+  };
+  
+  const goToSlide = (index) => {
+    currentIndex = Math.max(0, Math.min(index, slides.length - 1));
+    updateSlidePosition();
+  };
+  
+  // 상품 카드 클릭 이벤트 처리
+  container.addEventListener('click', (e) => {
+    if (hasMoved) return;
+    
+    const productCard = e.target.closest('.hb-product-card');
+    if (productCard) {
+      const productId = productCard.dataset.productId;
+      location.href = `/shop_view/?idx=${productId}`;
+    }
+  });
+
+  // 터치 이벤트
+  container.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    currentX = startX;
+    isDragging = true;
+    hasMoved = false;
+    initialTransform = currentIndex * 100;
+    wrapper.style.transition = 'none';
+  });
+  
+  container.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    
+    currentX = e.touches[0].clientX;
+    const diffX = startX - currentX;
+    
+    if (Math.abs(diffX) > 10) {
+      hasMoved = true;
+    }
+    
+    const containerWidth = container.offsetWidth;
+    const movePercent = (diffX / containerWidth) * 100;
+    
+    const newTransform = initialTransform + movePercent;
+    wrapper.style.transform = `translateX(-${newTransform}%)`;
+  });
+  
+  container.addEventListener('touchend', (e) => {
+    if (!isDragging) return;
+    
+    const endX = e.changedTouches[0].clientX;
+    const diffX = startX - endX;
+    const containerWidth = container.offsetWidth;
+    
+    const threshold = containerWidth * 0.3;
+    
+    if (Math.abs(diffX) > threshold || Math.abs(diffX) > 50) {
+      if (diffX > 0 && currentIndex < slides.length - 1) {
+        goToSlide(currentIndex + 1);
+      } else if (diffX < 0 && currentIndex > 0) {
+        goToSlide(currentIndex - 1);
+      } else {
+        updateSlidePosition();
+      }
+    } else {
+      updateSlidePosition();
+    }
+    
+    isDragging = false;
+    
+    setTimeout(() => {
+      hasMoved = false;
+    }, 100);
+  });
+
+  // 마우스 드래그 지원
+  container.addEventListener('mousedown', (e) => {
+    startX = e.clientX;
+    currentX = startX;
+    isDragging = true;
+    hasMoved = false;
+    initialTransform = currentIndex * 100;
+    wrapper.style.transition = 'none';
+    e.preventDefault();
+  });
+  
+  container.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    
+    currentX = e.clientX;
+    const diffX = startX - currentX;
+    
+    if (Math.abs(diffX) > 10) {
+      hasMoved = true;
+    }
+    
+    const containerWidth = container.offsetWidth;
+    const movePercent = (diffX / containerWidth) * 100;
+    
+    const newTransform = initialTransform + movePercent;
+    wrapper.style.transform = `translateX(-${newTransform}%)`;
+  });
+  
+  container.addEventListener('mouseup', (e) => {
+    if (!isDragging) return;
+    
+    const endX = e.clientX;
+    const diffX = startX - endX;
+    const containerWidth = container.offsetWidth;
+    
+    const threshold = containerWidth * 0.3;
+    
+    if (Math.abs(diffX) > threshold || Math.abs(diffX) > 50) {
+      if (diffX > 0 && currentIndex < slides.length - 1) {
+        goToSlide(currentIndex + 1);
+      } else if (diffX < 0 && currentIndex > 0) {
+        goToSlide(currentIndex - 1);
+      } else {
+        updateSlidePosition();
+      }
+    } else {
+      updateSlidePosition();
+    }
+    
+    isDragging = false;
+    
+    setTimeout(() => {
+      hasMoved = false;
+    }, 100);
+  });
+  
+  container.addEventListener('mouseleave', () => {
+    if (isDragging) {
+      updateSlidePosition();
       isDragging = false;
       setTimeout(() => {
         hasMoved = false;

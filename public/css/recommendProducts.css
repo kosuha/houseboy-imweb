@@ -2,43 +2,48 @@
   background-color: #f9f6ef;
 }
 
-.hb-recommended-products {
+/* === DESKTOP STYLES === */
+.hb-desktop-only {
+  display: block;
+}
+
+.hb-desktop-only .hb-recommended-products {
   padding: 50px 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.hb-recommended-card {
+.hb-desktop-only .hb-recommended-card {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   gap: 20px;
 }
 
-.hb-products-container {
+.hb-desktop-only .hb-products-container {
   display: flex;
   gap: 16px;
 }
 
-.hb-recommended-card > .hb-card-header {
+.hb-desktop-only .hb-card-header {
   display: flex;
   flex-direction: column;
   align-items: start;
   gap: 8px;
 }
 
-.hb-recommended-card > .hb-card-header > h3 {
+.hb-desktop-only .hb-card-header > h3 {
   font-size: 24px;
   font-weight: 600;
 }
 
-.hb-recommended-card > .hb-card-header > p {
+.hb-desktop-only .hb-card-header > p {
   font-size: 16px;
   font-weight: 600;
   max-width: 218px;
 }
 
-.hb-recommended-card > .hb-card-header > button {
+.hb-desktop-only .hb-card-header > button {
   display: flex;
   align-items: center;
   gap: 4px;
@@ -53,70 +58,72 @@
   padding: 8px 24px;
 }
 
-.hb-product-card {
+.hb-desktop-only .hb-product-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 240px;
 }
 
-.hb-product-card > img {
+.hb-desktop-only .hb-product-card > img {
   width: 240px;
   height: 304px;
+  object-fit: cover;
   background-color: white;
+  padding: 16px;
 }
 
-.hb-product-info > h4 {
+.hb-desktop-only .hb-product-info > h4 {
   font-size: 16px;
   font-weight: 600;
   height: 36px;
 }
 
-.hb-product-info > .hb-category {
+.hb-desktop-only .hb-product-info > .hb-category {
   font-size: 13px;
   color: #6a6a6a;
 }
 
-.hb-product-info > .hb-price > .hb-price-current {
+.hb-desktop-only .hb-product-info > .hb-price > .hb-price-current {
   font-size: 16px;
   color: #212121;
   font-weight: 600;
 }
 
-.hb-product-info > .hb-price > .hb-price-org {
+.hb-desktop-only .hb-product-info > .hb-price > .hb-price-org {
   font-size: 12px;
   color: #6a6a6a;
   text-decoration: line-through;
 }
 
-/* 스와이프 컨테이너 스타일 */
-.hb-swiper-container {
+/* 데스크톱 스와이프 컨테이너 스타일 */
+.hb-desktop-only .hb-swiper-container {
   position: relative;
   overflow: hidden;
   width: 100%;
 }
 
-.hb-swiper-wrapper {
+.hb-desktop-only .hb-swiper-wrapper {
   display: flex;
   width: 100%;
   transition: transform 0.3s ease;
 }
 
-.hb-swiper-slide {
+.hb-desktop-only .hb-swiper-slide {
   width: 100%;
   flex-shrink: 0;
   padding: 0 20px;
   box-sizing: border-box;
 }
 
-.hb-swiper-pagination {
+.hb-desktop-only .hb-swiper-pagination {
   display: flex;
   justify-content: center;
   gap: 8px;
   margin-top: 16px;
 }
 
-.hb-pagination-dot {
+.hb-desktop-only .hb-pagination-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -125,144 +132,165 @@
   transition: background-color 0.3s ease;
 }
 
-.hb-pagination-dot.active {
+.hb-desktop-only .hb-pagination-dot.active {
   background-color: #212121;
 }
 
-.hb-pagination-dot:hover {
+.hb-desktop-only .hb-pagination-dot:hover {
   background-color: #666;
 }
 
-@media screen and (max-width: 925px) {
-  .hb-recommended-card {
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    gap: 60px !important;
-  }
-
-  .hb-recommended-card > .hb-card-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 8px;
-  }
+/* === MOBILE STYLES === */
+.hb-mobile-only {
+  display: none;
 }
 
-@media screen and (max-width: 768px) {
-  .hb-recommended-products {
-    padding: 0 !important;
-    max-width: 1200px;
-    margin: 0 auto;
+.hb-mobile-only .hb-recommended-products {
+  padding: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hb-mobile-only .hb-recommended-card {
+  display: block;
+  gap: 60px;
+}
+
+.hb-mobile-only .hb-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: end;
+  text-align: left;
+  height: 480px;
+  gap: 8px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 40px 20px;
+  color: white;
+}
+
+.hb-mobile-only .hb-card-header h3 {
+  color: white;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.hb-mobile-only .hb-card-header p {
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  max-width: 80vw;
+}
+
+.hb-mobile-only .hb-card-header button {
+  display: none;
+}
+
+.hb-mobile-only .hb-product-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  gap: 18px;
+  width: 100vw;
+  padding: 0 14px;
+}
+
+.hb-mobile-only .hb-product-card > img {
+  width: 74px;
+  height: 110px;
+  background-color: white;
+  object-fit: cover;
+  padding: 8px;
+}
+
+.hb-mobile-only .hb-product-info {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  gap: 10px;
+}
+
+.hb-mobile-only .hb-product-info > h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6a6a6a;
+  height: auto;
+  margin: 0;
+}
+
+.hb-mobile-only .hb-product-info > .hb-category {
+  font-size: 13px;
+  color: #6a6a6a;
+}
+
+.hb-mobile-only .hb-product-info > .hb-price > .hb-price-current {
+  font-size: 14px;
+  color: #212121;
+  font-weight: 600;
+}
+
+.hb-mobile-only .hb-product-info > .hb-price > .hb-price-org {
+  font-size: 10px;
+  color: #6a6a6a;
+  text-decoration: line-through;
+}
+
+.hb-mobile-only .hb-mobile-product-slider {
+  overflow: hidden;
+  width: 100%;
+  padding-top: 24px;
+  padding-bottom: 60px;
+}
+
+.hb-mobile-only .hb-mobile-slider-wrapper {
+  display: flex;
+  width: 100%;
+  transition: transform 0.3s ease;
+}
+
+.hb-mobile-only .hb-mobile-slide {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.hb-mobile-only .hb-mobile-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.hb-mobile-only .hb-pagination-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.hb-mobile-only .hb-pagination-dot.active {
+  background-color: #212121;
+}
+
+.hb-mobile-only .hb-pagination-dot:hover {
+  background-color: #666;
+}
+
+
+@media screen and (max-width: 868px) {
+  .hb-desktop-only {
+    display: none !important;
   }
 
-  .hb-recommended-card {
-    display: block;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 60px !important;
-  }
-
-  .hb-recommended-card > .hb-card-header {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: end;
-    text-align: left;
-    height: 480px;
-    gap: 8px;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-    padding: 40px 20px !important;
-    color: white !important;
-  }
-
-  .hb-products-container {
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 18px !important;
-  }
-
-  .hb-swiper-container {
-    overflow: visible !important;
-  }
-
-  .hb-swiper-wrapper {
+  .hb-mobile-only {
     display: block !important;
-    width: 100% !important;
-    transform: none !important;
-    transition: none !important;
-  }
-
-  .hb-swiper-slide {
-    width: 100% !important;
-    padding: 0 !important;
-  }
-
-  .hb-swiper-pagination {
-    display: none !important;
-  }
-
-  .hb-card-header h3 {
-    color: white !important;
-  }
-
-  .hb-card-header p {
-    color: white !important;
-    max-width: 80vw !important;
-  }
-
-  .hb-card-header button {
-    display: none !important;
-  }
-
-  .hb-product-card > img {
-    width: 74px;
-    height: 110px;
-    background-color: white;
-  }
-
-  .hb-product-card {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: start;
-    gap: 18px;
-    width: 100vw;
-    padding: 14px;
-  }
-
-  .hb-product-info {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: center;
-    gap: 10px;
-  }
-
-  .hb-product-info > h4 {
-    font-size: 14px;
-    font-weight: 600;
-    color: #6a6a6a;
-    height: auto;
-    margin: 0;
-  }
-
-  .hb-product-info > .hb-category {
-    font-size: 13px;
-    color: #6a6a6a;
-  }
-
-  .hb-product-info > .hb-price > .hb-price-current {
-    font-size: 14px;
-    color: #212121;
-    font-weight: 600;
-  }
-
-  .hb-product-info > .hb-price > .hb-price-org {
-    font-size: 10px;
-    color: #6a6a6a;
-    text-decoration: line-through;
   }
 }
