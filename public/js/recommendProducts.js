@@ -96,6 +96,7 @@ const initRecommendedProducts = async () => {
       const subtitle = prodRecommendedContent.subtitle;
       const button = prodRecommendedContent.button;
       const buttonLink = prodRecommendedContent.buttonLink;
+      const bannerImage = prodRecommendedContent.image;
 
       const productCardsHTML = await Promise.all(prodIdArray.map(async id => {
         const prodData = await getProdData(id);
@@ -114,7 +115,7 @@ const initRecommendedProducts = async () => {
             <img src="${imageUrl}" alt="${product.name}" />
             <div class="hb-product-info">
               <h4>${product.name}</h4>
-              <p class="hb-category">${categoryName}</p>
+              <span class="hb-category">${categoryName}</span>
               <div class="hb-price">
                 <span class="hb-price-current">${product.price.toLocaleString()}원</span>
                 <span class="hb-price-org">${product.price_org.toLocaleString()}원</span>
@@ -124,9 +125,26 @@ const initRecommendedProducts = async () => {
         `;
       }));
 
+      // 모바일에서 2개씩 그룹화
+      const isMobile = window.innerWidth <= 768;
+      let productSlidesHTML = '';
+      
+      if (isMobile) {
+        const productPairs = [];
+        for (let i = 0; i < productCardsHTML.length; i += 2) {
+          productPairs.push(productCardsHTML.slice(i, i + 2));
+        }
+        
+        productSlidesHTML = productPairs.map(pair => `
+          <div class="hb-product-slide">
+            ${pair.join('')}
+          </div>
+        `).join('');
+      }
+
       const cardHTML = `
         <div class="hb-recommended-card">
-          <div class="hb-card-header">
+          <div class="hb-card-header" style="background-image: url('${bannerImage}');">
             <h3>${title}</h3>
             <p>${subtitle}</p>
             <button onclick="location.href='${buttonLink}'">
@@ -134,8 +152,8 @@ const initRecommendedProducts = async () => {
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
             </button>
           </div>
-          <div class="hb-products-container">
-            ${productCardsHTML.join('')}
+          <div class="hb-products-container ${isMobile ? 'mobile-slider' : ''}">
+            ${isMobile ? productSlidesHTML : productCardsHTML.join('')}
           </div>
         </div>
       `;
@@ -156,9 +174,15 @@ const initRecommendedProducts = async () => {
     recommended.innerHTML = sectionHTML;
     position.appendChild(recommended);
 
-    // 스와이프 기능 초기화
-    const swiperContainer = recommended.querySelector('.hb-swiper-container');
-    initSwiper(swiperContainer);
+    // 데스크톱에서는 기존 스와이프, 모바일에서는 상품 슬라이더
+    if (window.innerWidth > 768) {
+      const swiperContainer = recommended.querySelector('.hb-swiper-container');
+      initSwiper(swiperContainer);
+    } else {
+      // 모바일 상품 슬라이더 초기화
+      const mobileSliders = recommended.querySelectorAll('.mobile-slider');
+      mobileSliders.forEach(slider => initMobileProductSlider(slider));
+    }
   }
 };
 
