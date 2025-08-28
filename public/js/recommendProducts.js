@@ -96,7 +96,8 @@
         const button = prodRecommendedContent.button;
         const buttonLink = prodRecommendedContent.buttonLink;
   
-        const productCardsHTML = await Promise.all(prodIdArray.map(async id => {
+        const limitedProdIdArray = prodIdArray.slice(0, 3);
+        const productCardsHTML = await Promise.all(limitedProdIdArray.map(async id => {
           const prodData = await getProdData(id);
           if (!prodData || !prodData.data || prodData.data.length === 0) {
             return `<span>상품 ${id} 로드 실패</span>`;
