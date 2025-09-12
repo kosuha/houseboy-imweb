@@ -13,7 +13,7 @@
     topBanner.style.width = '100%';
     topBanner.style.height = '28px';
     topBanner.style.backgroundColor = '#ffe14d';
-    topBanner.style.zIndex = 'auto';
+    topBanner.style.zIndex = '10';
 
     const sliderContainer = document.createElement('div');
     sliderContainer.className = 'banner-slider';
