@@ -1,0 +1,32 @@
+/* 메뉴 전체를 감싸는 래퍼 스타일 */
+.custom-menu-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 버튼을 왼쪽에 정렬 */
+}
+
+/* 메뉴 토글 버튼 스타일 */
+.custom-menu-toggle {
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* 너비 조정 */
+    height: 40px; /* 높이 조정 */
+    z-index: 1001; /* 메뉴보다 위에 오도록 설정 */
+}
+
+/* 확장될 메뉴 콘텐츠 스타일 */
+.hb-expanded-menu {
+    display: none; /* 기본적으로 숨김 */
+    position: absolute;
+    background-color: #F0E7D9;
+    z-index: 1000;
+}
+
+/* 'show' 클래스가 추가되면 메뉴를 보여줌 */
+.hb-expanded-menu.show {
+    display: block;
+}

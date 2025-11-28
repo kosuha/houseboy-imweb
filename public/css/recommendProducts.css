@@ -281,6 +281,22 @@
   background-color: #666;
 }
 
+@media screen and (max-width: 1280px) {
+  .hb-desktop-only .hb-products-container {
+    gap: 12px;
+  }
+
+  .hb-desktop-only .hb-product-card {
+    width: 228px;
+  }
+
+  .hb-desktop-only .hb-product-card > img {
+    width: 228px;
+    height: 288px;
+    padding: 15px;
+  }
+}
+
 
 @media screen and (max-width: 868px) {
   .hb-desktop-only {

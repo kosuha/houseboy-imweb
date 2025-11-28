@@ -73,14 +73,18 @@
   const headerMobileNav = document.querySelector('header#doz_header_wrap > #doz_header > .new_org_header > #inline_header_mobile > .inline-section-wrap');
 
   const topBannerFixed = createBannerSlider();
-  headerFixed.insertAdjacentElement('afterbegin', topBannerFixed);
+  if (headerFixed) {
+    headerFixed.insertAdjacentElement('afterbegin', topBannerFixed);
+  }
 
   const topBannerNormal = createBannerSlider();
-  topBannerNormal.style.zIndex = '1';
-  headerNormal.insertAdjacentElement('afterbegin', topBannerNormal);
+  if (headerNormal) {
+    topBannerNormal.style.zIndex = '1';
+    headerNormal.insertAdjacentElement('afterbegin', topBannerNormal);
+  }
   
   const topBannerMobile = createBannerSlider();
-  if (headerMobile) {
+  if (headerMobile && headerMobileNav) {
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'attributes' && mutation.attributeName === 'class') {

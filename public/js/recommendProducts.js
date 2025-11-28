@@ -73,6 +73,11 @@
     return categoryMap;
   };
   
+  const normalizeImageWidth = (url) => {
+    if (!url) return '';
+    return url.replace(/([?&]w=)(\d+)/, (_, prefix) => `${prefix}800`);
+  };
+
   const initDesktopRecommendedProducts = async () => {
     const categoryData = getCategoryData();
     const recommendedProductsPositions = document.querySelectorAll(".houseboy-recommended-products-section");
@@ -104,7 +109,8 @@
           }
   
           const product = prodData.data;
-          const imageUrl = product.image_url ? Object.values(product.image_url)[0] : '';
+          const rawImageUrl = product.image_url ? Object.values(product.image_url)[0] : '';
+          const imageUrl = normalizeImageWidth(rawImageUrl);
           const categoryName = product.categories && product.categories.length > 0 
             ? categoryData[product.categories[0]] || '카테고리 없음' 
             : '카테고리 없음';
@@ -190,7 +196,8 @@
           }
   
           const product = prodData.data;
-          const imageUrl = product.image_url ? Object.values(product.image_url)[0] : '';
+          const rawImageUrl = product.image_url ? Object.values(product.image_url)[0] : '';
+          const imageUrl = normalizeImageWidth(rawImageUrl);
           const categoryName = product.categories && product.categories.length > 0 
             ? categoryData[product.categories[0]] || '카테고리 없음' 
             : '카테고리 없음';

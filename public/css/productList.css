@@ -1,0 +1,112 @@
+.houseboy-products-list-section {
+  width: 100%;
+}
+
+.houseboy-products-list-section .hb-product-list {
+  width: 100%;
+}
+
+.houseboy-products-list-section .hb-product-list-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  justify-items: center;
+}
+
+.houseboy-products-list-section .hb-product-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  /* width: min(100%, 240px); */
+  margin: 0 auto;
+}
+
+.houseboy-products-list-section .hb-product-image {
+  position: relative;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 16px;
+  box-sizing: border-box;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.houseboy-products-list-section .hb-product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.houseboy-products-list-section .hb-product-soldout {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(224, 224, 224, 0.95);
+  color: #2c2c2c;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  padding: 14px 0;
+  letter-spacing: 0.04em;
+}
+
+.houseboy-products-list-section .hb-product-image--soldout {
+  filter: grayscale(0.25);
+}
+
+.houseboy-products-list-section .hb-product-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  text-align: left;
+}
+
+.houseboy-products-list-section .hb-product-info > h4 {
+  font-size: 16px;
+  font-weight: 600;
+  height: 36px;
+  margin: 0;
+}
+
+.houseboy-products-list-section .hb-product-info > .hb-category {
+  font-size: 13px;
+  color: #6a6a6a;
+}
+
+.houseboy-products-list-section .hb-price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.houseboy-products-list-section .hb-price-current {
+  font-size: 16px;
+  font-weight: 600;
+  color: #212121;
+}
+
+.houseboy-products-list-section .hb-price-org {
+  font-size: 12px;
+  color: #6a6a6a;
+  text-decoration: line-through;
+}
+
+.houseboy-products-list-section .hb-product-list-empty {
+  text-align: center;
+  color: #6a6a6a;
+  font-size: 14px;
+  padding: 20px 0;
+}
+
+@media (max-width: 768px) {
+  .houseboy-products-list-section .hb-product-list-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 18px;
+  }
+}

@@ -121,6 +121,12 @@ div.social-pay {
   }
 }
 
+@media (max-width: 768px) {
+  .buy_btns a.cart  {
+    display: inline-block !important; 
+  }
+}
+
 .opt-group .option_title {
   display: table-cell !important;
 }
