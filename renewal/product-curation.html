@@ -1,0 +1,972 @@
+<!-- 
+	추천 상품 큐레이션 섹션
+	renewal/product-curation.html
+-->
+
+<div 
+  class='houseboy-recommended-products-section'
+  data-prod-recommended-content='[
+    {
+      "title": "나를 위한 포근한 선물",
+      "subtitle": "우리집 욕실을 따뜻하게 바꾸는 첫번째 방법이에요",
+      "button": "모두 보기",
+      "buttonLink": "/Bathroom",
+      "productIds": [10, 33, 38, 10, 10, 10],
+      "image": "https://cdn.imweb.me/thumbnail/20230919/17ea824a6d027.jpg"
+    },
+    {
+      "title": "나를 위한 포근한 선물",
+      "subtitle": "우리집 욕실을 따뜻하게 바꾸는 첫번째 방법이에요",
+      "button": "모두 보기",
+      "buttonLink": "/Bathroom",
+      "productIds": [6, 34, 39],
+      "image": "https://cdn.imweb.me/thumbnail/20230919/17ea824a6d027.jpg"
+    }
+  ]' 
+>
+</div>
+
+<script>
+{
+  console.log('상품 큐레이션 섹션 로드됨');
+  
+  const getProdData = async (prodId) => {
+    try {
+      const res = await fetch(`/ajax/oms/OMS_get_product.cm?prod_idx=${prodId}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Accept': '*/*',
+          'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7'
+        }
+      });
+  
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+  
+      return await res.json();
+    } catch (error) {
+      console.error('상품 데이터 가져오기 실패:', error);
+      return null;
+    }
+  };
+  
+  const getCategoryData = () => {
+    /**
+     * https://houseboy.imweb.me/admin/ajax/shop/prod_category_list.cm
+     * 카테고리 수정 후 직접 이 링크에 들어가서 모든 데이터를 categoryData에 복사해와야함.
+     */
+    
+    const categoryData = {
+      msg: "SUCCESS",
+      data: [
+        {
+          code: "s202001076e572e08e1f9d",
+          parent_code: "s20231129bc961793ab87d",
+          name: {
+            u201911265ddc8ecc24cf2: "Class Shop",
+            u20230424644653b1c7e3f: "Bathroom"
+          },
+          is_leaf_node: true,
+          no: 1,
+          sort_no: 0,
+          permission: "guest",
+          permission_group: [],
+          menu_code: [],
+          menu_url: []
+        },
+        {
+          code: "s20231129bc961793ab87d",
+          parent_code: "",
+          name: {
+            u20230424644653b1c7e3f: "Shop"
+          },
+          is_leaf_node: false,
+          no: 4,
+          sort_no: 0,
+          permission: "guest",
+          permission_group: [],
+          menu_code: [],
+          menu_url: []
+        }
+      ]
+    }
+    const categoryMap = {};
+    categoryData.data.forEach(category => {
+      const nameKeys = Object.keys(category.name);
+      const latestKey = nameKeys[nameKeys.length - 1];
+      categoryMap[category.code] = category.name[latestKey];
+    });
+    
+    return categoryMap;
+  };
+  
+  const normalizeImageWidth = (url) => {
+    if (!url) return '';
+    return url.replace(/([?&]w=)(\d+)/, (_, prefix) => `${prefix}800`);
+  };
+
+  const initDesktopRecommendedProducts = async () => {
+    const categoryData = getCategoryData();
+    const recommendedProductsPositions = document.querySelectorAll(".houseboy-recommended-products-section");
+  
+    if (recommendedProductsPositions.length === 0) {
+      console.warn('추천 상품 위치를 찾을 수 없습니다.');
+      return;
+    }
+
+    for (const position of recommendedProductsPositions) {
+      const recommended = document.createElement('div');
+      recommended.classList.add('hb-recommended', 'hb-desktop-only', 'hb-section');
+  
+      const prodRecommendedContents = JSON.parse(position.dataset.prodRecommendedContent);
+      if (!prodRecommendedContents) continue;
+  
+      const cardHTMLs = await Promise.all(prodRecommendedContents.map(async prodRecommendedContent => {
+        const prodIdArray = prodRecommendedContent.productIds;
+        const title = prodRecommendedContent.title;
+        const subtitle = prodRecommendedContent.subtitle;
+        const button = prodRecommendedContent.button;
+        const buttonLink = prodRecommendedContent.buttonLink;
+  
+        const limitedProdIdArray = prodIdArray.slice(0, 3);
+        const productCardsHTML = await Promise.all(limitedProdIdArray.map(async id => {
+          const prodData = await getProdData(id);
+          if (!prodData || !prodData.data || prodData.data.length === 0) {
+            return `<span>상품 ${id} 로드 실패</span>`;
+          }
+  
+          const product = prodData.data;
+          const rawImageUrl = product.image_url ? Object.values(product.image_url)[0] : '';
+          const imageUrl = normalizeImageWidth(rawImageUrl);
+          const categoryName = product.categories && product.categories.length > 0 
+            ? categoryData[product.categories[0]] || '카테고리 없음' 
+            : '카테고리 없음';
+  
+          return `
+            <div class="hb-product-card" data-product-id="${id}" style="cursor: pointer;">
+              <img src="${imageUrl}" alt="${product.name}" />
+              <div class="hb-product-info">
+                <h4>${product.name}</h4>
+                <span class="hb-category">${categoryName}</span>
+                <div class="hb-price">
+                  <span class="hb-price-current">${product.price.toLocaleString()}원</span>
+                  <span class="hb-price-org">${product.price_org.toLocaleString()}원</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }));
+  
+        return `
+          <div class="hb-recommended-card">
+            <div class="hb-card-header">
+              <h3>${title}</h3>
+              <p>${subtitle}</p>
+              <button onclick="location.href='${buttonLink}'">
+                <span>${button}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+            </div>
+            <div class="hb-products-container">
+              ${productCardsHTML.join('')}
+            </div>
+          </div>
+        `;
+      }));
+  
+      const sectionHTML = `
+        <div class="hb-recommended-products hb-section-container">
+          <div class="hb-swiper-container">
+            <div class="hb-swiper-wrapper">
+              ${cardHTMLs.map(cardHTML => `<div class="hb-swiper-slide">${cardHTML}</div>`).join('')}
+            </div>
+            <div class="hb-swiper-pagination"></div>
+          </div>
+        </div>
+      `;
+  
+      recommended.innerHTML = sectionHTML;
+      position.appendChild(recommended);
+  
+      const swiperContainer = recommended.querySelector('.hb-swiper-container');
+      if (swiperContainer) {
+        initSwiper(swiperContainer);
+      }
+    }
+  };
+  
+  const initMobileRecommendedProducts = async () => {
+    const categoryData = getCategoryData();
+    const recommendedProductsPositions = document.querySelectorAll(".houseboy-recommended-products-section");
+  
+    if (recommendedProductsPositions.length === 0) return;
+  
+    for (const position of recommendedProductsPositions) {
+      const recommended = document.createElement('div');
+      recommended.classList.add('hb-recommended', 'hb-mobile-only', 'hb-section');
+  
+      const prodRecommendedContents = JSON.parse(position.dataset.prodRecommendedContent);
+      if (!prodRecommendedContents) continue;
+  
+      const cardHTMLs = await Promise.all(prodRecommendedContents.map(async prodRecommendedContent => {
+        const prodIdArray = prodRecommendedContent.productIds;
+        const title = prodRecommendedContent.title;
+        const subtitle = prodRecommendedContent.subtitle;
+        const button = prodRecommendedContent.button;
+        const buttonLink = prodRecommendedContent.buttonLink;
+        const bannerImage = prodRecommendedContent.image;
+  
+        const productCardsHTML = await Promise.all(prodIdArray.map(async id => {
+          const prodData = await getProdData(id);
+          if (!prodData || !prodData.data || prodData.data.length === 0) {
+            return `<span>상품 ${id} 로드 실패</span>`;
+          }
+  
+          const product = prodData.data;
+          const rawImageUrl = product.image_url ? Object.values(product.image_url)[0] : '';
+          const imageUrl = normalizeImageWidth(rawImageUrl);
+          const categoryName = product.categories && product.categories.length > 0 
+            ? categoryData[product.categories[0]] || '카테고리 없음' 
+            : '카테고리 없음';
+  
+          return `
+            <div class="hb-product-card" data-product-id="${id}" style="cursor: pointer;">
+              <img src="${imageUrl}" alt="${product.name}" />
+              <div class="hb-product-info">
+                <h4>${product.name}</h4>
+                <span class="hb-category">${categoryName}</span>
+                <div class="hb-price">
+                  <span class="hb-price-current">${product.price.toLocaleString()}원</span>
+                  <span class="hb-price-org">${product.price_org.toLocaleString()}원</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }));
+  
+        const productPairs = [];
+        for (let i = 0; i < productCardsHTML.length; i += 2) {
+          productPairs.push(productCardsHTML.slice(i, i + 2));
+        }
+  
+        return `
+          <div class="hb-recommended-card">
+            <div class="hb-card-header" style="background-image: url('${bannerImage}');">
+              <h3>${title}</h3>
+              <p>${subtitle}</p>
+              <button onclick="location.href='${buttonLink}'">
+                <span>${button}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+            </div>
+            <div class="hb-mobile-product-slider">
+              <div class="hb-mobile-slider-wrapper">
+                ${productPairs.map(pair => `
+                  <div class="hb-mobile-slide">
+                    ${pair.join('')}
+                  </div>
+                `).join('')}
+              </div>
+              <div class="hb-mobile-pagination"></div>
+            </div>
+          </div>
+        `;
+      }));
+  
+      const sectionHTML = `
+        <div class="hb-recommended-products hb-section-container">
+          ${cardHTMLs.join('')}
+        </div>
+      `;
+  
+      recommended.innerHTML = sectionHTML;
+      position.appendChild(recommended);
+  
+      const mobileSliders = recommended.querySelectorAll('.hb-mobile-product-slider');
+      mobileSliders.forEach(slider => initMobileProductSlider(slider));
+    }
+  };
+  
+  const initRecommendedProducts = () => {
+    initDesktopRecommendedProducts();
+    initMobileRecommendedProducts();
+  };
+  
+  const initSwiper = (container) => {
+    const wrapper = container.querySelector('.hb-swiper-wrapper');
+    const slides = wrapper.querySelectorAll('.hb-swiper-slide');
+    const pagination = container.querySelector('.hb-swiper-pagination');
+    
+    let currentIndex = 0;
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+    let initialTransform = 0;
+    let hasMoved = false;
+    
+    // 페이지네이션 생성
+    slides.forEach((_, index) => {
+      const dot = document.createElement('span');
+      dot.classList.add('hb-pagination-dot');
+      if (index === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(index));
+      pagination.appendChild(dot);
+    });
+    
+    const updateSlidePosition = (immediate = false) => {
+      wrapper.style.transition = immediate ? 'none' : 'transform 0.3s ease';
+      wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+      
+      // 페이지네이션 업데이트
+      pagination.querySelectorAll('.hb-pagination-dot').forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    };
+    
+    const goToSlide = (index) => {
+      currentIndex = Math.max(0, Math.min(index, slides.length - 1));
+      updateSlidePosition();
+    };
+    
+    // 상품 카드 클릭 이벤트 처리
+    container.addEventListener('click', (e) => {
+      if (hasMoved) return; // 스와이프 동작이 있었으면 클릭 무시
+      
+      const productCard = e.target.closest('.hb-product-card');
+      if (productCard) {
+        const productId = productCard.dataset.productId;
+        location.href = `/shop_view/?idx=${productId}`;
+      }
+    });
+  
+    // 터치 이벤트
+    container.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      currentX = startX;
+      isDragging = true;
+      hasMoved = false;
+      initialTransform = currentIndex * 100;
+      wrapper.style.transition = 'none';
+    });
+    
+    container.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      
+      currentX = e.touches[0].clientX;
+      const diffX = startX - currentX;
+      
+      // 움직임이 감지되면 hasMoved를 true로 설정
+      if (Math.abs(diffX) > 10) {
+        hasMoved = true;
+      }
+      
+      const containerWidth = container.offsetWidth;
+      const movePercent = (diffX / containerWidth) * 100;
+      
+      // 실시간으로 슬라이드 이동
+      const newTransform = initialTransform + movePercent;
+      wrapper.style.transform = `translateX(-${newTransform}%)`;
+    });
+    
+    container.addEventListener('touchend', (e) => {
+      if (!isDragging) return;
+      
+      const endX = e.changedTouches[0].clientX;
+      const diffX = startX - endX;
+      const containerWidth = container.offsetWidth;
+      
+      // 30% 이상 이동하거나 빠르게 스와이프한 경우 슬라이드 전환
+      const threshold = containerWidth * 0.3;
+      
+      if (Math.abs(diffX) > threshold || Math.abs(diffX) > 50) {
+        if (diffX > 0 && currentIndex < slides.length - 1) {
+          goToSlide(currentIndex + 1);
+        } else if (diffX < 0 && currentIndex > 0) {
+          goToSlide(currentIndex - 1);
+        } else {
+          updateSlidePosition(); // 원래 위치로 복귀
+        }
+      } else {
+        updateSlidePosition(); // 원래 위치로 복귀
+      }
+      
+      isDragging = false;
+      
+      // 짧은 지연 후 hasMoved 리셋 (클릭 이벤트 처리를 위해)
+      setTimeout(() => {
+        hasMoved = false;
+      }, 100);
+    });
+    
+    // 마우스 이벤트 (데스크톱)
+    container.addEventListener('mousedown', (e) => {
+      startX = e.clientX;
+      currentX = startX;
+      isDragging = true;
+      hasMoved = false;
+      initialTransform = currentIndex * 100;
+      wrapper.style.transition = 'none';
+      e.preventDefault();
+    });
+    
+    container.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      
+      currentX = e.clientX;
+      const diffX = startX - currentX;
+      
+      // 움직임이 감지되면 hasMoved를 true로 설정
+      if (Math.abs(diffX) > 10) {
+        hasMoved = true;
+      }
+      
+      const containerWidth = container.offsetWidth;
+      const movePercent = (diffX / containerWidth) * 100;
+      
+      // 실시간으로 슬라이드 이동
+      const newTransform = initialTransform + movePercent;
+      wrapper.style.transform = `translateX(-${newTransform}%)`;
+    });
+    
+    container.addEventListener('mouseup', (e) => {
+      if (!isDragging) return;
+      
+      const endX = e.clientX;
+      const diffX = startX - endX;
+      const containerWidth = container.offsetWidth;
+      
+      // 30% 이상 이동하거나 빠르게 스와이프한 경우 슬라이드 전환
+      const threshold = containerWidth * 0.3;
+      
+      if (Math.abs(diffX) > threshold || Math.abs(diffX) > 50) {
+        if (diffX > 0 && currentIndex < slides.length - 1) {
+          goToSlide(currentIndex + 1);
+        } else if (diffX < 0 && currentIndex > 0) {
+          goToSlide(currentIndex - 1);
+        } else {
+          updateSlidePosition(); // 원래 위치로 복귀
+        }
+      } else {
+        updateSlidePosition(); // 원래 위치로 복귀
+      }
+      
+      isDragging = false;
+      
+      // 짧은 지연 후 hasMoved 리셋 (클릭 이벤트 처리를 위해)
+      setTimeout(() => {
+        hasMoved = false;
+      }, 100);
+    });
+    
+    container.addEventListener('mouseleave', () => {
+      if (isDragging) {
+        updateSlidePosition(); // 원래 위치로 복귀
+        isDragging = false;
+        setTimeout(() => {
+          hasMoved = false;
+        }, 100);
+      }
+    });
+  };
+  
+  const initMobileProductSlider = (container) => {
+    const wrapper = container.querySelector('.hb-mobile-slider-wrapper');
+    const slides = container.querySelectorAll('.hb-mobile-slide');
+    const pagination = container.querySelector('.hb-mobile-pagination');
+    
+    if (slides.length <= 1) return;
+    
+    let currentIndex = 0;
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+    let initialTransform = 0;
+    let hasMoved = false;
+    
+    // 페이지네이션 생성
+    slides.forEach((_, index) => {
+      const dot = document.createElement('span');
+      dot.classList.add('hb-pagination-dot');
+      if (index === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(index));
+      pagination.appendChild(dot);
+    });
+    
+    const updateSlidePosition = (immediate = false) => {
+      wrapper.style.transition = immediate ? 'none' : 'transform 0.3s ease';
+      wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+      
+      // 페이지네이션 업데이트
+      pagination.querySelectorAll('.hb-pagination-dot').forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    };
+    
+    const goToSlide = (index) => {
+      currentIndex = Math.max(0, Math.min(index, slides.length - 1));
+      updateSlidePosition();
+    };
+    
+    // 상품 카드 클릭 이벤트 처리
+    container.addEventListener('click', (e) => {
+      if (hasMoved) return;
+      
+      const productCard = e.target.closest('.hb-product-card');
+      if (productCard) {
+        const productId = productCard.dataset.productId;
+        location.href = `/shop_view/?idx=${productId}`;
+      }
+    });
+  
+    // 터치 이벤트
+    container.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      currentX = startX;
+      isDragging = true;
+      hasMoved = false;
+      initialTransform = currentIndex * 100;
+      wrapper.style.transition = 'none';
+    });
+    
+    container.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      
+      currentX = e.touches[0].clientX;
+      const diffX = startX - currentX;
+      
+      if (Math.abs(diffX) > 10) {
+        hasMoved = true;
+      }
+      
+      const containerWidth = container.offsetWidth;
+      const movePercent = (diffX / containerWidth) * 100;
+      
+      const newTransform = initialTransform + movePercent;
+      wrapper.style.transform = `translateX(-${newTransform}%)`;
+    });
+    
+    container.addEventListener('touchend', (e) => {
+      if (!isDragging) return;
+      
+      const endX = e.changedTouches[0].clientX;
+      const diffX = startX - endX;
+      const containerWidth = container.offsetWidth;
+      
+      const threshold = containerWidth * 0.3;
+      
+      if (Math.abs(diffX) > threshold || Math.abs(diffX) > 50) {
+        if (diffX > 0 && currentIndex < slides.length - 1) {
+          goToSlide(currentIndex + 1);
+        } else if (diffX < 0 && currentIndex > 0) {
+          goToSlide(currentIndex - 1);
+        } else {
+          updateSlidePosition();
+        }
+      } else {
+        updateSlidePosition();
+      }
+      
+      isDragging = false;
+      
+      setTimeout(() => {
+        hasMoved = false;
+      }, 100);
+    });
+  
+    // 마우스 드래그 지원
+    container.addEventListener('mousedown', (e) => {
+      startX = e.clientX;
+      currentX = startX;
+      isDragging = true;
+      hasMoved = false;
+      initialTransform = currentIndex * 100;
+      wrapper.style.transition = 'none';
+      e.preventDefault();
+    });
+    
+    container.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      
+      currentX = e.clientX;
+      const diffX = startX - currentX;
+      
+      if (Math.abs(diffX) > 10) {
+        hasMoved = true;
+      }
+      
+      const containerWidth = container.offsetWidth;
+      const movePercent = (diffX / containerWidth) * 100;
+      
+      const newTransform = initialTransform + movePercent;
+      wrapper.style.transform = `translateX(-${newTransform}%)`;
+    });
+    
+    container.addEventListener('mouseup', (e) => {
+      if (!isDragging) return;
+      
+      const endX = e.clientX;
+      const diffX = startX - endX;
+      const containerWidth = container.offsetWidth;
+      
+      const threshold = containerWidth * 0.3;
+      
+      if (Math.abs(diffX) > threshold || Math.abs(diffX) > 50) {
+        if (diffX > 0 && currentIndex < slides.length - 1) {
+          goToSlide(currentIndex + 1);
+        } else if (diffX < 0 && currentIndex > 0) {
+          goToSlide(currentIndex - 1);
+        } else {
+          updateSlidePosition();
+        }
+      } else {
+        updateSlidePosition();
+      }
+      
+      isDragging = false;
+      
+      setTimeout(() => {
+        hasMoved = false;
+      }, 100);
+    });
+    
+    container.addEventListener('mouseleave', () => {
+      if (isDragging) {
+        updateSlidePosition();
+        isDragging = false;
+        setTimeout(() => {
+          hasMoved = false;
+        }, 100);
+      }
+    });
+  };
+  
+  initRecommendedProducts();
+}
+
+</script>
+
+<style>
+/* 공통 섹션 구조는 reviewSection.css에서 정의됨 */
+.houseboy-recommended-products-section {
+
+}
+
+/* === DESKTOP STYLES === */
+.hb-desktop-only {
+  display: block;
+}
+
+.hb-desktop-only .hb-recommended-products {
+  /* 공통 .hb-section-container 클래스 사용 */
+}
+
+.hb-desktop-only .hb-recommended-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.hb-desktop-only .hb-products-container {
+  display: flex;
+  gap: 16px;
+}
+
+.hb-desktop-only .hb-card-header {
+  color: #212121;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 8px;
+}
+
+.hb-desktop-only .hb-card-header > h3 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.hb-desktop-only .hb-card-header > p {
+  font-size: 16px;
+  font-weight: 600;
+  max-width: 218px;
+}
+
+.hb-desktop-only .hb-card-header > button {
+  display: flex;
+  align-items: left;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: #212121;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid #212121;
+  border-radius: 999px;
+  padding: 8px 24px;
+}
+
+.hb-desktop-only .hb-product-card {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  width: 320px;
+}
+
+.hb-desktop-only .hb-product-card > img {
+  width: 320px;
+  height: 406px;
+  object-fit: cover;
+  background-color: white;
+  padding: 16px;
+}
+
+.hb-desktop-only .hb-product-info > h4 {
+  color: #212121;
+  font-size: 16px;
+  font-weight: 600;
+  height: 36px;
+}
+
+.hb-desktop-only .hb-product-info > .hb-category {
+  font-size: 13px;
+  color: #6a6a6a;
+}
+
+.hb-desktop-only .hb-product-info > .hb-price > .hb-price-current {
+  font-size: 16px;
+  color: #212121;
+  font-weight: 600;
+}
+
+.hb-desktop-only .hb-product-info > .hb-price > .hb-price-org {
+  font-size: 12px;
+  color: #6a6a6a;
+  text-decoration: line-through;
+}
+
+/* 데스크톱 스와이프 컨테이너 스타일 */
+.hb-desktop-only .hb-swiper-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.hb-desktop-only .hb-swiper-wrapper {
+  display: flex;
+  width: 100%;
+  transition: transform 0.3s ease;
+}
+
+.hb-desktop-only .hb-swiper-slide {
+  width: 100%;
+  flex-shrink: 0;
+  padding: 0 4px;
+  box-sizing: border-box;
+}
+
+.hb-desktop-only .hb-swiper-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 55px;
+}
+
+.hb-desktop-only .hb-pagination-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.hb-desktop-only .hb-pagination-dot.active {
+  background-color: #212121;
+}
+
+.hb-desktop-only .hb-pagination-dot:hover {
+  background-color: #666;
+}
+
+/* === MOBILE STYLES === */
+.hb-mobile-only {
+  display: none;
+}
+
+.hb-mobile-only .hb-recommended-products {
+  /* 공통 .hb-section-container 클래스 사용 */
+}
+
+.hb-mobile-only .hb-recommended-card {
+  display: block;
+  gap: 60px;
+}
+
+.hb-mobile-only .hb-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: end;
+  text-align: left;
+  height: 480px;
+  gap: 8px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 40px 20px;
+  color: white;
+}
+
+.hb-mobile-only .hb-card-header h3 {
+  color: white;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.hb-mobile-only .hb-card-header p {
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  max-width: 80vw;
+}
+
+.hb-mobile-only .hb-card-header button {
+  display: none;
+}
+
+.hb-mobile-only .hb-product-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  gap: 18px;
+  width: 100vw;
+  padding: 0 14px;
+}
+
+.hb-mobile-only .hb-product-card > img {
+  width: 74px;
+  height: 110px;
+  background-color: white;
+  object-fit: cover;
+  padding: 8px;
+}
+
+.hb-mobile-only .hb-product-info {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  gap: 10px;
+}
+
+.hb-mobile-only .hb-product-info > h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6a6a6a;
+  height: auto;
+  margin: 0;
+}
+
+.hb-mobile-only .hb-product-info > .hb-category {
+  font-size: 13px;
+  color: #6a6a6a;
+}
+
+.hb-mobile-only .hb-product-info > .hb-price > .hb-price-current {
+  font-size: 14px;
+  color: #212121;
+  font-weight: 600;
+}
+
+.hb-mobile-only .hb-product-info > .hb-price > .hb-price-org {
+  font-size: 10px;
+  color: #6a6a6a;
+  text-decoration: line-through;
+}
+
+.hb-mobile-only .hb-mobile-product-slider {
+  overflow: hidden;
+  width: 100%;
+  padding-top: 24px;
+  padding-bottom: 60px;
+}
+
+.hb-mobile-only .hb-mobile-slider-wrapper {
+  display: flex;
+  width: 100%;
+  transition: transform 0.3s ease;
+}
+
+.hb-mobile-only .hb-mobile-slide {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.hb-mobile-only .hb-mobile-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.hb-mobile-only .hb-pagination-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.hb-mobile-only .hb-pagination-dot.active {
+  background-color: #212121;
+}
+
+.hb-mobile-only .hb-pagination-dot:hover {
+  background-color: #666;
+}
+
+@media screen and (max-width: 1280px) {
+  .hb-desktop-only .hb-products-container {
+    gap: 12px;
+  }
+
+  .hb-desktop-only .hb-product-card {
+    width: 228px;
+  }
+
+  .hb-desktop-only .hb-product-card > img {
+    width: 228px;
+    height: 288px;
+    padding: 15px;
+  }
+}
+
+@media screen and (max-width: 868px) {
+  .hb-desktop-only {
+    display: none !important;
+  }
+
+  .hb-mobile-only {
+    display: block !important;
+  }
+}
+  
+@media (max-width: 768px) {
+  .hb-section {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+}
+</style>

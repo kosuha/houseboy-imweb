@@ -1,4 +1,4 @@
-const MENU_CONTAINER_SELECTOR = 'div > ul.nav > div.viewport-nav';
+const MENU_CONTAINER_SELECTOR = '#doz_header';
   const DOTTED = "*";
 
   const menuContainers = document.querySelectorAll(MENU_CONTAINER_SELECTOR);

@@ -1,0 +1,1289 @@
+<!-- 
+	슬라이드 리뷰 섹션
+	renewal/slide-review.html
+
+	"id": 브이리뷰ID (개발자도구에서 확인)
+	"iconPosition": '+'아이콘의 좌표(x,y). 좌상단은 (0,0) 우하단은 (100,100)
+-->
+
+<div 
+  class='houseboy-slide-review-section'
+  data-reviews='[
+	{"id":20733981,"iconPosition":{"x":50,"y":50}},
+	{"id":21185975,"iconPosition":{"x":30,"y":40}},
+	{"id":33401761,"iconPosition":{"x":70,"y":60}},
+	{"id":27208230,"iconPosition":{"x":20,"y":80}},
+	{"id":25029734,"iconPosition":{"x":80,"y":20}},
+	{"id":20734090},
+	{"id":20734204,"iconPosition":{"x":50,"y":30}},
+	{"id":39241145,"iconPosition":{"x":50,"y":70}},
+	{"id":38484011,"iconPosition":{"x":10,"y":10}},
+	{"id":38477472,"iconPosition":{"x":90,"y":90}}
+  ]' 
+>
+</div>
+
+<script>
+{
+  console.log('슬라이드 리뷰 섹션 로드됨');
+
+  // VReview API 함수들
+  const getVReviews = async (count) => {
+    if (count > 24) {
+      console.error('리뷰 최대 24개까지 요청 가능.');
+      return { results: [] };
+    }
+    
+    try {
+      const res = await fetch(
+        `https://one.vreview.tv/api/embed/v2/d078aac4-6258-4061-bdbe-d93ab978f521/reviews?offset=0&limit=${count}&ordering=-helpful_count&expand=created_at%2Cproduct%2Crating`,
+        {
+          referrerPolicy: 'no-referrer',
+          headers: { 'Accept': 'application/json' }
+        }
+      );
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      
+      return await res.json();
+    } catch (error) {
+      console.error('리뷰 가져오기 실패:', error);
+      return { results: [] };
+    }
+  };
+  
+  const getVReviewData = async (reviewId) => {
+    try {
+      const res = await fetch(
+        `https://one.vreview.tv/api/embed/v2/d078aac4-6258-4061-bdbe-d93ab978f521/reviews/${reviewId}`,
+        {
+          referrerPolicy: 'no-referrer',
+          headers: { 'Accept': 'application/json' }
+        }
+      );
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      
+      return await res.json();
+    } catch (error) {
+      console.error('리뷰 데이터 가져오기 실패:', error);
+      return null;
+    }
+  };
+  
+  const getProdData = async (prodId) => {
+    try {
+      const res = await fetch(`/ajax/oms/OMS_get_product.cm?prod_idx=${prodId}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Accept': '*/*',
+          'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7'
+        }
+      });
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      
+      return await res.json();
+    } catch (error) {
+      console.error('상품 데이터 가져오기 실패:', error);
+      return null;
+    }
+  };
+  
+  // 메인 실행 함수
+  const initReviewSlider = async () => {
+    try {
+      const reviewPositions = document.querySelectorAll(".houseboy-slide-review-section");
+      
+      if (reviewPositions.length === 0) {
+        console.warn('리뷰 위치를 찾을 수 없습니다.');
+        return;
+      }
+      
+      // 각 위치마다 개별적으로 처리
+      for (const newReviewPosition of reviewPositions) {
+      
+      const review = document.createElement('div');
+      review.classList.add('hb-review', 'hb-section');
+      
+      // 모든 리뷰 데이터를 병렬로 가져오기
+      const reviewData = JSON.parse(newReviewPosition.dataset.reviews);
+      if (!Array.isArray(reviewData)) {
+        console.warn('리뷰 데이터 형식이 올바르지 않습니다. 스킵합니다.');
+        continue;
+      }
+      const reviewPromises = reviewData.map(async (item, index) => {
+        const vReview = await getVReviewData(item.id);
+        
+        // vReview 데이터를 전역으로 저장해서 나중에 모달에서 사용
+        if (!window.vReviewsData) {
+          window.vReviewsData = {};
+        }
+        if (vReview) {
+          window.vReviewsData[item.id] = vReview;
+        }
+        
+        if (!vReview) return '';
+        
+        // 이미지와 텍스트가 있는 경우만 카드 생성
+        if (vReview.media_contents && 
+            vReview.media_contents[0] && 
+            vReview.media_contents[0].type === 'image' && 
+            vReview.text) {
+          
+          // XSS 방지를 위한 기본적인 텍스트 이스케이핑
+          const escapeHtml = (text) => {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+          };
+          
+          // 아이콘 HTML 생성 (좌표가 있는 경우만)
+          let iconHtml = '';
+          let productCardHtml = '';
+          
+          if (item.iconPosition) {
+            const { x, y } = item.iconPosition;
+            
+            // 상품 정보가 있으면 미리 카드 HTML 생성
+            if (vReview.product_origin_id) {
+              // 상품 데이터 미리 가져오기
+              const productData = await getProdData(vReview.product_origin_id);
+              
+              if (productData && productData.msg === 'SUCCESS') {
+                const product = productData.data;
+                const discountRate = Math.round((1 - product.price / product.price_org) * 100);
+                
+                productCardHtml = `
+                  <div class='hb-product-mini-card' key=${index} data-product-id='${vReview.product_origin_id}' style='display: none;'>
+                    <img src='${product.image_url[product.images[0]]}' alt='${product.name}' class='hb-product-mini-image' />
+                    <div class='hb-product-mini-info'>
+                      <div class='hb-product-mini-name'>${product.name}</div>
+                      <div class='hb-product-mini-price'>
+                        <span class='hb-product-mini-price-current'>${product.price.toLocaleString()}원</span>
+                        ${product.price_org > product.price ? `
+                          <span class='hb-product-mini-price-original'>${product.price_org.toLocaleString()}원</span>
+                        ` : ''}
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }
+            }
+            
+            iconHtml = `
+              <div class='hb-review-icon' 
+                key=${index}
+                style='left: ${x}%; top: ${y}%;'
+                data-product-id='${vReview.product_origin_id || ''}'
+                data-state='closed'
+              >
+                <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg' style='transition: transform 0.2s ease;'>
+                  <circle cx='12' cy='12' r='11' fill='#212121' stroke='#333' stroke-width='1'/>
+                  <path d='M12 6v12M6 12h12' stroke='white' stroke-width='2' stroke-linecap='round'/>
+                </svg>
+                ${productCardHtml}
+              </div>
+            `;
+          }
+          
+          return `
+            <div class='hb-review-card' data-review-id='${item.id}'>
+              <div class='hb-review-thumbnail-image-wrap'>
+                <img 
+                  class='hb-review-thumbnail-image'
+                  src='${vReview.media_contents[0].urls.origin}' 
+                  alt='리뷰 이미지'
+                  loading='lazy'
+                  draggable='false'
+                  onerror="this.style.display='none'"
+                />
+                ${iconHtml}
+              </div>
+              <span class='hb-review-comment'>
+                ${escapeHtml(vReview.text)}
+              </span>
+            </div>
+          `;
+        }
+        
+        return '';
+      });
+      
+      // Promise.all로 모든 비동기 작업 완료 대기
+      const reviewContent = await Promise.all(reviewPromises);
+      
+      // 빈 문자열 필터링
+      const filteredContent = reviewContent.filter(content => content);
+      
+      if (filteredContent.length === 0) {
+        console.warn('표시할 리뷰가 없습니다. 스킵합니다.');
+        continue;
+      }
+      
+      // HTML 삽입
+      review.innerHTML = `
+        <div class='hb-section-container'>
+          <div class='hb-review-content-wrap'>
+            <h3 class='hb-review-title'>
+              <span>
+                하우스보이와 함께하는 
+              </span>
+              <span>
+                온라인 집들이 🏠
+              </span>
+            </h3>
+            <div class='hb-review-content'>
+              ${filteredContent.join('')}
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // DOM에 추가
+      newReviewPosition.appendChild(review);
+  
+      // 슬라이더 기능 초기화
+      const slider = review.querySelector('.hb-review-content');
+      
+      // 이미지 드래그 방지
+      review.querySelectorAll('.hb-review-thumbnail-image').forEach(img => {
+        img.addEventListener('dragstart', (e) => {
+          e.preventDefault();
+        });
+      });
+      
+      if (slider) {
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        let hasDragged = false; // 드래그 여부 추적
+        
+        // 마우스 이벤트
+        slider.addEventListener('mousedown', (e) => {
+          // 아이콘이나 상품 카드 클릭 시 드래그 방지
+          if (e.target.closest('.hb-review-icon') || 
+              e.target.closest('.hb-product-mini-card')) return;
+          
+          isDown = true;
+          hasDragged = false;
+          slider.classList.add('grabbing');
+          startX = e.pageX - slider.offsetLeft;
+          scrollLeft = slider.scrollLeft;
+        });
+        
+        slider.addEventListener('mouseleave', () => {
+          isDown = false;
+          slider.classList.remove('grabbing');
+        });
+        
+        slider.addEventListener('mouseup', () => {
+          isDown = false;
+          slider.classList.remove('grabbing');
+        });
+        
+        slider.addEventListener('mousemove', (e) => {
+          if (!isDown) return;
+          e.preventDefault();
+          
+          const x = e.pageX - slider.offsetLeft;
+          const walk = (x - startX) * 1.5;
+          
+          // 일정 거리 이상 움직인 경우만 드래그로 판단
+          if (Math.abs(walk) > 5) {
+            hasDragged = true;
+            slider.scrollLeft = scrollLeft - walk;
+          }
+        });
+        
+        // 터치 이벤트 (모바일 지원)
+        slider.addEventListener('touchstart', (e) => {
+          if (e.target.closest('.hb-review-icon') || 
+              e.target.closest('.hb-product-mini-card')) return;
+          
+          isDown = true;
+          hasDragged = false;
+          slider.classList.add('grabbing');
+          startX = e.touches[0].pageX - slider.offsetLeft;
+          scrollLeft = slider.scrollLeft;
+        }, { passive: true });
+        
+        slider.addEventListener('touchend', () => {
+          isDown = false;
+          slider.classList.remove('grabbing');
+        });
+        
+        slider.addEventListener('touchmove', (e) => {
+          if (!isDown) return;
+          
+          const x = e.touches[0].pageX - slider.offsetLeft;
+          const walk = (x - startX) * 1.5;
+          
+          // 일정 거리 이상 움직인 경우만 드래그로 판단
+          if (Math.abs(walk) > 5) {
+            hasDragged = true;
+            slider.scrollLeft = scrollLeft - walk;
+          }
+        }, { passive: true });
+      }
+      
+      // 아이콘 클릭 이벤트 - 카드 토글
+      review.querySelectorAll('.hb-review-icon').forEach((icon) => {
+        icon.addEventListener('click', (e) => {
+          e.stopPropagation();
+          
+          // 현재 열려있는 다른 카드들과 아이콘들 모두 닫기
+          document.querySelectorAll('.hb-review-icon').forEach(otherIcon => {
+            if (icon !== otherIcon) {
+              const otherWrapper = otherIcon.closest('.hb-review-thumbnail-image-wrap');
+              const otherCard = otherWrapper.querySelector('.hb-product-mini-card');
+              
+              if (otherCard && otherCard.style.display === 'flex') {
+                otherCard.style.display = 'none';
+                // 다른 아이콘들을 + 상태로 변경 (회전 초기화)
+                const otherSvg = otherIcon.querySelector('svg');
+                if (otherSvg) {
+                  otherSvg.style.transform = 'rotate(0deg)';
+                  otherIcon.setAttribute('data-state', 'closed');
+                }
+              }
+            }
+          });
+          
+          // 해당 아이콘의 카드 찾기
+          const wrapper = icon.closest('.hb-review-thumbnail-image-wrap');
+          const card = wrapper.querySelector('.hb-product-mini-card');
+          const svg = icon.querySelector('svg');
+          
+          if (card && svg) {
+            // 토글
+            if (card.style.display === 'flex') {
+              // 카드 닫기
+              card.style.display = 'none';
+              svg.style.transform = 'rotate(0deg)';
+              icon.setAttribute('data-state', 'closed');
+            } else {
+              // 카드 열기
+              card.style.display = 'flex';
+              svg.style.transform = 'rotate(45deg)';
+              icon.setAttribute('data-state', 'opened');
+            }
+          }
+        });
+      });
+      
+      // 상품 카드 클릭 이벤트
+      review.querySelectorAll('.hb-product-mini-card').forEach((card) => {
+        card.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const productId = card.getAttribute('data-product-id');
+          // 상품 페이지로 이동 (실제 상품 페이지 URL 구조에 맞게 수정)
+          window.location.href = `/shop_view/?idx=${productId}`;
+        });
+      });
+      
+      // 리뷰 이미지 클릭 이벤트 - 모달 열기
+      review.querySelectorAll('.hb-review-thumbnail-image').forEach((img) => {
+        let mouseDownX, mouseDownY;
+        let hasMouseMoved = false;
+        let isMouseDown = false;
+        
+        img.addEventListener('mousedown', (e) => {
+          mouseDownX = e.pageX;
+          mouseDownY = e.pageY;
+          hasMouseMoved = false;
+          isMouseDown = true;
+          
+          const mouseMoveHandler = (moveEvent) => {
+            if (!isMouseDown) return;
+            
+            const deltaX = Math.abs(moveEvent.pageX - mouseDownX);
+            const deltaY = Math.abs(moveEvent.pageY - mouseDownY);
+            
+            // 5px 이상 움직이면 드래그로 판단
+            if (deltaX > 5 || deltaY > 5) {
+              hasMouseMoved = true;
+            }
+          };
+          
+          const mouseUpHandler = () => {
+            isMouseDown = false;
+            document.removeEventListener('mousemove', mouseMoveHandler);
+            document.removeEventListener('mouseup', mouseUpHandler);
+            
+            // 마우스업 시점에서 움직임이 없었다면 모달 열기
+            if (!hasMouseMoved) {
+              // 리뷰 카드에서 리뷰 ID 가져오기
+              const reviewCard = img.closest('.hb-review-card');
+              const reviewId = reviewCard.getAttribute('data-review-id');
+              
+              // 저장된 vReview 데이터 가져오기
+              if (window.vReviewsData && window.vReviewsData[reviewId]) {
+                openReviewModal(window.vReviewsData[reviewId]);
+              }
+            }
+          };
+          
+          document.addEventListener('mousemove', mouseMoveHandler);
+          document.addEventListener('mouseup', mouseUpHandler);
+        });
+        
+        // click 이벤트는 무조건 방지 (mouseup에서 처리)
+        img.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        });
+      });
+      
+      // 외부 클릭 시 모든 카드 닫기
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.hb-review-icon') && !e.target.closest('.hb-product-mini-card')) {
+          document.querySelectorAll('.hb-product-mini-card').forEach(card => {
+            card.style.display = 'none';
+          });
+          
+          // 모든 아이콘을 + 상태로 변경 (회전 초기화)
+          document.querySelectorAll('.hb-review-icon').forEach(icon => {
+            const svg = icon.querySelector('svg');
+            if (svg) {
+              svg.style.transform = 'rotate(0deg)';
+              icon.setAttribute('data-state', 'closed');
+            }
+          });
+        }
+      });
+      
+      } // for문 끝
+    } catch (error) {
+      console.error('리뷰 슬라이더 초기화 실패:', error);
+    }
+  };
+  
+  // 모달 생성 함수
+  const createReviewModal = () => {
+    const modal = document.createElement('div');
+    modal.id = 'hb-review-modal';
+    modal.innerHTML = `
+      <div class="hb-modal-backdrop" id="hb-modal-backdrop">
+        <div class="hb-modal-content-wrapper">
+          <div class="hb-modal-header">
+            <p class="hb-modal-title">리뷰 상세 보기</p>
+            <div class="hb-modal-close" id="hb-modal-close">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 256 256">
+                <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="hb-modal-body">
+            <div class="hb-modal-product-info">
+              <img class="hb-modal-product-image" src="" alt="">
+              <div class="hb-modal-product-details">
+                <p class="hb-modal-product-name"></p>
+                <p class="hb-modal-product-rating"></p>
+              </div>
+            </div>
+            <div class="hb-modal-image-section">
+              <div class="hb-modal-main-image">
+                <img class="hb-modal-current-image" src="" alt="">
+              </div>
+              <div class="hb-modal-thumbnail-container">
+                <div class="hb-modal-thumbnails"></div>
+              </div>
+            </div>
+            <div class="hb-modal-user-info">
+              <div class="hb-modal-user-details">
+                <p class="hb-modal-username"></p>
+              </div>
+              <div class="hb-modal-user-attributes"></div>
+              <p class="hb-modal-purchase-options"></p>
+            </div>
+            <div class="hb-modal-review-content">
+              <div class="hb-modal-rating-section">
+                <div class="hb-modal-stars"></div>
+                <div class="hb-modal-questions"></div>
+              </div>
+              <p class="hb-modal-review-text"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    // body가 아닌 다른 위치에 추가 시도
+    const targetContainer = document.querySelector('.houseboy-slide-review-section') || document.querySelector('.hb-review');
+    if (targetContainer) {
+      targetContainer.appendChild(modal);
+    } else {
+      document.body.appendChild(modal);
+    }
+    
+    return modal;
+  };
+  
+  // 모달 열기 함수
+  const openReviewModal = (vReview) => {
+    let modal = document.getElementById('hb-review-modal');
+    if (!modal) {
+      modal = createReviewModal();
+    }
+    
+    // 데이터 채우기
+    populateModalData(modal, vReview);
+    
+    modal.style.setProperty('display', 'block', 'important');
+    modal.style.setProperty('visibility', 'visible', 'important');
+    modal.style.setProperty('opacity', '1', 'important');
+    modal.style.setProperty('z-index', '99999', 'important');
+    document.body.style.overflow = 'hidden';
+    
+    // 닫기 이벤트 설정
+    const closeBtn = modal.querySelector('#hb-modal-close');
+    const backdrop = modal.querySelector('#hb-modal-backdrop');
+    
+    const closeModal = () => {
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    };
+    
+    closeBtn.onclick = closeModal;
+    backdrop.onclick = (e) => {
+      // 백드롭 자체를 클릭했을 때만 닫기 (모달 내용 클릭 시에는 닫지 않음)
+      if (e.target === backdrop) {
+        closeModal();
+      }
+    };
+    
+    // ESC 키로 닫기
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        document.removeEventListener('keydown', handleEsc);
+      }
+    };
+    document.addEventListener('keydown', handleEsc);
+  };
+  
+  // 모달 데이터 채우기 함수
+  const populateModalData = async (modal, vReview) => {
+    try {
+      // 상품 정보 채우기
+      if (vReview.product) {
+        const productImg = modal.querySelector('.hb-modal-product-image');
+        const productName = modal.querySelector('.hb-modal-product-name');
+        const productRating = modal.querySelector('.hb-modal-product-rating');
+        
+        productImg.src = vReview.product.image_url_recorded;
+        productName.textContent = vReview.product.name;
+        productRating.textContent = `★ ${vReview.product.total_rating_average} (${vReview.product.review_total_count})`;
+        
+        // 상품 이름 클릭 시 상품 페이지 새창으로 열기
+        productName.style.cursor = 'pointer';
+        productName.addEventListener('click', () => {
+          const productUrl = `/shop_view/?idx=${vReview.product.remote_id}`;
+          window.open(productUrl, '_blank');
+        });
+        
+        // 상품 이미지 클릭 시에도 상품 페이지 새창으로 열기
+        productImg.style.cursor = 'pointer';
+        productImg.addEventListener('click', () => {
+          const productUrl = `/shop_view/?idx=${vReview.product.remote_id}`;
+          window.open(productUrl, '_blank');
+        });
+      }
+      
+      // 이미지 섹션 채우기
+      if (vReview.media_contents && vReview.media_contents.length > 0) {
+        const mainImage = modal.querySelector('.hb-modal-current-image');
+        const thumbnailsContainer = modal.querySelector('.hb-modal-thumbnails');
+        
+        // 첫 번째 이미지를 메인으로 설정
+        mainImage.src = vReview.media_contents[0].urls.origin;
+        
+        // 썸네일들 생성
+        thumbnailsContainer.innerHTML = '';
+        vReview.media_contents.forEach((media, index) => {
+          if (media.type === 'image') {
+            const thumbnail = document.createElement('div');
+            thumbnail.className = `hb-modal-thumbnail ${index === 0 ? 'active' : ''}`;
+            thumbnail.innerHTML = `<img src="${media.urls.origin}" alt="">`;
+            
+            thumbnail.addEventListener('click', () => {
+              // 기존 active 제거
+              modal.querySelectorAll('.hb-modal-thumbnail').forEach(t => t.classList.remove('active'));
+              thumbnail.classList.add('active');
+              
+              // 메인 이미지 변경
+              mainImage.src = media.urls.origin;
+            });
+            
+            thumbnailsContainer.appendChild(thumbnail);
+          }
+        });
+      }
+      
+      // 사용자 정보 채우기
+      const username = modal.querySelector('.hb-modal-username');
+      const userAttributes = modal.querySelector('.hb-modal-user-attributes');
+      const purchaseOptions = modal.querySelector('.hb-modal-purchase-options');
+      
+      username.textContent = vReview.user_nickname;
+      
+      // 사용자 속성들 채우기
+      userAttributes.innerHTML = '';
+      if (vReview.questions) {
+        const userInfoQuestions = vReview.questions.filter(q => q.question_type === 'userinfo');
+        userInfoQuestions.forEach((question, index) => {
+          const attr = document.createElement('span');
+          attr.className = 'hb-modal-user-attribute';
+          attr.innerHTML = `${index > 0 ? '<span class="mx-1">·</span>' : ''}<b>${question.question} </b>${question.answer}`;
+          userAttributes.appendChild(attr);
+        });
+      }
+      
+      // 구매 옵션 채우기
+      if (vReview.selected_options) {
+        const options = vReview.selected_options.map(opt => `${opt.name}: ${opt.value}`).join(' / ');
+        purchaseOptions.textContent = `구매옵션: ${options}`;
+      }
+      
+      // 별점 채우기
+      const starsContainer = modal.querySelector('.hb-modal-stars');
+      starsContainer.innerHTML = '';
+      for (let i = 0; i < 5; i++) {
+        const star = document.createElement('svg');
+        star.className = 'hb-modal-star';
+        star.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 256 256">
+            <path d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"></path>
+          </svg>
+        `;
+        if (i < vReview.rating) {
+          star.style.color = '#ffc107';
+        } else {
+          star.style.color = '#e0e0e0';
+        }
+        starsContainer.appendChild(star);
+      }
+      
+      // 질문들 채우기
+      const questionsContainer = modal.querySelector('.hb-modal-questions');
+      questionsContainer.innerHTML = '';
+      if (vReview.questions) {
+        const statisticalQuestions = vReview.questions.filter(q => q.question_type === 'statistical');
+        statisticalQuestions.forEach(question => {
+          const questionDiv = document.createElement('div');
+          questionDiv.className = 'hb-modal-question';
+          questionDiv.innerHTML = `
+            <span class="hb-modal-question-label">${question.question}</span>
+            <span class="hb-modal-question-answer">${question.answer}</span>
+          `;
+          questionsContainer.appendChild(questionDiv);
+        });
+      }
+      
+      // 리뷰 텍스트 채우기
+      const reviewText = modal.querySelector('.hb-modal-review-text');
+      reviewText.textContent = vReview.text;
+      
+    } catch (error) {
+      console.error('모달 데이터 채우기 실패:', error);
+    }
+  };
+
+  initReviewSlider();
+}
+</script>
+
+<style>
+/* === 공통 섹션 구조 스타일 === */
+.hb-section {
+
+}
+
+.hb-section-container {
+
+}
+
+/* === 리뷰 섹션 스타일 === */
+.hb-review {
+
+}
+
+.hb-review-content-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow: hidden;
+}
+
+.hb-review-title {
+  width: 100%; /* 부모 컨테이너 너비에 맞춤 */
+  font-weight: 600 !important;
+  font-size: 24px !important;
+  color: #212121 !important;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.hb-review-content {
+  display: flex;
+  gap: 7px;
+  overflow: hidden; /* 스크롤바 숨기기 */
+  user-select: none; /* 드래그 중 텍스트 선택 방지 */
+  flex-wrap: nowrap; /* 자식 요소들이 한 줄에 있도록 설정 */
+  -webkit-user-select: none; /* Webkit 브라우저용 */
+  -moz-user-select: none; /* Firefox용 */
+  -ms-user-select: none; /* IE/Edge용 */
+}
+
+.hb-review-card {
+  display: flex;
+  flex-shrink: 0; /* 카드 요소가 줄어들지 않도록 설정 */
+  flex-direction: column;
+  width: 242px; /* 이미지 너비에 맞춰 카드 너비 명시 */
+  position: relative; /* 추가 - 미니 카드 위치 기준 */
+}
+
+.hb-review-thumbnail-image-wrap {
+  position: relative;
+  width: 242px;
+  height: 346px;
+  overflow: visible; /* 변경 - 미니 카드가 보이도록 */
+}
+
+.hb-review-thumbnail-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.hb-review-comment {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  font-weight: 600;
+  font-size: 16px;
+  width: 100%; /* 부모 너비에 맞춤 */
+  padding: 0 40px; /* 내부 여백으로 텍스트 영역 제한 */
+  margin-top: 18px;
+  box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
+}
+
+/* 아이콘 스타일 */
+.hb-review-icon {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.2s ease;
+}
+
+.hb-review-icon svg {
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+/* 미니 상품 카드 스타일 */
+.hb-product-mini-card {
+  position: absolute;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: none;
+  align-items: center;
+  gap: 8px;
+  width: 160px;
+  height: 50px;
+  z-index: 9999;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.hb-review-icon .hb-product-mini-card .hb-product-mini-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.hb-review-icon .hb-product-mini-card .hb-product-mini-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.hb-review-icon .hb-product-mini-card .hb-product-mini-info .hb-product-mini-name {
+  font-size: 9px;
+  font-weight: 600;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hb-review-icon .hb-product-mini-card .hb-product-mini-info .hb-product-mini-brand {
+  font-size: 5px;
+  color: #888;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hb-review-icon .hb-product-mini-card .hb-product-mini-info .hb-product-mini-price {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hb-product-mini-card .hb-product-mini-info .hb-product-mini-price .hb-product-mini-price-current {
+  font-size: 10px;
+  font-weight: 700;
+  color: #271f20;
+}
+
+.hb-product-mini-card .hb-product-mini-info .hb-product-mini-price .hb-product-mini-price-original {
+  font-size: 11px;
+  color: #999;
+  text-decoration: line-through;
+}
+
+/* 모달 스타일 */
+#hb-review-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99999;
+}
+
+#hb-review-modal[style*="display: block"] {
+  display: block !important;
+}
+
+.hb-modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.hb-modal-content-wrapper {
+  width: 480px;
+  height: 720px;
+  max-width: 90vw;
+  max-height: 90vh;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+
+.hb-modal-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.hb-modal-header {
+  width: 100%;
+  padding: 12px 16px;
+  position: relative;
+}
+
+.hb-modal-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.hb-modal-close {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  display: flex;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.hb-modal-close:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.hb-modal-close svg {
+  width: 16px;
+  height: 16px;
+  color: #666;
+}
+
+.hb-modal-body {
+  background: #f8f9fa;
+  position: relative;
+  display: flex;
+  height: calc(100% - 56px);
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  padding-bottom: 120px;
+}
+
+.hb-modal-product-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 16px 0;
+}
+
+.hb-modal-product-image {
+  width: 32px;
+  height: 32px;
+  margin: 2px 0;
+  cursor: pointer;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.hb-modal-product-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hb-modal-product-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  line-height: 18px;
+  margin: 0;
+}
+
+.hb-modal-product-rating {
+  color: #666;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14px;
+  margin: 0;
+}
+
+.hb-modal-image-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hb-modal-main-image {
+  position: relative;
+  height: 480px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: black;
+  margin: 0 16px;
+}
+
+.hb-modal-current-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.hb-modal-thumbnail-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hb-modal-thumbnails {
+  display: flex;
+  max-width: 100%;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 0 16px;
+}
+
+.hb-modal-thumbnail {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 2px solid transparent;
+}
+
+.hb-modal-thumbnail.active {
+  border-color: #007bff;
+}
+
+.hb-modal-thumbnail:not(.active)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.hb-modal-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hb-modal-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #e9ecef;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 0 16px;
+}
+
+.hb-modal-user-details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hb-modal-username {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  line-height: 17px;
+  margin: 0;
+}
+
+.hb-modal-user-attributes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.hb-modal-user-attribute {
+  color: #666;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.hb-modal-purchase-options {
+  font-size: 12px;
+  font-weight: 400;
+  color: #666;
+  line-height: 17px;
+  margin: 0;
+}
+
+.hb-modal-review-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 16px;
+}
+
+.hb-modal-rating-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hb-modal-stars {
+  display: flex;
+  gap: 1px;
+}
+
+.hb-modal-star {
+  width: 14px;
+  height: 14px;
+  color: #ffc107;
+}
+
+.hb-modal-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hb-modal-question {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hb-modal-question-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+}
+
+.hb-modal-question-answer {
+  font-size: 12px;
+  font-weight: 400;
+  color: #333;
+}
+
+.hb-modal-review-text {
+  font-size: 14px;
+  font-weight: 400;
+  color: #333;
+  word-break: break-all;
+  line-height: 1.4;
+  margin: 0;
+  white-space: pre-line;
+}
+
+.hb-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 0 16px;
+}
+
+.hb-modal-helpful,
+.hb-modal-comments {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  gap: 4px;
+}
+
+.hb-modal-helpful svg,
+.hb-modal-comments svg {
+  color: #6c757d;
+}
+
+.hb-modal-helpful-text,
+.hb-modal-comments-text {
+  font-size: 14px;
+  font-weight: 400;
+  color: #666;
+}
+
+.hb-modal-report {
+  font-size: 14px;
+  font-weight: 400;
+  color: #666;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.hb-modal-comments-section {
+  border-top: 4px solid rgba(0, 0, 0, 0.03);
+  padding-top: 0;
+}
+
+.hb-modal-comments-title {
+  font-size: 14px;
+  font-weight: 400;
+  color: #333;
+  padding: 12px 16px;
+  margin: 0;
+}
+
+.hb-modal-no-comments {
+  font-size: 14px;
+  font-weight: 400;
+  color: #666;
+  padding: 16px;
+  text-align: center;
+  margin: 0;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hb-section {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+  
+  .hb-review-title {
+    flex-direction: column;
+    white-space: normal;
+    gap: 4px;
+  }
+
+  .hb-review-content-wrap {
+  }
+
+  .hb-review-content {
+    display: flex;
+    gap: 7px;
+    overflow: hidden; /* 스크롤바 숨기기 */
+    user-select: none; /* 드래그 중 텍스트 선택 방지 */
+    flex-wrap: nowrap; /* 자식 요소들이 한 줄에 있도록 설정 */
+    -webkit-user-select: none; /* Webkit 브라우저용 */
+    -moz-user-select: none; /* Firefox용 */
+    -ms-user-select: none; /* IE/Edge용 */
+	padding: 0 7px;
+  }
+
+  .hb-modal-content {
+    height: 100vh;
+    width: 100vw;
+    max-height: 100vh;
+    max-width: 100vw;
+    border-radius: 0;
+  }
+  
+  .hb-modal-backdrop {
+    padding: 0;
+  }
+}
+
+/* 애니메이션 - 파일 끝에 위치 */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+</style>

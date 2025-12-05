@@ -1,0 +1,223 @@
+<!-- renewal/custom-tab-menu.html -->
+
+<div class="custom-tab-wrapper">
+  <div class="custom-tab-menu">
+    <a href="연결링크" class="tab-item time-sale">
+      <span class="timer" id="timer">03:00:00</span>
+      <span class="label">
+        타임 세일
+        <span class="dot"></span>
+      </span>
+    </a>
+    <a href="연결링크" class="tab-item">
+      <span class="label">하우스 위크</span>
+    </a>
+    <a href="연결링크" class="tab-item">
+      <span class="label">베스트</span>
+    </a>
+    <a href="연결링크" class="tab-item">
+      <span class="label">욕실</span>
+    </a>
+    <a href="연결링크" class="tab-item">
+      <span class="label">청소</span>
+    </a>
+    <a href="연결링크" class="tab-item">
+      <span class="label">선물 세트</span>
+    </a>
+  </div>
+</div>
+
+<style>
+  .custom-tab-wrapper {
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  .custom-tab-menu {
+    display: flex;
+    gap: 10px;
+	  padding: 0 16px;
+    white-space: nowrap;
+    flex-wrap: nowrap; /* 기본은 한 줄 */
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    cursor: grab;
+    scroll-snap-type: x proximity;
+  }
+
+  /* 데스크탑: 탭을 가로축 중앙 정렬 */
+  @media screen and (min-width: 769px) {
+    .custom-tab-menu {
+      justify-content: center;
+      width: auto;
+      overflow-x: visible;
+    }
+  }
+
+  .custom-tab-menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .custom-tab-menu.dragging {
+    cursor: grabbing;
+    user-select: none;
+  }
+
+  .tab-item {
+    position: relative;
+    background-color: #fff;
+    border-radius: 5px;
+	  margin-top: 16px;
+    height: 40px;
+    text-decoration: none;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    flex: 0 0 clamp(170px, calc((100% - (10px * 5)) / 6), 170px);
+    min-width: 170px;
+    scroll-snap-align: center;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  .label {
+	position: relative;
+    font-size: 18px;
+    font-weight: 500;
+    color: #4a4a4a;
+    line-height: 1;
+    display: inline-flex;
+    align-items: flex-start;
+  }
+
+  .tab-item.time-sale .timer {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #00a08d;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 3;
+    white-space: nowrap;
+  }
+
+  .tab-item.time-sale .dot {
+    position: absolute;
+    top: 0px;
+    right: 2px;
+    width: 5px;
+    height: 5px;
+    background-color: orange;
+    border-radius: 50%;
+    z-index: 6;
+  }
+
+  /* ✅ 모바일에서도 단일 행 스크롤 */
+  @media screen and (max-width: 768px) {
+    .tab-item {
+      height: 36px;
+      min-width: 100px;
+      flex-basis: 100px;
+    }
+
+    .custom-tab-wrapper span.label {
+      font-size: 13px;
+    }
+
+    .tab-item.time-sale .timer {
+      font-size: 10px;
+      top: -16px;
+    }
+	
+	.tab-item.time-sale .dot {
+	  top: -2px;
+	  right: -2px;
+	}
+  }
+</style>
+
+
+<script>
+  function startCountdown(duration, display) {
+    let timer = duration, hours, minutes, seconds;
+    setInterval(function () {
+      hours = parseInt(timer / 3600, 10);
+      minutes = parseInt((timer % 3600) / 60, 10);
+      seconds = parseInt(timer % 60, 10);
+
+      hours = hours < 10 ? "0" + hours : hours;
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      display.textContent = hours + ":" + minutes + ":" + seconds;
+
+      if (--timer < 0) {
+        timer = 0;
+      }
+    }, 1000);
+  }
+
+  window.onload = function () {
+    const threeHours = 3 * 60 * 60;
+    const display = document.getElementById('timer');
+    startCountdown(threeHours, display);
+
+    const tabMenu = document.querySelector('.custom-tab-menu');
+    if (tabMenu) {
+      let isDown = false;
+      let startX = 0;
+      let scrollLeft = 0;
+      let dragMoved = false;
+
+      tabMenu.addEventListener('dragstart', (e) => e.preventDefault());
+
+      tabMenu.addEventListener('mousedown', (e) => {
+        isDown = true;
+        tabMenu.classList.add('dragging');
+        startX = e.pageX - tabMenu.offsetLeft;
+        scrollLeft = tabMenu.scrollLeft;
+        dragMoved = false;
+      });
+
+      tabMenu.addEventListener('mouseleave', () => {
+        isDown = false;
+        tabMenu.classList.remove('dragging');
+      });
+
+      tabMenu.addEventListener('mouseup', () => {
+        isDown = false;
+        tabMenu.classList.remove('dragging');
+      });
+
+      tabMenu.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - tabMenu.offsetLeft;
+        const walk = x - startX;
+        if (Math.abs(walk) > 5) dragMoved = true;
+        tabMenu.scrollLeft = scrollLeft - walk;
+      });
+
+      // 드래그 후 클릭 이벤트가 실행되지 않도록 처리
+      tabMenu.addEventListener('click', (e) => {
+        if (dragMoved) {
+          e.preventDefault();
+          dragMoved = false;
+        }
+      });
+    }
+  };
+</script>

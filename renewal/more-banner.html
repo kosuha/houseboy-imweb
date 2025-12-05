@@ -1,0 +1,135 @@
+<!-- renewal/more-banner.html -->
+
+<div class="more-banner">
+  <div class="more-banner__image">
+    <img
+      class="more-banner__img"
+      src="https://cdn.imweb.me/thumbnail/20250928/77a3a78e1b75d.png"
+      alt="포장된 선물 이미지"
+    />
+  </div>
+  <div class="more-banner__text">
+    <div class="more-banner__content">
+      <h2 class="more-banner__title">마음을 전하는 가장 좋은 방법</h2>
+      <p class="more-banner__desc">
+        소중한 사람에게 소중한 마음이 잘 전달될 수 있도록<br>
+        꼼꼼하게 포장해서 보내드릴게요.
+      </p>
+      <a class="more-banner__link" href="#">
+        더 알아보기 &nbsp; &gt;
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  .more-banner {
+    padding: 16px;
+    width: 100%;
+    aspect-ratio: 3 / 1;
+    display: flex;
+    font-family: 'Pretendard', sans-serif;
+    background-color: #F0E7D9;
+    overflow: hidden;
+  }
+
+  .more-banner__image {
+    flex: 4.5;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .more-banner__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 5px;
+  }
+
+  .more-banner__text {
+    flex: 5.5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    color: #212121;
+    height: 100%;
+  }
+
+  .more-banner__content {
+    padding: 80px;
+  }
+
+  .more-banner__title {
+    margin: 0;
+    font-size: 20px !important;
+    font-weight: 500 !important;
+  }
+
+  .more-banner__desc {
+    margin-top: 16px;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+  }
+
+  .more-banner__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border: 1.2px solid #1c1c1c;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    color: #212121;
+    margin-top: 20px;
+    width: fit-content;
+  }
+
+  /* 모바일 레이아웃: 세로 배치 등 별도 설정 가능 */
+  @media (max-width: 767px) {
+    .more-banner {
+      flex-direction: column;
+      aspect-ratio: auto;
+    }
+
+    .more-banner__image {
+      flex: none;
+      height: auto;
+    }
+
+    .more-banner__img {
+      height: 90vw;
+      object-fit: cover;
+    }
+
+    .more-banner__text {
+      flex: none;
+    }
+
+    .more-banner__content {
+      padding: 16px 0;
+    }
+
+    .more-banner__title {
+      font-size: 22px;
+    }
+
+    .more-banner__desc {
+      font-size: 16px;
+    }
+
+    .more-banner__link {
+      font-size: 14px;
+	    width: 100%;
+    }
+	
+	  #s20230821a9f4ac27884d3 > main > div.inside {
+      padding-left: 0px;
+      padding-right: 0px;
+  	}
+  }
+</style>

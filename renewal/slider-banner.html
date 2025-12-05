@@ -1,0 +1,246 @@
+<!-- renewal/slider-banner.html -->
+
+<div class="slider-container" id="slider-container">
+  <div class="slider-wrapper">
+    <div class="slider" id="slider">
+      <a class="banner" href="#" style="background-color: #D7DFDC;">
+        <h3>새로운 제품 제안하기</h3>
+        <p>여러분의 목소리로 하우스보이가 완성됩니다.</p>
+      </a>
+      <a class="banner" href="#" style="background-color: #F2EEE1;">
+        <h3>하우스보이 멤버십 혜택</h3>
+        <p>구매할수록 커지는 특별한 혜택, 지금 만나보세요.</p>
+      </a>
+      <a class="banner" href="#" style="background-color: #F0EBE8;">
+        <h3>제품 사용 가이드</h3>
+        <p>올바른 사용법이 오래도록 좋은 품질을 지켜줍니다.</p>
+      </a>
+    </div>
+  </div>
+
+  <div class="indicators" id="indicators">
+    <span class="indicator active" onclick="moveToSlide(0)"></span>
+    <span class="indicator" onclick="moveToSlide(1)"></span>
+  </div>
+</div>
+
+<style>
+  .slider-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    font-family: 'Pretendard', sans-serif;
+    position: relative;
+  }
+
+  .slider-wrapper {
+    overflow: hidden;
+    border-radius: 6px;
+  }
+
+.slider {
+  display: flex;
+  gap: 15px; /* 배너 간 간격 설정 */
+  transition: transform 0.4s ease-in-out;
+  will-change: transform;
+}
+.banner {
+  flex: 0 0 100%;
+  box-sizing: border-box;
+  padding: 16px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 6px;
+  text-decoration: none;
+  color: inherit;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+@media (min-width: 768px) {
+  .banner {
+    flex-basis: calc(50% - 7.5px);
+	padding: 16px;
+	height: 100px;
+  }
+}
+
+  .banner h3 {
+    font-weight: 600;
+    font-size: 18px;
+    margin: 0;
+    color: #111;
+  }
+
+  .banner p {
+    font-size: 14px;
+    margin: 0;
+    color: #333;
+    margin-top: 6px;
+  }
+
+  .indicators {
+    text-align: center;
+    margin-top: 53px;
+  }
+
+  .indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin: 0 4px;
+    border-radius: 50%;
+    background-color: #ddd;
+    cursor: pointer;
+  }
+
+  .indicator.active {
+    background-color: #111;
+  }
+</style>
+
+<script>
+  const slider = document.getElementById('slider');
+  const indicatorContainer = document.getElementById('indicators');
+  const bannerCount = slider.children.length;
+  const container = document.getElementById('slider-container');
+
+  let currentIndex = 0;
+  let isDragging = false;
+  let startX = 0;
+  let currentDrag = 0;
+  let dragMoved = false;
+  let slidesPerView = 2;
+  let totalSlides = 0;
+  const slideTransition = 'transform 0.4s ease-in-out';
+
+  function getShiftWidth() {
+    const slideWidth = slider.children[0]?.getBoundingClientRect().width || 0;
+    const styles = getComputedStyle(slider);
+    const gap =
+      parseFloat(styles.getPropertyValue('column-gap')) ||
+      parseFloat(styles.getPropertyValue('gap')) ||
+      0;
+    return slideWidth + gap;
+  }
+
+  function renderIndicators() {
+    indicatorContainer.innerHTML = '';
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement('span');
+      dot.className = 'indicator' + (i === currentIndex ? ' active' : '');
+      dot.addEventListener('click', () => moveToSlide(i));
+      indicatorContainer.appendChild(dot);
+    }
+  }
+
+  function updateSliderPosition() {
+    const shiftWidth = getShiftWidth();
+    slider.style.transition = slideTransition;
+    slider.style.transform = 'translateX(-' + (shiftWidth * currentIndex) + 'px)';
+
+    indicatorContainer.querySelectorAll('.indicator').forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === currentIndex);
+    });
+  }
+
+  function moveToSlide(index) {
+    currentIndex = Math.min(Math.max(index, 0), totalSlides - 1);
+    updateSliderPosition();
+  }
+
+  function setLayout() {
+    slidesPerView = window.innerWidth < 768 ? 1 : 2;
+    totalSlides = Math.ceil(bannerCount / slidesPerView);
+    if (currentIndex > totalSlides - 1) currentIndex = totalSlides - 1;
+    renderIndicators();
+    updateSliderPosition();
+  }
+
+  // 링크의 기본 드래그 동작을 막아 슬라이드 드래그가 가능하도록 처리
+  Array.from(slider.querySelectorAll('.banner')).forEach((banner) => {
+    banner.addEventListener('dragstart', (e) => e.preventDefault());
+  });
+
+  container.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.pageX;
+    currentDrag = 0;
+    dragMoved = false;
+    slider.style.transition = 'none';
+  });
+
+  container.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const delta = startX - e.pageX;
+    currentDrag = delta;
+    if (Math.abs(delta) > 5) dragMoved = true;
+    const shiftWidth = getShiftWidth();
+    slider.style.transform = 'translateX(-' + (shiftWidth * currentIndex + delta) + 'px)';
+  });
+
+  container.addEventListener('mouseup', (e) => {
+    if (!isDragging) return;
+    const deltaX = startX - e.pageX;
+    if (deltaX > 50 && currentIndex < totalSlides - 1) {
+      currentIndex++;
+    } else if (deltaX < -50 && currentIndex > 0) {
+      currentIndex--;
+    }
+    isDragging = false;
+    currentDrag = 0;
+    updateSliderPosition();
+  });
+
+  container.addEventListener('mouseleave', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    currentDrag = 0;
+    updateSliderPosition();
+  });
+
+  container.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    startX = e.touches[0].pageX;
+    currentDrag = 0;
+    dragMoved = false;
+    slider.style.transition = 'none';
+  });
+
+  container.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    const delta = startX - e.touches[0].pageX;
+    currentDrag = delta;
+    if (Math.abs(delta) > 5) dragMoved = true;
+    const shiftWidth = getShiftWidth();
+    slider.style.transform = 'translateX(-' + (shiftWidth * currentIndex + delta) + 'px)';
+  });
+
+  container.addEventListener('touchend', (e) => {
+    if (!isDragging) return;
+    const deltaX = startX - e.changedTouches[0].pageX;
+    if (deltaX > 50 && currentIndex < totalSlides - 1) {
+      currentIndex++;
+    } else if (deltaX < -50 && currentIndex > 0) {
+      currentIndex--;
+    }
+    isDragging = false;
+    currentDrag = 0;
+    updateSliderPosition();
+  });
+
+  // 드래그 후 클릭이 발생하지 않도록 방지
+  slider.addEventListener('click', (e) => {
+    if (dragMoved) {
+      e.preventDefault();
+      dragMoved = false;
+    }
+  });
+
+  window.addEventListener('resize', setLayout);
+
+  setLayout();
+</script>
