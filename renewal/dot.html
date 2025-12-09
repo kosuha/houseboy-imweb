@@ -1,0 +1,41 @@
+<!-- renewal/dot.html -->
+
+<style>
+  sup.badge {
+    background-color: #009284 !important;
+  }
+
+  .dotted {
+    position: relative;
+    top: -10px;
+    right: -2px;
+    width: 5px;
+    height: 5px;
+    background-color: #FF8049;
+    border-radius: 50%;
+    z-index: 6;
+  }
+</style>
+
+<script>
+  const MENU_CONTAINER_SELECTOR = '#doz_header';
+  const DOTTED = "*";
+
+  const menuContainers = document.querySelectorAll(MENU_CONTAINER_SELECTOR);
+  console.log(menuContainers);
+  menuContainers.forEach(menuContainer => {
+    const spans = menuContainer.querySelectorAll('span');
+    spans.forEach(span => {
+      if (span.textContent.includes(DOTTED)) {
+        span.textContent = span.textContent.replace(DOTTED, '').trim();
+
+        span.style.display = 'inline-flex';
+        span.style.alignItems = 'center';
+
+        const dot = document.createElement('div');
+        dot.className = 'dotted';
+        span.appendChild(dot);
+      }
+    });
+  });
+</script>

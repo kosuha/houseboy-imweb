@@ -2,185 +2,185 @@
 
 <style>
   /* Top Banner Sliding Animation */
-.banner-slider {
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .banner-slider {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-.banner-slides {
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.5s ease-in-out;
-  width: 100%;
-  height: 100%;
-}
+  .banner-slides {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+    height: 100%;
+  }
 
-.banner-slide {
-  min-width: 100%;
-  height: 100%;
-  flex: 0 0 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: rgb(0, 0, 0);
-  font-size: 14px;
-  font-weight: bold;
-  text-align: center;
-  padding: 0 10px;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
-}
+  .banner-slide {
+    min-width: 100%;
+    height: 100%;
+    flex: 0 0 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFFFFF !important;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding: 0 10px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
 
-.banner-slide:hover {
-  opacity: 0.8;
-}
+  .banner-slide:hover {
+    opacity: 0.8;
+  }
 </style>
 
 <script>
   {
-  const bannerData = [
-    { message: '플러스친구하고, 브랜드 소식과 함께 10% 할인 받기 ➡️', link: 'https://pf.kakao.com/_bjGQxj' },
-    { message: '오후 1시까지 주문하시면, 오늘 출발해요 🚛', link: 'https://houseboy.kr/Bathroom' }
-  ];
+    const bannerData = [
+      { message: '플러스친구하고, 브랜드 소식과 함께 10% 할인 받기', link: 'https://pf.kakao.com/_bjGQxj' },
+      { message: '오후 1시까지 주문하시면, 오늘 출발해요', link: 'https://houseboy.kr/Bathroom' }
+    ];
 
-  function createBannerSpacer() {
-    const spacer = document.createElement('div');
-    spacer.className = 'banner-spacer';
-    spacer.style.width = '100%';
-    spacer.style.height = '28px';
-    spacer.style.flex = '0 0 28px';
-    return spacer;
-  }
+    function createBannerSpacer() {
+      const spacer = document.createElement('div');
+      spacer.className = 'banner-spacer';
+      spacer.style.width = '100%';
+      spacer.style.height = '28px';
+      spacer.style.flex = '0 0 28px';
+      return spacer;
+    }
 
-  function createBannerSlider() {
-    const topBanner = document.createElement('div');
-    topBanner.style.position = 'fixed';
-    topBanner.style.top = '0';
-    topBanner.style.left = '0';
-    topBanner.style.display = 'flex';
-    topBanner.style.justifyContent = 'center';
-    topBanner.style.alignItems = 'center';
-    topBanner.style.width = '100vw';
-    topBanner.style.height = '28px';
-    topBanner.style.backgroundColor = '#ffe14d';
-    topBanner.style.zIndex = '11';
-    topBanner.style.overflow = 'hidden';
+    function createBannerSlider() {
+      const topBanner = document.createElement('div');
+      topBanner.style.position = 'fixed';
+      topBanner.style.top = '0';
+      topBanner.style.left = '0';
+      topBanner.style.display = 'flex';
+      topBanner.style.justifyContent = 'center';
+      topBanner.style.alignItems = 'center';
+      topBanner.style.width = '100%';
+      topBanner.style.height = '28px';
+      topBanner.style.backgroundColor = '#212121';
+      topBanner.style.zIndex = '11';
+      topBanner.style.overflow = 'hidden';
 
-    const sliderContainer = document.createElement('div');
-    sliderContainer.className = 'banner-slider';
-    sliderContainer.style.height = '100%';
+      const sliderContainer = document.createElement('div');
+      sliderContainer.className = 'banner-slider';
+      sliderContainer.style.height = '100%';
 
-    const slidesContainer = document.createElement('div');
-    slidesContainer.className = 'banner-slides';
-    slidesContainer.style.height = '100%';
+      const slidesContainer = document.createElement('div');
+      slidesContainer.className = 'banner-slides';
+      slidesContainer.style.height = '100%';
 
-    bannerData.forEach((data, index) => {
-      const slide = document.createElement('div');
-      slide.className = 'banner-slide';
-      slide.innerText = data.message;
-      slide.dataset.link = data.link;
-      slidesContainer.appendChild(slide);
-    });
+      bannerData.forEach((data, index) => {
+        const slide = document.createElement('div');
+        slide.className = 'banner-slide';
+        slide.innerText = data.message;
+        slide.dataset.link = data.link;
+        slidesContainer.appendChild(slide);
+      });
 
-    // 첫 슬라이드 클론 추가 (루프용)
-    const firstSlideClone = slidesContainer.firstElementChild.cloneNode(true);
-    slidesContainer.appendChild(firstSlideClone);
+      // 첫 슬라이드 클론 추가 (루프용)
+      const firstSlideClone = slidesContainer.firstElementChild.cloneNode(true);
+      slidesContainer.appendChild(firstSlideClone);
 
-    sliderContainer.appendChild(slidesContainer);
-    topBanner.appendChild(sliderContainer);
+      sliderContainer.appendChild(slidesContainer);
+      topBanner.appendChild(sliderContainer);
 
-    // 클릭 이벤트
-    sliderContainer.addEventListener('click', () => {
-      const currentBannerData = bannerData[currentSlide];
-      console.log(currentBannerData);
-      if (currentBannerData && currentBannerData.link) {
-        window.open(currentBannerData.link, '_blank');
-      }
-    });
-
-    let currentSlide = 0;
-    const totalSlides = bannerData.length + 1; // 클론 포함
-
-    setInterval(() => {
-      currentSlide++;
-      // 슬라이드 하나 높이만큼 정확히 이동
-      slidesContainer.style.transform = `translateY(-${100 * currentSlide}%)`;
-
-      if (currentSlide === bannerData.length) {
-        // 마지막 슬라이드(클론) → 진짜 첫 슬라이드로 순간이동
-        setTimeout(() => {
-          slidesContainer.style.transition = 'none';
-          currentSlide = 0;
-          slidesContainer.style.transform = 'translateY(0%)';
-          setTimeout(() => {
-            slidesContainer.style.transition = 'transform 0.5s ease-in-out';
-          }, 50);
-        }, 500);
-      }
-    }, 3000);
-
-    return topBanner;
-  }
-
-  const headerFixed = document.querySelector('header#doz_header_wrap > #doz_header > .new_fixed_header > #inline_header_fixed > .inline-section-wrap');
-  const headerNormal = document.querySelector('header#doz_header_wrap > #doz_header > .new_org_header > #inline_header_normal > .inline-section-wrap');
-  const headerMobile = document.querySelector('header#doz_header_wrap > #doz_header > .new_org_header > #inline_header_mobile');
-  const headerMobileNav = document.querySelector('header#doz_header_wrap > #doz_header > .new_org_header > #inline_header_mobile > .inline-section-wrap');
-
-  const topBannerFixed = createBannerSlider();
-  if (headerFixed && topBannerFixed) {
-    headerFixed.insertAdjacentElement('afterbegin', topBannerFixed);
-    topBannerFixed.insertAdjacentElement('afterend', createBannerSpacer());
-  }
-
-  const topBannerNormal = createBannerSlider();
-  topBannerNormal.style.zIndex = '1';
-  if (headerNormal && topBannerNormal) {
-    headerNormal.insertAdjacentElement('afterbegin', topBannerNormal);
-    topBannerNormal.insertAdjacentElement('afterend', createBannerSpacer());
-  }
-
-  const topBannerMobile = createBannerSlider();
-  if (headerMobile && topBannerMobile) {
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-          if (mutation.target.className.includes('tansparent_bg')) {
-            topBannerMobile.style.zIndex = '2000';
-            topBannerMobile.style.position = 'fixed';
-            topBannerMobile.style.top = '0px';
-            topBannerMobile.style.marginLeft = '0px';
-            topBannerMobile.style.width = '100vw';
-            topBannerMobile.style.left = '0px';
-            headerMobileNav.style.top = '28px';
-          } else {
-            topBannerMobile.style.zIndex = 'auto';
-            topBannerMobile.style.position = 'fixed';
-            topBannerMobile.style.top = '0px';
-            topBannerMobile.style.left = '0px';
-            topBannerMobile.style.marginLeft = '';
-            topBannerMobile.style.width = '100vw';
-            topBannerMobile.style.left = '';
-            headerMobileNav.style.top = '0px';
-          }
+      // 클릭 이벤트
+      sliderContainer.addEventListener('click', () => {
+        const currentBannerData = bannerData[currentSlide];
+        console.log(currentBannerData);
+        if (currentBannerData && currentBannerData.link) {
+          window.open(currentBannerData.link, '_blank');
         }
       });
-    });
 
-    observer.observe(headerMobile, {
-      attributes: true,
-      attributeFilter: ['class']
-    });
+      let currentSlide = 0;
+      const totalSlides = bannerData.length + 1; // 클론 포함
+
+      setInterval(() => {
+        currentSlide++;
+        // 슬라이드 하나 높이만큼 정확히 이동
+        slidesContainer.style.transform = `translateY(-${100 * currentSlide}%)`;
+
+        if (currentSlide === bannerData.length) {
+          // 마지막 슬라이드(클론) → 진짜 첫 슬라이드로 순간이동
+          setTimeout(() => {
+            slidesContainer.style.transition = 'none';
+            currentSlide = 0;
+            slidesContainer.style.transform = 'translateY(0%)';
+            setTimeout(() => {
+              slidesContainer.style.transition = 'transform 0.5s ease-in-out';
+            }, 50);
+          }, 500);
+        }
+      }, 3000);
+
+      return topBanner;
+    }
+
+    const headerFixed = document.querySelector('header#doz_header_wrap > #doz_header > .new_fixed_header > #inline_header_fixed > .inline-section-wrap');
+    const headerNormal = document.querySelector('header#doz_header_wrap > #doz_header > .new_org_header > #inline_header_normal > .inline-section-wrap');
+    const headerMobile = document.querySelector('header#doz_header_wrap > #doz_header > .new_org_header > #inline_header_mobile');
+    const headerMobileNav = document.querySelector('header#doz_header_wrap > #doz_header > .new_org_header > #inline_header_mobile > .inline-section-wrap');
+
+    const topBannerFixed = createBannerSlider();
+    if (headerFixed && topBannerFixed) {
+      headerFixed.insertAdjacentElement('afterbegin', topBannerFixed);
+      topBannerFixed.insertAdjacentElement('afterend', createBannerSpacer());
+    }
+
+    const topBannerNormal = createBannerSlider();
+    topBannerNormal.style.zIndex = '1';
+    if (headerNormal && topBannerNormal) {
+      headerNormal.insertAdjacentElement('afterbegin', topBannerNormal);
+      topBannerNormal.insertAdjacentElement('afterend', createBannerSpacer());
+    }
+
+    const topBannerMobile = createBannerSlider();
+    if (headerMobile && topBannerMobile) {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+            if (mutation.target.className.includes('tansparent_bg')) {
+              topBannerMobile.style.zIndex = '2000';
+              topBannerMobile.style.position = 'fixed';
+              topBannerMobile.style.top = '0px';
+              topBannerMobile.style.marginLeft = '0px';
+              topBannerMobile.style.width = '100%';
+              topBannerMobile.style.left = '0px';
+              headerMobileNav.style.top = '28px';
+            } else {
+              topBannerMobile.style.zIndex = 'auto';
+              topBannerMobile.style.position = 'fixed';
+              topBannerMobile.style.top = '0px';
+              topBannerMobile.style.left = '0px';
+              topBannerMobile.style.marginLeft = '';
+              topBannerMobile.style.width = '100%';
+              topBannerMobile.style.left = '';
+              headerMobileNav.style.top = '0px';
+            }
+          }
+        });
+      });
+
+      observer.observe(headerMobile, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+    }
+    if (headerMobile && topBannerMobile) {
+      headerMobile.insertAdjacentElement('afterbegin', topBannerMobile);
+      topBannerMobile.insertAdjacentElement('afterend', createBannerSpacer());
+    }
   }
-  if (headerMobile && topBannerMobile) {
-    headerMobile.insertAdjacentElement('afterbegin', topBannerMobile);
-    topBannerMobile.insertAdjacentElement('afterend', createBannerSpacer());
-  }
-}
 </script>

@@ -10,44 +10,44 @@
         <div class="hb-mobile-slide-menu__nav-list">
           <div class="hb-mobile-slide-menu__nav-item hb-mobile-slide-menu__nav-item--online">
             <a href="">
-              온라인 집들이
+              <span>온라인 집들이</span>
             </a>
           </div>
           <div class='hb-mobile-slide-menu__nav-item hb-mobile-slide-menu-button-products selected'>
-            모든 제품
+            <span>모든 제품</span>
           </div>
           <div class="hb-mobile-slide-menu__nav-item">
             <a href="">
-              1인가구
+              <span>1인가구</span>
             </a>
           </div>
           <div class="hb-mobile-slide-menu__nav-item">
             <a href="">
-              2인가구
+              <span>2인가구</span>
             </a>
           </div>
           <div class="hb-mobile-slide-menu__nav-item">
             <a href="">
-              선물하기
+              <span>선물하기*</span>
             </a>
           </div>
           <div class="hb-mobile-slide-menu__nav-item">
             <a href="">
-              벌크포장
+              <span>벌크포장</span>
             </a>
           </div>
         </div>
         <div class="hb-mobile-slide-menu__secondary">
           <div class='hb-mobile-slide-menu__nav-item hb-mobile-slide-menu-button-about'>
-            ABOUT
+            <span>ABOUT</span>
           </div>
           <div class='hb-mobile-slide-menu__nav-item hb-mobile-slide-menu-button-support'>
-            고객지원
+            <span>고객지원</span>
           </div>
         </div>
       </div>
       <div class='hb-mobile-slide-menu-page'>
-        
+
       </div>
     </div>
     <div class="hb-mobile-slide-menu__footer">
@@ -64,28 +64,28 @@
 </div>
 
 <script>
-{
-  const menuIcon = `
+  {
+    const menuIcon = `
   <svg width="15" height="15" viewBox="0 0 25 14" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M0.119629 1.02606H24.188" stroke="#fff" stroke-width="2"/>
     <path d="M0.119629 12.3075H24.188" stroke="#fff" stroke-width="2"/>
   </svg>
   `;
-  
-  const xIcon = `
+
+    const xIcon = `
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M1.00977 0.999512L22.9999 22.9897" stroke="#212121" stroke-width="2"/>
     <path d="M1 22.9897L22.9902 0.999594" stroke="#212121" stroke-width="2"/>
   </svg>
   `;
 
-  const gotoIcon = `
+    const gotoIcon = `
   <svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M1 1L7.04834 4.54L1 8.08" stroke="#080506" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
   `;
-  
-  const mobileSlideMenuProductsPageText = `
+
+    const mobileSlideMenuProductsPageText = `
     <div class='hb-mobile-slide-menu-products-page'>
       <div>
         <a href="">
@@ -151,8 +151,8 @@
       </div>
     </div>
   `;
-  
-  const mobileSlideMenuAboutPageText = `
+
+    const mobileSlideMenuAboutPageText = `
     <div class='hb-mobile-slide-menu-about-page'>
       <div>
         ABOUT
@@ -176,8 +176,8 @@
       </div>
     </div>
   `;
-  
-  const mobileSlideMenuSupportPageText = `
+
+    const mobileSlideMenuSupportPageText = `
     <div class='hb-mobile-slide-menu-support-page'>
       <div>
         고객지원
@@ -204,431 +204,431 @@
       </div>
     </div>
   `;
-  
-  const moblieMenuButtonWrap = document.querySelector("#w20251003e5fc490a05c65 > div > div.padding");
-  moblieMenuButtonWrap.innerHTML = `
+
+    const moblieMenuButtonWrap = document.querySelector("#w20251003e5fc490a05c65 > div > div.padding");
+    moblieMenuButtonWrap.innerHTML = `
   <button class='hb-mobile-menu-button'>
     ${menuIcon}
   </button>
   `;
-  const mobileSlideMenu = document.querySelector(".hb-mobile-slide-menu");
-  
-  const mobileSlideMenuPage = document.querySelector('.hb-mobile-slide-menu-page');
-  const mobileSlideMenuProductsButton = document.querySelector('.hb-mobile-slide-menu-button-products');
-  const mobileSlideMenuAboutButton = document.querySelector('.hb-mobile-slide-menu-button-about');
-  const mobileSlideMenuSupportButton = document.querySelector('.hb-mobile-slide-menu-button-support');
-  
-  const mobileSlideMenuCloseButton = document.querySelector('.hb-mobile-slide-menu-close-button');
-  
-  mobileSlideMenuPage.innerHTML = mobileSlideMenuProductsPageText;
-  const mobileHeader = document.querySelector("#inline_header_mobile");
-  mobileHeader.appendChild(mobileSlideMenu);
-  
-  mobileSlideMenuProductsButton.addEventListener('click', () => {
+    const mobileSlideMenu = document.querySelector(".hb-mobile-slide-menu");
+
+    const mobileSlideMenuPage = document.querySelector('.hb-mobile-slide-menu-page');
+    const mobileSlideMenuProductsButton = document.querySelector('.hb-mobile-slide-menu-button-products');
+    const mobileSlideMenuAboutButton = document.querySelector('.hb-mobile-slide-menu-button-about');
+    const mobileSlideMenuSupportButton = document.querySelector('.hb-mobile-slide-menu-button-support');
+
+    const mobileSlideMenuCloseButton = document.querySelector('.hb-mobile-slide-menu-close-button');
+
     mobileSlideMenuPage.innerHTML = mobileSlideMenuProductsPageText;
-    if (mobileSlideMenuAboutButton.classList.contains('selected')) {
-      mobileSlideMenuAboutButton.classList.toggle('selected');
-    }
-    if (mobileSlideMenuSupportButton.classList.contains('selected')) {
-      mobileSlideMenuSupportButton.classList.toggle('selected');
-    }
-    if (!mobileSlideMenuProductsButton.classList.contains('selected')) {
-      mobileSlideMenuProductsButton.classList.toggle('selected');
-    }
-  })
+    const mobileHeader = document.querySelector("#inline_header_mobile");
+    mobileHeader.appendChild(mobileSlideMenu);
 
-  mobileSlideMenuAboutButton.addEventListener('click', () => {
-    console.log(mobileSlideMenuAboutPageText);
-    mobileSlideMenuPage.innerHTML = mobileSlideMenuAboutPageText;
-    if (mobileSlideMenuSupportButton.classList.contains('selected')) {
-      mobileSlideMenuSupportButton.classList.toggle('selected');
-    }
-    if (mobileSlideMenuProductsButton.classList.contains('selected')) {
-      mobileSlideMenuProductsButton.classList.toggle('selected');
-    }
-    if (!mobileSlideMenuAboutButton.classList.contains('selected')) {
-      mobileSlideMenuAboutButton.classList.toggle('selected');
-    }
-  })
+    mobileSlideMenuProductsButton.addEventListener('click', () => {
+      mobileSlideMenuPage.innerHTML = mobileSlideMenuProductsPageText;
+      if (mobileSlideMenuAboutButton.classList.contains('selected')) {
+        mobileSlideMenuAboutButton.classList.toggle('selected');
+      }
+      if (mobileSlideMenuSupportButton.classList.contains('selected')) {
+        mobileSlideMenuSupportButton.classList.toggle('selected');
+      }
+      if (!mobileSlideMenuProductsButton.classList.contains('selected')) {
+        mobileSlideMenuProductsButton.classList.toggle('selected');
+      }
+    })
 
-  mobileSlideMenuSupportButton.addEventListener('click', () => {
-    console.log(mobileSlideMenuSupportPageText);
-    mobileSlideMenuPage.innerHTML = mobileSlideMenuSupportPageText;
-    if (mobileSlideMenuAboutButton.classList.contains('selected')) {
-      mobileSlideMenuAboutButton.classList.toggle('selected');
-    }
-    if (mobileSlideMenuProductsButton.classList.contains('selected')) {
-      mobileSlideMenuProductsButton.classList.toggle('selected');
-    }
-    if (!mobileSlideMenuSupportButton.classList.contains('selected')) {
-      mobileSlideMenuSupportButton.classList.toggle('selected');
-    }
-  })
+    mobileSlideMenuAboutButton.addEventListener('click', () => {
+      console.log(mobileSlideMenuAboutPageText);
+      mobileSlideMenuPage.innerHTML = mobileSlideMenuAboutPageText;
+      if (mobileSlideMenuSupportButton.classList.contains('selected')) {
+        mobileSlideMenuSupportButton.classList.toggle('selected');
+      }
+      if (mobileSlideMenuProductsButton.classList.contains('selected')) {
+        mobileSlideMenuProductsButton.classList.toggle('selected');
+      }
+      if (!mobileSlideMenuAboutButton.classList.contains('selected')) {
+        mobileSlideMenuAboutButton.classList.toggle('selected');
+      }
+    })
 
-  const mobileHeaderSection = mobileHeader.querySelector('#s202305237306222ac0e85');
-  const moblieMenuButton = document.querySelector(".hb-mobile-menu-button");
-  moblieMenuButton.addEventListener('click', () => {
-    if (mobileHeaderSection.classList.contains('slide-opened')) {
-      moblieMenuButton.innerHTML = menuIcon;
-    } else {
-      moblieMenuButton.innerHTML = xIcon;
+    mobileSlideMenuSupportButton.addEventListener('click', () => {
+      console.log(mobileSlideMenuSupportPageText);
+      mobileSlideMenuPage.innerHTML = mobileSlideMenuSupportPageText;
+      if (mobileSlideMenuAboutButton.classList.contains('selected')) {
+        mobileSlideMenuAboutButton.classList.toggle('selected');
+      }
+      if (mobileSlideMenuProductsButton.classList.contains('selected')) {
+        mobileSlideMenuProductsButton.classList.toggle('selected');
+      }
+      if (!mobileSlideMenuSupportButton.classList.contains('selected')) {
+        mobileSlideMenuSupportButton.classList.toggle('selected');
+      }
+    })
+
+    const mobileHeaderSection = mobileHeader.querySelector('#s202305237306222ac0e85');
+    const moblieMenuButton = document.querySelector(".hb-mobile-menu-button");
+    moblieMenuButton.addEventListener('click', () => {
+      if (mobileHeaderSection.classList.contains('slide-opened')) {
+        moblieMenuButton.innerHTML = menuIcon;
+      } else {
+        moblieMenuButton.innerHTML = xIcon;
+      }
+      mobileHeaderSection.classList.toggle('slide-opened');
+      mobileSlideMenu.classList.toggle('hidden');
+    })
+
+    // 메뉴 버튼 색상 문제 해결하는 코드
+    const currentUrl = window.location.href;
+    // 현재 경로만 추출 (쿼리, 해시 제외)
+    let path = window.location.pathname;
+    path = path.toLowerCase();
+    const homePaths = ['/', '/home'];
+    if (homePaths.includes(path)) {
+      console.log("home");
+      // 홈 화면일 때 실행할 코드
+      moblieMenuButton.classList.add('in-home');
     }
-    mobileHeaderSection.classList.toggle('slide-opened');
-    mobileSlideMenu.classList.toggle('hidden');
-  })
-  
-  // 메뉴 버튼 색상 문제 해결하는 코드
-  const currentUrl = window.location.href;
-  // 현재 경로만 추출 (쿼리, 해시 제외)
-  let path = window.location.pathname;
-  path = path.toLowerCase();  
-  const homePaths = ['/', '/home'];
-  if (homePaths.includes(path)) {
-    console.log("home");
-    // 홈 화면일 때 실행할 코드
-    moblieMenuButton.classList.add('in-home');
+
+    // 로그인 로그아웃 버튼 처리하는 코드
+    const pcLogoutButtton = document.querySelector(".login_btn > .btn-wrap > div:nth-of-type(1) a");
+    const pcMypageButtton = document.querySelector(".login_btn > .btn-wrap > div:nth-of-type(2) a");
+    const logoutUrl = pcLogoutButtton.getAttribute('href');
+    const mypageUrl = pcMypageButtton.getAttribute('href');
+    const mMypageButtonWrap = document.querySelector(".hb-mypage-link-button");
+    const mMypageButton = document.querySelector(".hb-mypage-link-button > button");
+    const mLogoutButtonWrap = document.querySelector(".hb-logout-link-button");
+    const mLogoutButton = document.querySelector(".hb-logout-link-button > button");
+    if (pcLogoutButtton.innerText === "로그아웃") {
+      // 로그인 상태
+      console.log("로그인상태");
+      mMypageButtonWrap.setAttribute('href', mypageUrl);
+      mMypageButton.innerText = "마이페이지";
+      mLogoutButtonWrap.setAttribute('href', logoutUrl);
+      mLogoutButton.innerText = "로그아웃";
+
+    } else if (pcLogoutButtton.innerText === "로그인") {
+      // 로그아웃 상태
+      console.log("로그아웃상태");
+      mMypageButtonWrap.setAttribute('href', mypageUrl);
+      mMypageButton.innerText = "회원가입";
+      mLogoutButtonWrap.setAttribute('href', logoutUrl);
+      mLogoutButton.innerText = "로그인";
+    }
   }
-
-  // 로그인 로그아웃 버튼 처리하는 코드
-  const pcLogoutButtton = document.querySelector(".login_btn > .btn-wrap > div:nth-of-type(1) a");
-  const pcMypageButtton = document.querySelector(".login_btn > .btn-wrap > div:nth-of-type(2) a");
-  const logoutUrl = pcLogoutButtton.getAttribute('href');
-  const mypageUrl = pcMypageButtton.getAttribute('href');
-  const mMypageButtonWrap = document.querySelector(".hb-mypage-link-button");
-  const mMypageButton = document.querySelector(".hb-mypage-link-button > button");
-  const mLogoutButtonWrap = document.querySelector(".hb-logout-link-button");
-  const mLogoutButton = document.querySelector(".hb-logout-link-button > button");
-  if (pcLogoutButtton.innerText === "로그아웃") {
-    // 로그인 상태
-    console.log("로그인상태");
-    mMypageButtonWrap.setAttribute('href', mypageUrl);
-    mMypageButton.innerText = "마이페이지";
-    mLogoutButtonWrap.setAttribute('href', logoutUrl);
-    mLogoutButton.innerText = "로그아웃";
-  
-  } else if (pcLogoutButtton.innerText === "로그인") {
-    // 로그아웃 상태
-    console.log("로그아웃상태");
-    mMypageButtonWrap.setAttribute('href', mypageUrl);
-    mMypageButton.innerText = "회원가입";
-    mLogoutButtonWrap.setAttribute('href', logoutUrl);
-    mLogoutButton.innerText = "로그인";
-  }
-}
 </script>
 
 <style>
-:root {
-  --hb-top-banner-height: 0px;
-}
+  :root {
+    --hb-top-banner-height: 0px;
+  }
 
-#inline_header_mobile {
-  margin-top: var(--hb-top-banner-height, 0px);
-}
+  #inline_header_mobile {
+    margin-top: var(--hb-top-banner-height, 0px);
+  }
 
-/* 헤더 로고 높이/정렬 고정으로 위치 흔들림 방지 */
-#logo_w202305238bcca1c290ba6 .img_box,
-#logo_w20230523c900aa9cc3066 .img_box {
-  height: 40px;
-  width: 160px;
-  display: flex;
-  align-items: center;
-  position: relative;
-}
+  /* 헤더 로고 높이/정렬 고정으로 위치 흔들림 방지 */
+  #logo_w202305238bcca1c290ba6 .img_box,
+  #logo_w20230523c900aa9cc3066 .img_box {
+    height: 40px;
+    width: 160px;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
 
-#logo_w202305238bcca1c290ba6 .img_box a,
-#logo_w20230523c900aa9cc3066 .img_box a {
-  position: relative;
-  display: block;
-  height: 100%;
-  width: 100%;
-}
+  #logo_w202305238bcca1c290ba6 .img_box a,
+  #logo_w20230523c900aa9cc3066 .img_box a {
+    position: relative;
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
 
-#logo_w202305238bcca1c290ba6 .normal_logo,
-#logo_w202305238bcca1c290ba6 .scroll_logo,
-#logo_w20230523c900aa9cc3066 .normal_logo,
-#logo_w20230523c900aa9cc3066 .scroll_logo {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  display: block;
-  max-height: 32px;
-  margin: 0 !important;
-}
+  #logo_w202305238bcca1c290ba6 .normal_logo,
+  #logo_w202305238bcca1c290ba6 .scroll_logo,
+  #logo_w20230523c900aa9cc3066 .normal_logo,
+  #logo_w20230523c900aa9cc3066 .scroll_logo {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: block;
+    max-height: 32px;
+    margin: 0 !important;
+  }
 
-/*
+  /*
  모바일 메뉴
 */
 
-#w20251003e5fc490a05c65 > div > div.padding > button {
-  background: transparent;
-}
+  #w20251003e5fc490a05c65>div>div.padding>button {
+    background: transparent;
+  }
 
-.hb-mobile-slide-menu.hidden {
-  display: none;
-}
+  .hb-mobile-slide-menu.hidden {
+    display: none;
+  }
 
-.hb-mobile-slide-menu {
-  width: 100%;
-  height: calc(100% - (64px + 23px) - var(--hb-top-banner-height, 0px));
-  background: #F9F6EF;
-  position: fixed;
-  z-index: 9999;
-  top: calc((64px + 23px) + var(--hb-top-banner-height, 0px));
-  left: 0;
-  /* border: 4px solid saddlebrown; */
-}
+  .hb-mobile-slide-menu {
+    width: 100%;
+    height: calc(100% - (64px + 23px) - var(--hb-top-banner-height, 0px));
+    background: #F9F6EF;
+    position: fixed;
+    z-index: 9999;
+    top: calc((64px + 23px) + var(--hb-top-banner-height, 0px));
+    left: 0;
+    /* border: 4px solid saddlebrown; */
+  }
 
-.hb-mobile-slide-menu .hb-mobile-slide-title > img {
-  width: 123px;
-}
+  .hb-mobile-slide-menu .hb-mobile-slide-title>img {
+    width: 123px;
+  }
 
-.hb-mobile-slide-menu > div {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
+  .hb-mobile-slide-menu>div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 
-.hb-mobile-slide-menu__container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
+  .hb-mobile-slide-menu__container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 
-.hb-mobile-slide-menu-page > div {
-  display: flex;
-  flex-direction: column;
-  gap: 38px;
-  padding-block: 19px;
-  padding-inline: 27px;
-}
+  .hb-mobile-slide-menu-page>div {
+    display: flex;
+    flex-direction: column;
+    gap: 38px;
+    padding-block: 19px;
+    padding-inline: 27px;
+  }
 
-.hb-mobile-slide-menu-page > .hb-mobile-slide-menu-about-page > div:nth-of-type(1) {
-  font-weight: 600;
-  font-size: 15px;
-}
+  .hb-mobile-slide-menu-page>.hb-mobile-slide-menu-about-page>div:nth-of-type(1) {
+    font-weight: 600;
+    font-size: 15px;
+  }
 
-.hb-mobile-slide-menu-page > .hb-mobile-slide-menu-support-page > div:nth-of-type(1) {
-  font-weight: 600;
-  font-size: 15px;
-}
+  .hb-mobile-slide-menu-page>.hb-mobile-slide-menu-support-page>div:nth-of-type(1) {
+    font-weight: 600;
+    font-size: 15px;
+  }
 
-.hb-mobile-slide-menu-page > div > div:nth-of-type(2) {
-  display: flex;
-  flex-direction: column;
-  gap: 38px;
-  font-size: 14px;
-}
+  .hb-mobile-slide-menu-page>div>div:nth-of-type(2) {
+    display: flex;
+    flex-direction: column;
+    gap: 38px;
+    font-size: 14px;
+  }
 
-.hb-mobile-slide-menu-products-page {
-  display: flex;
-  flex-direction: column;
-  gap: 45px;
-  padding-block: 19px;
-  padding-inline: 27px;
-}
+  .hb-mobile-slide-menu-products-page {
+    display: flex;
+    flex-direction: column;
+    gap: 45px;
+    padding-block: 19px;
+    padding-inline: 27px;
+  }
 
-.hb-mobile-slide-menu-products-page > div {
-  display: flex;
-  flex-direction: column;
-  gap: 23px;
-  font-weight: 500;
-  font-size: 14px;
-}
+  .hb-mobile-slide-menu-products-page>div {
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+    font-weight: 500;
+    font-size: 14px;
+  }
 
-.hb-mobile-slide-menu-products-page > div > a {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 6px;
-  font-size: 15px;
-  font-weight: 600;
-}
+  .hb-mobile-slide-menu-products-page>div>a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    font-size: 15px;
+    font-weight: 600;
+  }
 
-.hb-mobile-slide-menu-products-page > div > div {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 24px;
-}
+  .hb-mobile-slide-menu-products-page>div>div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
 
-.hb-mobile-slide-menu-products-page > div > div > a {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  align-items: center;
-}
+  .hb-mobile-slide-menu-products-page>div>div>a {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+  }
 
-.hb-mobile-slide-menu-products-page > div > div > a > img {
-  width: 62px;
-  height: 62px;
-  border-radius: 50%;
-}
+  .hb-mobile-slide-menu-products-page>div>div>a>img {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+  }
 
-.hb-mobile-slide-menu__main {
-  display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-}
+  .hb-mobile-slide-menu__main {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+  }
 
-.hb-mobile-slide-menu__footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  flex-shrink: 0;
-  background: #F9F6EF;
-}
+  .hb-mobile-slide-menu__footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-shrink: 0;
+    background: #F9F6EF;
+  }
 
-.hb-mobile-slide-menu__sidebar {
-  width: 150px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  font-size: 15px;
-  font-weight: bold;
-  color: #000000;
-  background: #F0E7D9;
-}
+  .hb-mobile-slide-menu__sidebar {
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: bold;
+    color: #000000;
+    background: #F0E7D9;
+  }
 
-.hb-mobile-slide-menu__nav-list,
-.hb-mobile-slide-menu__secondary {
-  display: flex;
-  flex-direction: column;
-}
+  .hb-mobile-slide-menu__nav-list,
+  .hb-mobile-slide-menu__secondary {
+    display: flex;
+    flex-direction: column;
+  }
 
-.hb-mobile-slide-menu__secondary {
-  background: #F0E7D9;
-}
+  .hb-mobile-slide-menu__secondary {
+    background: #F0E7D9;
+  }
 
-.hb-mobile-slide-menu__nav-item--online a {
-  color: #009284;
-}
+  .hb-mobile-slide-menu__nav-item--online a {
+    color: #009284;
+  }
 
-.hb-mobile-slide-menu__nav-list .hb-mobile-slide-menu__nav-item,
-.hb-mobile-slide-menu__secondary .hb-mobile-slide-menu__nav-item {
-  height: 54px;
-  display: flex;
-  align-items: center;
-  padding-left: 22px;
-  cursor: pointer;
-}
+  .hb-mobile-slide-menu__nav-list .hb-mobile-slide-menu__nav-item,
+  .hb-mobile-slide-menu__secondary .hb-mobile-slide-menu__nav-item {
+    height: 54px;
+    display: flex;
+    align-items: center;
+    padding-left: 22px;
+    cursor: pointer;
+  }
 
-.hb-mobile-slide-menu__nav-item.selected {
-  background: #F9F6EF;
-}
+  .hb-mobile-slide-menu__nav-item.selected {
+    background: #F9F6EF;
+  }
 
-.hb-mobile-slide-menu__content,
-.hb-mobile-slide-menu-page {
-  background: #F9F6EF;
-  flex-grow: 1;
-}
+  .hb-mobile-slide-menu__content,
+  .hb-mobile-slide-menu-page {
+    background: #F9F6EF;
+    flex-grow: 1;
+  }
 
-.hb-mobile-slide-menu__actions {
-  display: flex;
-  gap: 8px;
-  width: 100%;
-  padding-inline: 22px;
-  padding-block: 10px;
-  justify-content: center;
-}
+  .hb-mobile-slide-menu__actions {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    padding-inline: 22px;
+    padding-block: 10px;
+    justify-content: center;
+  }
 
-.hb-mobile-slide-menu__actions > a {
-  flex-grow: 1;
-}
+  .hb-mobile-slide-menu__actions>a {
+    flex-grow: 1;
+  }
 
-.hb-mobile-slide-menu__actions > a > button {
-  background: #000;
-  height: 36px;
-  border-radius: 0;
-  font-weight: 600;
-  width: 100%;
-}
+  .hb-mobile-slide-menu__actions>a>button {
+    background: #000;
+    height: 36px;
+    border-radius: 0;
+    font-weight: 600;
+    width: 100%;
+  }
 
-.hb-mypage-link-button > button {
-  background: #FFF !important;
-  color: #000;
-}
+  .hb-mypage-link-button>button {
+    background: #FFF !important;
+    color: #000;
+  }
 
-.hb-logout-link-button > button {
-  background: #000;
-  color: #FFF;
-}
+  .hb-logout-link-button>button {
+    background: #000;
+    color: #FFF;
+  }
 
-.slide-opened #w20230523e3e3c6c88eafd div._widget_data .widget a.btn_text span {
-  color: #000 !important;
-}
+  .slide-opened #w20230523e3e3c6c88eafd div._widget_data .widget a.btn_text span {
+    color: #000 !important;
+  }
 
-.slide-opened #w20230523e3e3c6c88eafd div._widget_data .widget a.btn_text span i {
-  color: #000 !important;
-}
+  .slide-opened #w20230523e3e3c6c88eafd div._widget_data .widget a.btn_text span i {
+    color: #000 !important;
+  }
 
-.hb-mobile-menu-button svg path {
-  stroke: #000 !important;
-}
+  .hb-mobile-menu-button svg path {
+    stroke: #000 !important;
+  }
 
-.hb-mobile-menu-button.in-home svg path {
-  stroke: #fff !important;
-}
+  .hb-mobile-menu-button.in-home svg path {
+    stroke: #fff !important;
+  }
 
-.scroll-to-fixed-fixed .in-home svg path {
-  stroke: #000 !important;
-}
+  .scroll-to-fixed-fixed .in-home svg path {
+    stroke: #000 !important;
+  }
 
-.scroll-to-fixed-fixed2 .in-home svg path {
-  stroke: #FFF !important;
-}
+  .scroll-to-fixed-fixed2 .in-home svg path {
+    stroke: #FFF !important;
+  }
 
-.first_scroll_fixed .inline-section-wrap:not(.slide-opened) {
-  background: transparent !important;
-}
+  .first_scroll_fixed .inline-section-wrap:not(.slide-opened) {
+    background: transparent !important;
+  }
 
-.first_scroll_fixed .inline-section-wrap:not(.slide-opened) img.scroll_logo {
-  margin-top: 7px !important;
-}
+  .first_scroll_fixed .inline-section-wrap:not(.slide-opened) img.scroll_logo {
+    margin-top: 7px !important;
+  }
 
-#inline_header_mobile:not(.first_scroll_fixed) img.scroll_logo:not(#site-topping-root *) {
-  margin-top: 0px !important;
-}
+  #inline_header_mobile:not(.first_scroll_fixed) img.scroll_logo:not(#site-topping-root *) {
+    margin-top: 0px !important;
+  }
 
-#inline_header_mobile:not(.first_scroll_fixed) .inline-section-wrap {
-  background: #FAF6EE !important;
-}
+  #inline_header_mobile:not(.first_scroll_fixed) .inline-section-wrap {
+    background: #FAF6EE !important;
+  }
 
-#inline_header_mobile:not(.first_scroll_fixed) .inline-section-wrap span {
-  color: #212121 !important;
-}
+  #inline_header_mobile:not(.first_scroll_fixed) .inline-section-wrap span {
+    color: #212121 !important;
+  }
 
-#inline_header_mobile:not(.first_scroll_fixed) .inline-section-wrap svg path {
-  stroke: #212121 !important;
-}
+  #inline_header_mobile:not(.first_scroll_fixed) .inline-section-wrap svg path {
+    stroke: #212121 !important;
+  }
 
-#inline_header_mobile:not(.first_scroll_fixed) .inline-section-wrap a.btn_text i {
-  color: #212121 !important;
-}
+  #inline_header_mobile:not(.first_scroll_fixed) .inline-section-wrap a.btn_text i {
+    color: #212121 !important;
+  }
 
-#inline_header_mobile:not(.first_scroll_fixed) img.scroll_logo {
-  opacity: 100% !important;
-}
+  #inline_header_mobile:not(.first_scroll_fixed) img.scroll_logo {
+    opacity: 100% !important;
+  }
 
 
-.slide-opened button.hb-mobile-menu-button svg path {
-  stroke: #000 !important;
-}
+  .slide-opened button.hb-mobile-menu-button svg path {
+    stroke: #000 !important;
+  }
 
-.slide-opened img.scroll_logo {
-  opacity: 100% !important;
-}
+  .slide-opened img.scroll_logo {
+    opacity: 100% !important;
+  }
 
-.slide-opened img.normal_logo {
-  display: none;
-}
+  .slide-opened img.normal_logo {
+    display: none;
+  }
 
-.slide-opened {
-  background: #FAF6EE !important;
-}
+  .slide-opened {
+    background: #FAF6EE !important;
+  }
 
-.slide-opened .section_bg_color {
-  background: #FAF6EE !important;
-}
+  .slide-opened .section_bg_color {
+    background: #FAF6EE !important;
+  }
 </style>

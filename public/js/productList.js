@@ -73,7 +73,7 @@
     return numericValue.toLocaleString('ko-KR');
   };
 
-  const createProductCardHTML = (product, productId, categoryMap, explicitCategoryName) => {
+  const createProductCardHTML = (product, productId, categoryMap, explicitCategoryName, index, showNumbers) => {
     if (!product) return '';
 
     const rawImageUrl = product.image_url ? Object.values(product.image_url)[0] : '';
@@ -98,6 +98,7 @@
         <div class="hb-product-image${isSoldOut ? ' hb-product-image--soldout' : ''}">
           <img src="${imageUrl}" alt="${product.name || ''}" loading="lazy" />
           ${isSoldOut ? '<span class="hb-product-soldout">SOLD OUT</span>' : ''}
+          ${showNumbers ? `<div style="position: absolute; top: 0; left: 0; width: 24px; height: 24px; background-color: #000; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; z-index: 5;">${index}</div>` : ''}
         </div>
         <div class="hb-product-info">
           <h4>${product.name || '상품명 미정'}</h4>
@@ -147,10 +148,18 @@
       const productEntries = parseProductEntries(section);
       if (!productEntries.length) continue;
 
-      const cardsHTML = (await Promise.all(productEntries.map(async ({ productId, categoryName }) => {
+      const fetchedProducts = await Promise.all(productEntries.map(async ({ productId, categoryName }) => {
         const product = await fetchProduct(productId);
-        return createProductCardHTML(product, productId, categoryMap, categoryName);
-      }))).filter(Boolean);
+        return { product, productId, categoryName };
+      }));
+
+      const validProducts = fetchedProducts.filter(item => item.product);
+
+      const showNumbers = section.dataset.showNumbers === 'true';
+
+      const cardsHTML = validProducts.map((item, index) => {
+        return createProductCardHTML(item.product, item.productId, categoryMap, item.categoryName, index + 1, showNumbers);
+      });
 
       const container = document.createElement('div');
       container.classList.add('hb-product-list', 'hb-section');

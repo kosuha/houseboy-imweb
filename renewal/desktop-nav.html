@@ -1,0 +1,273 @@
+<!-- renewal/desktop-nav.html -->
+
+<div data-type="section" class="inline-section hb-expanded-menu">
+  <div class="hb-menu-inner">
+    <!-- Top Row -->
+    <div class="hb-menu-top">
+      <a href="/guide" id="hb-text-green" class="hb-menu-link highlight">제품 가이드</a>
+      <a href="/Review" class="hb-menu-link">온라인 집들이</a>
+    </div>
+
+    <!-- Divider -->
+    <div class="hb-menu-divider"></div>
+
+    <!-- Bottom Columns -->
+    <div class="hb-menu-columns">
+      <!-- Column 1: All Products -->
+      <div class="hb-col">
+        <div class="hb-col-title">
+          <a href="/all_product">모든 제품</a>
+        </div>
+      </div>
+
+      <!-- Column 2: Category -->
+      <div class="hb-col">
+        <div class="hb-col-title">카테고리</div>
+        <div class="hb-col-list">
+          <a href="/clean">CLEAN</a>
+          <a href="/towel">TOWEL</a>
+        </div>
+      </div>
+
+      <!-- Spacer (Handled by grid gap/layout) -->
+
+      <!-- Column 3: About -->
+      <div class="hb-col">
+        <div class="hb-col-title">ABOUT</div>
+        <div class="hb-col-list">
+          <a href="/brand_story">브랜드 스토리</a>
+          <a href="/brand_magazine">브랜드 매거진</a>
+        </div>
+      </div>
+
+      <!-- Column 4: Customer Support -->
+      <div class="hb-col">
+        <div class="hb-col-title">고객지원</div>
+        <div class="hb-col-list">
+          <a href="/notice">공지사항</a>
+          <a href="/faq">자주 묻는 질문</a>
+          <a href="/suggestion">제품 제안하기</a>
+          <a href="/contact">비즈니스 컨택</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 지정된 컨테이너를 선택합니다.
+  const targetContainer = document.querySelector('#w20230523986f777136222 > div > div > div > div:nth-child(2)');
+  const menuSection = document.querySelector('#s20230523fed2896ad9a66');
+  const expandedMenuSection = document.querySelector('.hb-expanded-menu');
+
+  // 컨테이너가 존재하는지 확인합니다.
+  if (targetContainer) {
+    // 기존 콘텐츠를 비웁니다.
+    targetContainer.innerHTML = '';
+
+    // 메뉴를 열고 닫는 버튼을 생성합니다.
+    const menuButton = document.createElement('button');
+    menuButton.className = 'custom-menu-toggle';
+    menuButton.setAttribute('aria-label', '메뉴 토글');
+
+    // 버튼 안에 들어갈 SVG 아이콘(가로줄 2개)을 설정합니다.
+    menuButton.innerHTML = '<svg viewBox="0 0 100 60" width="14" height="14" fill="#333"><rect width="100" height="7"></rect><rect y="45" width="100" height="7"></rect></svg>';
+
+    // 생성한 요소들을 DOM에 추가합니다.
+    targetContainer.appendChild(menuButton);
+    menuSection.after(expandedMenuSection);
+
+    // 버튼 클릭 시 메뉴를 토글하는 이벤트 리스너를 추가합니다.
+    menuButton.addEventListener('click', () => {
+      expandedMenuSection.classList.toggle('show');
+      menuButton.classList.toggle('active');
+    });
+  } else {
+    // console.error('지정한 컨테이너 요소를 찾을 수 없습니다.');
+  }
+</script>
+
+<style>
+  #doz_header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+
+  #doz_header #inline_header_normal {
+    max-width: 1424px;
+    margin: 0 auto;
+  }
+
+  #preview_mode_bar {
+    display: none;
+  }
+
+  /* Reset & Base */
+  .hb-expanded-menu a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* 메뉴 전체를 감싸는 래퍼 스타일 */
+  .custom-menu-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* 메뉴 토글 버튼 스타일 */
+  .custom-menu-toggle {
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    z-index: 1001;
+    border: none;
+    padding: 0;
+  }
+
+  /* 확장될 메뉴 콘텐츠 스타일 */
+  .hb-expanded-menu {
+    display: none;
+    /* JS toggles this */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #F0E7D9;
+    /* Beige background */
+    color: #333;
+    font-family: 'Pretendard', sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+    z-index: 1000;
+    padding-bottom: 60px;
+    /* Bottom spacing */
+  }
+
+  .hb-expanded-menu.show {
+    display: block;
+  }
+
+  /* Inner Container with Unified Grid Layout */
+  .hb-menu-inner {
+    max-width: 1424px;
+    margin: 0 auto;
+    padding: 40px 20px 0;
+
+    display: grid;
+    /* 
+       Defined Grid Columns:
+       [Col 1] [Col 2] [Spacer (1fr)] [Col 3] [Col 4]
+       This ensures alignment between top links and bottom columns.
+    */
+    grid-template-columns: auto auto 1fr auto auto;
+    column-gap: 40px;
+
+    /* Rows handled implicitly, simplified gap control */
+  }
+
+  /* Use display: contents to let children participate in the main grid */
+  .hb-menu-top,
+  .hb-menu-columns {
+    display: contents;
+  }
+
+  /* Top Row Links */
+  /* They will naturally fall into Col 1 and Col 2 */
+  .hb-menu-link {
+    font-weight: 700;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 25px;
+    /* Visual space before dividers/next row */
+    white-space: nowrap;
+  }
+
+  .hb-menu-link:hover {
+    opacity: 0.7;
+  }
+
+  #hb-text-green,
+  .hb-menu-link.highlight {
+    color: #009688;
+    /* Match the teal color in image */
+  }
+
+  /* Divider */
+  .hb-menu-divider {
+    grid-column: 1 / -1;
+    /* Span entire width */
+    height: 1px;
+    background-color: #D3CDC4;
+    width: 100%;
+    margin-bottom: 30px;
+    /* Space after divider */
+  }
+
+  /* Bottom Columns */
+  .hb-col {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 100px;
+  }
+
+  /* Explicit Placement for Right-side Columns */
+  /* 
+     hb-menu-columns children are flattened.
+     1st child: All Products (Col 1)
+     2nd child: Category (Col 2)
+     3rd child: About (Needs to be Col 4)
+     4th child: Support (Needs to be Col 5)
+  */
+
+  .hb-menu-columns>.hb-col:nth-child(3) {
+    grid-column: 4;
+  }
+
+  /* Column Titles */
+  .hb-col-title {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #222;
+  }
+
+  .hb-col-title a {
+    color: #222;
+  }
+
+  /* Column Lists */
+  .hb-col-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .hb-col-list a {
+    color: #333;
+    font-size: 14px;
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+
+  .hb-col-list a:hover {
+    color: #000;
+    text-decoration: underline;
+  }
+
+  /* Responsive tweaks */
+  @media (max-width: 1024px) {
+    .hb-menu-inner {
+      column-gap: 30px;
+    }
+  }
+</style>
