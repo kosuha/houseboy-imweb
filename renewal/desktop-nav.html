@@ -55,12 +55,41 @@
 </div>
 
 <script>
-  // 지정된 컨테이너를 선택합니다.
+  // 요소 대기 유틸리티
+  const waitForElement = (selector, callback) => {
+    const element = document.querySelector(selector);
+    if (element) {
+      callback(element);
+    } else {
+      setTimeout(() => waitForElement(selector, callback), 100);
+    }
+  };
+
+  // 헤더 관련 로직 실행 (헤더가 로드된 후 실행)
+  waitForElement('#doz_header', (header) => {
+    // 1. 홈 화면 여부 확인 및 클래스 부여 (대소문자 무시)
+    const path = window.location.pathname.toLowerCase();
+    const isHome = path === '/' || path === '/home';
+    
+    // console.log('Current Path:', window.location.pathname, 'Is Home:', isHome); // 디버깅용
+
+    if (isHome) {
+      header.classList.add('hb-is-home');
+    }
+
+    // 메뉴 버튼 이벤트 연결 시 헤더 제어 (클로저 활용)
+    // 기존 targetContainer 로직에서 header 참조를 위해 전역 변수처럼 활용하거나
+    // 여기서 이벤트를 위임할 수도 있지만, 아래 targetContainer 로직이 별도로 있으므로
+    // menuButton 이벤트 리스너에서 header를 다시 조회하거나 여기서 처리해야 함.
+    // 간단하게는 여기서 header에 클래스 붙이는 작업만 확실히 하고,
+    // 아래 메뉴 토글 로직에서 header를 다시 조회해서 쓰도록 함 (이미 존재할 것이므로 문제 없음).
+  });
+
+  // 컨테이너가 존재하는지 확인합니다.
   const targetContainer = document.querySelector('#w20230523986f777136222 > div > div > div > div:nth-child(2)');
   const menuSection = document.querySelector('#s20230523fed2896ad9a66');
   const expandedMenuSection = document.querySelector('.hb-expanded-menu');
-
-  // 컨테이너가 존재하는지 확인합니다.
+  
   if (targetContainer) {
     // 기존 콘텐츠를 비웁니다.
     targetContainer.innerHTML = '';
@@ -79,8 +108,15 @@
 
     // 버튼 클릭 시 메뉴를 토글하는 이벤트 리스너를 추가합니다.
     menuButton.addEventListener('click', () => {
-      expandedMenuSection.classList.toggle('show');
+      const isShow = expandedMenuSection.classList.toggle('show');
       menuButton.classList.toggle('active');
+      
+      // 2. 메뉴 열림 상태 표시
+      const header = document.querySelector('#doz_header');
+      if (header) {
+        if (isShow) header.classList.add('hb-menu-open');
+        else header.classList.remove('hb-menu-open');
+      }
     });
   } else {
     // console.error('지정한 컨테이너 요소를 찾을 수 없습니다.');
@@ -269,5 +305,15 @@
     .hb-menu-inner {
       column-gap: 30px;
     }
+  }
+
+  /* 홈 화면 배경 투명화 제어 */
+  #doz_header.hb-is-home:not(.hb-menu-open) .section_bg_color,
+  #doz_header.hb-is-home:not(.hb-menu-open) ._section_bg_color {
+    background-color: transparent !important;
+  }
+
+  #doz_header.hb-is-home.hb-menu-open .new_org_header {
+    background-color: #f9f6ef !important;
   }
 </style>
