@@ -1,0 +1,122 @@
+<!-- renewal/brand-story-1.html -->
+
+<style>
+    .brand-story-section {
+        padding: 100px 0;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .brand-story-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 80px;
+    }
+
+    .brand-story-text {
+        flex: 1.1;
+        text-align: left;
+    }
+
+    .brand-story-image {
+        flex: 1;
+    }
+
+    .brand-story-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 4px;
+    }
+
+    .story-label {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 30px;
+        color: #000;
+        letter-spacing: 0.05em;
+    }
+
+    .story-title {
+        font-size: 24px !important;
+        font-weight: bold !important;
+        line-height: 1.4;
+        margin-bottom: 50px;
+        color: #000;
+        word-break: keep-all;
+    }
+
+    .story-desc {
+        font-size: 15px;
+        line-height: 1.8;
+        color: #000;
+        word-break: keep-all;
+    }
+
+    .story-desc + .story-desc {
+        margin-top: 28px;
+    }
+
+    /* Mobile view */
+    @media (max-width: 991px) {
+        .brand-story-section {
+            padding: 60px 20px;
+        }
+
+        .brand-story-container {
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .brand-story-text {
+            order: 2;
+        }
+
+        .brand-story-image {
+            order: 1;
+            width: 100%;
+        }
+
+        .story-title {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .story-label {
+            margin-bottom: 20px;
+        }
+
+        .story-desc {
+            font-size: 15px;
+        }
+    }
+</style>
+
+<div class="brand-story-section">
+    <div class="brand-story-container">
+        <!-- Text Area -->
+        <div class="brand-story-text">
+            <div class="story-label">OUR IDEA</div>
+            <h2 class="story-title">
+                집에 자연스럽게 어울리는 물건을<br>
+                찾는 마음에서 시작되었습니다.
+            </h2>
+            <p class="story-desc">
+                2022년, 결혼 후 집에 놓이는 물건들은 하나하나 신중하게 고르기 시작했습니다.
+                그런데 생활용품은 유독 마음에 드는 디자인을 찾기 어렵더라고요.
+                결국 타협해서 사게 되면, 꽁꽁 숨기려다 수납도 부족해지고 집도 금방 어수선해 보이곤 했습니다.
+            </p>
+            <p class="story-desc">
+                그래서 하우스보이는 공간에 자연스럽게 어울리는 생활용품을 직접 기준을 세워 만들기 시작했고,
+                그 지점에서 하우스보이의 이야기가 시작되었습니다.
+            </p>
+        </div>
+
+        <!-- Image Area -->
+        <div class="brand-story-image">
+            <img src="https://raw.githubusercontent.com/kosuha/houseboy-imweb/main/hb-story-image-1.png" alt="Brand Idea Image">
+        </div>
+    </div>
+</div>

@@ -1,0 +1,125 @@
+<!-- renewal/contact.html -->
+
+<style>
+    .contact-section {
+        padding: 100px 0;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .contact-container {
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+        gap: 20px;
+    }
+
+    .contact-item {
+        flex: 1;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+    }
+
+    .contact-separator {
+        width: 1px;
+        background-color: #D1D1D1;
+        margin: 40px 0;
+    }
+
+    .contact-title {
+        font-size: 24px;
+        font-weight: 800;
+        margin-bottom: 24px;
+        color: #000;
+    }
+
+    .contact-desc {
+        font-size: 15px;
+        line-height: 1.625;
+        color: #000;
+        margin-bottom: 32px;
+        word-break: keep-all;
+    }
+
+    .contact-button {
+        display: inline-block;
+        background-color: #000;
+        color: #fff !important;
+        padding: 16px 36px;
+        font-size: 24px;
+        font-weight: 600;
+        border-radius: 12px;
+        text-decoration: none;
+        transition: opacity 0.2s ease;
+    }
+
+    .contact-button:hover {
+        opacity: 0.8;
+    }
+
+    /* Mobile view */
+    @media (max-width: 768px) {
+        .contact-container {
+            flex-direction: column;
+        }
+
+        .contact-separator {
+            width: 100%;
+            height: 1px;
+            margin: 20px 0;
+        }
+
+        .contact-item {
+            padding: 40px 20px;
+        }
+
+        .contact-title {
+            font-size: 20px;
+        }
+
+        .contact-desc {
+            font-size: 14px;
+        }
+
+        .contact-button {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px 20px;
+            font-size: 16px;
+        }
+    }
+</style>
+
+<div class="contact-section">
+    <div class="contact-container">
+        <!-- Group Order Inquiry -->
+        <div class="contact-item">
+            <h3 class="contact-title">단체 주문 문의</h3>
+            <p class="contact-desc">
+                단체 선물·대량 구매를 준비 중이신가요?<br>
+                원하시는 수량과 구성, 일정을 남겨주세요.<br>
+                확인 후 담당부서에서 빠르게 안내해 드리겠습니다.
+            </p>
+            <a href="/order_inquiry" class="contact-button">단체 주문 문의하기</a>
+        </div>
+
+        <!-- Vertical Separator -->
+        <div class="contact-separator"></div>
+
+        <!-- Business Contact -->
+        <div class="contact-item">
+            <h3 class="contact-title">비즈니스 컨텍</h3>
+            <p class="contact-desc">
+                하우스보이는 리빙을 넘어 다양한 협업을 이어가고 있으며,<br>
+                새로운 시도를 함께할 파트너를 기다립니다.<br>
+                일상 속 즐거운 경험을 만들어갈 모든 만남을 환영합니다.
+            </p>
+            <a href="/partnership" class="contact-button">제휴·협업 제안하기</a>
+        </div>
+    </div>
+</div>
