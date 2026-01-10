@@ -1,18 +1,13 @@
-<style>
-  .membership-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 60px 20px;
-    text-align: center;
-  }
+<!-- renewal/membership_benefits_levels.html -->
 
+<style>
   .mobile-br {
     display: none;
   }
 
   /* Section Common */
   .section-title {
-    font-size: 40px !important;
+    font-size: 24px !important;
     font-weight: 700 !important;
     color: #000 !important;
     margin-bottom: 40px;
@@ -40,9 +35,9 @@
   }
 
   .icon-circle {
-    width: 80px;
-    height: 80px;
-    background-color: #354f40;
+    width: 50px;
+    height: 50px;
+    background-color: #182A23;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -57,22 +52,22 @@
   }
 
   .benefit-desc {
-    font-size: 14px;
+    font-size: 15px;
     color: #666;
     margin-bottom: 10px;
-    line-height: 1.4;
+    line-height: 1.5;
   }
 
   .benefit-highlight {
-    font-size: 16px;
+    font-size: 24px;
     font-weight: 700;
-    color: #111;
+    color: #000;
     margin: 5px;
   }
 
   /* Levels Section Common */
   .levels-section {
-    margin-bottom: 80px;
+    margin-bottom: 40px;
   }
 
   .levels-header-bar {
@@ -119,7 +114,7 @@
     background-color: #182A23 !important;
     color: #fff !important;
     font-size: 12px;
-    padding: 6px 10px;
+    padding: 4px 8px;
     border-radius: 10px;
     margin-bottom: 10px;
     font-weight: 500;
@@ -309,6 +304,10 @@
     background-color: #000;
   }
 
+  .benefit-sub-highlight {
+    display: none;
+  }
+
   /* Mobile Responsive */
   @media (max-width: 768px) {
     .membership-container {
@@ -328,6 +327,68 @@
     .benefit-item {
       min-width: auto;
       max-width: none;
+    }
+
+    /* Kakao Featured Item Styles */
+    .benefit-item.kakao-benefit {
+      position: relative;
+      grid-column: 1 / -1;
+      order: -1;
+      flex-direction: row;
+      background-color: #fff;
+      border-radius: 5px;
+      align-items: center;
+      gap: 10px;
+      height: 82px;
+      width: 259px;
+      margin: 0 auto;
+      margin-bottom: 30px;
+    }
+
+    .benefit-item.kakao-benefit .icon-circle {
+      position: absolute;
+      top: 0;
+      left: -41px;
+      margin-bottom: 0;
+      width: 82px;
+      height: 82px;
+      flex-shrink: 0;
+    }
+
+    .benefit-item svg {
+      width: 25px;
+      height: 25px;
+    }
+
+    .benefit-item.kakao-benefit .icon-img,
+    .benefit-item.kakao-benefit svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    .benefit-item.kakao-benefit .benefit-info {
+      text-align: left;
+      margin-left: 60px;
+    }
+
+    .benefit-item.kakao-benefit .benefit-desc {
+      white-space: nowrap;
+      margin-bottom: 5px !important;
+    }
+
+    .benefit-item.kakao-benefit .benefit-highlight {
+      font-size: 17px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .benefit-sub-highlight {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: #FF6B00;
+      margin: 0;
+      padding: 0;
     }
 
     /* Toggle Desktop/Mobile Levels */
@@ -388,27 +449,12 @@
               stroke="#F2F0EB" />
           </svg>
         </div>
-        <p class="benefit-desc">생일 기념<br>할인쿠폰</p>
-        <p class="benefit-highlight">추가 10% 할인</p>
-      </div>
-      <div class="benefit-item">
-        <div class="icon-circle">
-          <svg width="41" height="33" viewBox="0 0 41 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5.11538 26.6537H0.5V19.7306H25.1154V5.11523H34.3462L40.5 14.346V26.6537H35.8846"
-              stroke="#F2F0EB" />
-            <path d="M14.3477 26.6538H26.6553" stroke="#F2F0EB" />
-            <path
-              d="M9.73077 0.5H1.5C0.947715 0.5 0.5 0.947715 0.5 1.5V19.7308H25.1154V1.5C25.1154 0.947715 24.6677 0.5 24.1154 0.5H15.8846M9.73077 0.5V6.42308C9.73077 6.97536 10.1785 7.42308 10.7308 7.42308H14.8846C15.4369 7.42308 15.8846 6.97536 15.8846 6.42308V0.5M9.73077 0.5H15.8846"
-              stroke="#F2F0EB" />
-            <circle cx="9.73257" cy="27.423" r="4.61538" stroke="#F2F0EB" />
-            <circle cx="31.2677" cy="27.423" r="4.61538" stroke="#F2F0EB" />
-            <path d="M40.4997 16.6537H29.7305V11.269" stroke="#F2F0EB" />
-          </svg>
+        <div class="benefit-info">
+          <p class="benefit-desc">생일 기념<br>할인쿠폰</p>
+          <p class="benefit-highlight">추가 10% 할인</p>
         </div>
-        <p class="benefit-desc">처음은 부담없이<br>받아보세요</p>
-        <p class="benefit-highlight">무료 배송 쿠폰</p>
       </div>
-      <div class="benefit-item">
+      <div class="benefit-item kakao-benefit">
         <div class="icon-circle">
           <svg width="38" height="24" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -416,8 +462,11 @@
               stroke="#F2F0EB" />
           </svg>
         </div>
-        <p class="benefit-desc">카카오 플친<br>할인쿠폰</p>
-        <p class="benefit-highlight">추가 10% 할인</p>
+        <div class="benefit-info">
+          <p class="benefit-desc">카카오 플친 할인쿠폰팩</p>
+          <p class="benefit-highlight">3종 할인쿠폰 + 무료배송</p>
+          <p class="benefit-sub-highlight">5% + 10% + 1,000원 할인</p>
+        </div>
       </div>
       <div class="benefit-item">
         <div class="icon-circle">
@@ -429,8 +478,10 @@
               stroke="#F2F0EB" />
           </svg>
         </div>
-        <p class="benefit-desc">생생한 후기를<br>작성해주세요!</p>
-        <p class="benefit-highlight">적립금 지급</p>
+        <div class="benefit-info">
+          <p class="benefit-desc">생생한 후기를<br>작성해주세요!</p>
+          <p class="benefit-highlight">적립금 지급</p>
+        </div>
       </div>
     </div>
   </section>

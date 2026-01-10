@@ -1,0 +1,136 @@
+<!-- renewal/image-banner-towel.html -->
+
+<style>
+    .mobile-banner-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100vw;
+        max-height: 500px;
+        overflow: hidden;
+    }
+
+    .banner-image {
+        display: block;
+        position: absolute;
+        /* 배경처럼 동작하도록 강제 고정 */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        z-index: 0;
+        /* 가장 아래 레이어 */
+    }
+
+    .mobile-banner-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* 오버레이 복구 */
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1;
+        /* 이미지 위에 위치 */
+    }
+
+    .mobile-banner-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        /* 가장 위에 위치 (텍스트) */
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        padding: 20px;
+        box-sizing: border-box;
+        /* 배경이 밝을 경우 글씨가 안 보일 수 있으므로 텍스트 그림자 추가 권장 */
+        text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .banner-tag {
+        display: inline-block;
+        color: #fff;
+        padding: 8px 10px;
+        font-weight: 600;
+        font-size: 16px;
+        min-width: 140px;
+        /* 태그에는 그림자 제외 */
+        text-shadow: none;
+    }
+
+    .banner-title {
+        font-weight: 700 !important;
+        font-size: 24px !important;
+        margin-bottom: 20px;
+        letter-spacing: -0.5px;
+    }
+
+    .banner-desc {
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 1.5;
+        word-break: keep-all;
+    }
+
+    .banner-desc-mobile {
+        display: none;
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 1.5;
+        word-break: keep-all;
+    }
+
+    @media (max-width: 987px) {
+        .banner-desc {
+            display: none;
+        }
+
+        .banner-desc-mobile {
+            display: block;
+        }
+
+        .banner-tag {
+            display: inline-block;
+            background-color: #fff;
+            color: #000;
+            padding: 8px 10px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            min-width: 140px;
+            /* 태그에는 그림자 제외 */
+            text-shadow: none;
+        }
+    }
+</style>
+
+<div class="mobile-banner-wrapper">
+    <!-- img 태그 사용: 화면 크기에 따라 이미지 소스를 분기합니다 -->
+    <picture>
+        <!-- 모바일 이미지 (987px 이하) -->
+        <source media="(max-width: 987px)" srcset="https://cdn.imweb.me/thumbnail/20260110/dacd4db8c2b55.png">
+        <!-- PC 이미지 (기본) -->
+        <img src="https://cdn.imweb.me/thumbnail/20260110/8ec246c72058a.png" alt="Banner Image" class="banner-image">
+    </picture>
+
+    <div class="mobile-banner-overlay"></div>
+
+    <div class="mobile-banner-content">
+        <div class="banner-tag">For house</div>
+        <h2 class="banner-title">Clean</h2>
+        <p class="banner-desc">
+            집에 자연스럽게 어울리는 심플한 디자인의 클린 제품들입니다.<br>
+            주방·욕실·생활 공간의 오염을 손쉽게 관리할 수 있도록, 사용은 간편하게 효과는 충분하게 설계했어요.<br>
+            분사형부터 덜어 쓰는 타입까지 상황에 맞게 선택할 수 있습니다.
+        </p>
+        <p class="banner-desc-mobile">
+            집에 자연스럽게 어울리는 심플한 클린 제품들입니다.<br>
+            주방·욕실·생활 공간의 오염을 간편하게 관리할 수 있고,<br>
+            분사형부터 덜어 쓰는 타입까지 상황에 맞게 선택할 수 있어요.
+        </p>
+    </div>
+</div>

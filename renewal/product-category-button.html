@@ -1,0 +1,41 @@
+<!-- 상단 고정 아이콘 메뉴 -->
+<style>
+    .category-thumbnail {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto;
+        border-radius: 100%;
+    }
+
+    @media (max-width: 768px) {
+        .price-filter {
+            gap: 15px !important;
+            padding: 20px 10px !important;
+        }
+
+        .category-thumbnail {
+            width: 70px;
+            height: 70px;
+        }
+
+        .price-filter-item div {
+            font-size: 14px !important;
+        }
+    }
+</style>
+
+<div class="price-filter" style="display: flex; justify-content: flex-start; gap: 30px; padding: 40px 10px;">
+    <a href="/clean" class="price-filter-item" style="text-align: center; color: #000; text-decoration: none;">
+        <img src="https://cdn-optimized.imweb.me/upload/S20230424610d85b7e8034/1a7cd0f083041.jpg?w=400" alt="CLEAN"
+            class="category-thumbnail">
+        <div style="font-family: 'Pretendard'; font-weight: 600; font-size: 17px; margin-top: 6px;">CLEAN</div>
+    </a>
+
+    <a href="/towel" class="price-filter-item" style="text-align: center; color: #000; text-decoration: none;">
+        <img src="https://cdn-optimized.imweb.me/upload/S20230424610d85b7e8034/c8c789095cab8.jpg?w=400" alt="TOWEL"
+            class="category-thumbnail">
+        <div style="font-family: 'Pretendard'; font-weight: 600; font-size: 17px; margin-top: 6px;">TOWEL</div>
+    </a>
+</div>

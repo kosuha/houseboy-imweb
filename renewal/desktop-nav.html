@@ -35,8 +35,8 @@
       <div class="hb-col">
         <div class="hb-col-title">ABOUT</div>
         <div class="hb-col-list">
-          <a href="/brand_story">브랜드 스토리</a>
-          <a href="/brand_magazine">브랜드 매거진</a>
+          <a href="/brandstory">브랜드 스토리</a>
+          <a href="/brandmagazine">브랜드 매거진</a>
         </div>
       </div>
 
@@ -47,6 +47,7 @@
           <a href="/notice">공지사항</a>
           <a href="/faq">자주 묻는 질문</a>
           <a href="/suggestion">제품 제안하기</a>
+          <a href="/membership">멤버십 혜택</a>
           <a href="/contact">비즈니스 컨택</a>
         </div>
       </div>
@@ -70,11 +71,19 @@
     // 1. 홈 화면 여부 확인 및 클래스 부여 (대소문자 무시)
     const path = window.location.pathname.toLowerCase();
     const isHome = path === '/' || path === '/home';
-    
-    // console.log('Current Path:', window.location.pathname, 'Is Home:', isHome); // 디버깅용
 
     if (isHome) {
       header.classList.add('hb-is-home');
+      document.body.style.paddingTop = '0px'; // 홈에서는 패딩 제거 (필요시)
+    } else {
+      // 홈이 아닌 경우 헤더 높이만큼 body에 상단 패딩 추가
+      const updatePadding = () => {
+        const height = header.offsetHeight;
+        document.body.style.paddingTop = height + 'px';
+      };
+      // 초기 실행 및 리사이즈 시 대응
+      setTimeout(updatePadding, 100); // 렌더링 타이밍 고려해 약간 지연
+      window.addEventListener('resize', updatePadding);
     }
 
     // 메뉴 버튼 이벤트 연결 시 헤더 제어 (클로저 활용)
@@ -89,7 +98,7 @@
   const targetContainer = document.querySelector('#w20230523986f777136222 > div > div > div > div:nth-child(2)');
   const menuSection = document.querySelector('#s20230523fed2896ad9a66');
   const expandedMenuSection = document.querySelector('.hb-expanded-menu');
-  
+
   if (targetContainer) {
     // 기존 콘텐츠를 비웁니다.
     targetContainer.innerHTML = '';
@@ -110,7 +119,7 @@
     menuButton.addEventListener('click', () => {
       const isShow = expandedMenuSection.classList.toggle('show');
       menuButton.classList.toggle('active');
-      
+
       // 2. 메뉴 열림 상태 표시
       const header = document.querySelector('#doz_header');
       if (header) {
@@ -298,6 +307,11 @@
   .hb-col-list a:hover {
     color: #000;
     text-decoration: underline;
+  }
+
+  /* 메뉴 텍스트 bold */
+  .hb-text-bold {
+    font-weight: bold;
   }
 
   /* Responsive tweaks */

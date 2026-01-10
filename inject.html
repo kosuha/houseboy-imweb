@@ -1,120 +1,284 @@
-<!-- 멤버십 테이블 -->
-<script type="module" src='https://cdn.jsdelivr.net/gh/kosuha/houseboy-imweb@main/public/js/membership.js'></script>
-<link href="https://cdn.jsdelivr.net/gh/kosuha/houseboy-imweb@main/public/css/membership.css" rel="stylesheet"
-  type="text/css">
+<div id="inline_header_mobile" style="min-height: 30px;" class="first_scroll_fixed">
+  <div
+    style="position: fixed; top: 0px; display: flex; justify-content: center; align-items: center; width: 100%; height: 28px; background-color: rgb(33, 33, 33); z-index: auto; overflow: hidden;">
+    <div class="banner-slider" style="height: 100%;">
+      <div class="banner-slides"
+        style="height: 100%; transform: translateY(0%); transition: transform 0.5s ease-in-out;">
+        <div class="banner-slide" data-link="https://pf.kakao.com/_bjGQxj">플러스친구하고, 브랜드 소식과 함께 10% 할인 받기 ➡️</div>
+        <div class="banner-slide" data-link="https://houseboy.kr/Bathroom">오후 1시까지 주문하시면, 오늘 출발해요 🚛</div>
+        <div class="banner-slide" data-link="https://pf.kakao.com/_bjGQxj">플러스친구하고, 브랜드 소식과 함께 10% 할인 받기 ➡️</div>
+      </div>
+    </div>
+  </div>
+  <div class="banner-spacer" style="width: 100%; height: 28px; flex: 0 0 28px;"></div>
+  <div data-type="section-wrap" class="inline-section-wrap fixed_transform _fixed_header_section"
+    id="s202305237306222ac0e85" style="top: 0px;">
+    <div class="section_bg _section_bg fixed_transform _interactive_bg  "></div>
+    <div class="section_bg_color _section_bg_color fixed_transform"
+      style="background-color:#f9f6ef;  position: absolute;left: 0;top: 0;right: 0; bottom: 0;"></div>
+    <div data-type="inside" class="inline-inside _inline-inside">
+      <div data-type="section" class="inline-section" section-code="s202305237306222ac0e85">
+        <div data-type="col-group" data-col-group="left" class="inline-col-group inline-col-group-left"
+          style="width:177px;">
+          <div data-type="grid" class="inline-col">
+            <div data-type="widget" id="w20230523c900aa9cc3066" class="inline-widget">
+              <div class="_widget_data" data-widget-type="inline_logo">
+                <div class="widget inline_widget logo  text_inline" id="logo_w20230523c900aa9cc3066">
+                  <div class="img_box _img_box" style="position: relative;">
+                    <a class="_fade_link " href="/Home"><span class="sr-only">하우스보이 Houseboy</span> <img
+                        class="normal_logo _front_img"
+                        src="https://cdn.imweb.me/upload/S20230424610d85b7e8034/93defb8c355df.png" alt="하우스보이 Houseboy"
+                        width="89.1835443038" style="max-width: 100%;height: auto; ">
+                      <img class="scroll_logo fixed_transform"
+                        src="https://cdn.imweb.me/upload/S20230424610d85b7e8034/93defb8c355df.png" alt="하우스보이 Houseboy"
+                        width="89.1835443038" style="max-width: 100%;height: auto; ">
+                    </a>
+                  </div>
+                </div>
 
-<!-- 상세페이지 옵션 장바구니 -->
-<script type="module" src='https://cdn.jsdelivr.net/gh/kosuha/houseboy-imweb@main/public/js/optBlock.js'></script>
-<link href="https://cdn.jsdelivr.net/gh/kosuha/houseboy-imweb@main/public/css/optBlock.css" rel="stylesheet"
-  type="text/css">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-type="col-group" data-col-group="right" class="inline-col-group inline-col-group-right"
+          style="width:178px;">
+          <div data-type="grid" class="inline-col">
+            <div data-type="widget" id="w20230523e3e3c6c88eafd" class="inline-widget">
+              <div class="_widget_data" data-widget-type="inline_login_btn">
+                <div class="widget inline_widget login_btn button  button_text txt_l text-xx-small">
+                  <div class="btn-wrap">
+                    <div class="inline-blocked login_btn_item "><a
+                        class="_fade_link   btn_text btn_t33262L5Q3   btn_custom " href="/shop_mypage"
+                        style="border-radius:0px; "><span class="text fixed_transform ">MY</span></a></div>
+                    <div class="inline-blocked login_btn_item "><a
+                        class="_fade_link   btn_text btn_59e036883ae74   btn_custom " href="/shop_cart"
+                        style="border-radius:0px; "><span class="sr-only">장바구니</span><span class="icon_class "><i
+                            class="fixed_transform simple icon-bag" aria-hidden="true"></i></span><span
+                          class="text fixed_transform no_text"></span><span class="badge_wrap"><sup
+                            class="badge _shop_cart_badge_cnt_wrap"
+                            style="right: -6px;top: auto; bottom: -1px;transform : translate(0px, 0px);">1</sup></span></a>
+                    </div>
+                  </div>
+                </div>
 
-<!-- 상세페이지 상품 옵션 디자인 변경 -->
-<script type="module" src='https://cdn.jsdelivr.net/gh/kosuha/houseboy-imweb@main/public/js/productOptions.js'></script>
-<link href="https://cdn.jsdelivr.net/gh/kosuha/houseboy-imweb@main/public/css/productOptions.css" rel="stylesheet"
-  type="text/css">
 
-<!-- 상단 플친 배너 -->
-<script type="module" src='https://cdn.jsdelivr.net/gh/kosuha/houseboy-imweb@main/public/js/topBanner.js'></script>
-<link href="https://cdn.jsdelivr.net/gh/kosuha/houseboy-imweb@main/public/css/topBanner.css" rel="stylesheet"
-  type="text/css">
 
-<!-- 
-	슬라이드 리뷰 섹션
-	"id": 브이리뷰ID (개발자도구에서 확인)
-	"iconPosition": '+'아이콘의 좌표(x,y). 좌상단은 (0,0) 우하단은 (100,100)
--->
-<div class='houseboy-slide-review-section' data-reviews='[
-    {"id":20733981,"iconPosition":{"x":50,"y":50}},
-    {"id":21185975,"iconPosition":{"x":30,"y":40}},
-    {"id":33401761,"iconPosition":{"x":70,"y":60}},
-    {"id":27208230,"iconPosition":{"x":20,"y":80}},
-    {"id":25029734,"iconPosition":{"x":80,"y":20}},
-    {"id":20734090},
-    {"id":20734204,"iconPosition":{"x":50,"y":30}},
-    {"id":39241145,"iconPosition":{"x":50,"y":70}},
-    {"id":38484011,"iconPosition":{"x":10,"y":10}},
-    {"id":38477472,"iconPosition":{"x":90,"y":90}}
-  ]'>
-</div>
-<script type="module" src='https://cdn.jsdelivr.net/gh/kosuha/houseboy-imweb@main/public/js/reviewSection.js'></script>
-<link href="https://cdn.jsdelivr.net/gh/kosuha/houseboy-imweb@main/public/css/reviewSection.css" rel="stylesheet"
-  type="text/css">
 
-<!-- 
-	추천 상품 섹션
--->
-<div class='houseboy-recommended-products-section' data-prod-recommended-content='[
-    {
-      "title": "나를 위한 포근한 선물",
-      "subtitle": "우리집 욕실을 따뜻하게 바꾸는 첫번째 방법이에요",
-      "button": "모두 보기",
-      "buttonLink": "/Bathroom",
-      "productIds": [10, 33, 38],
-      "image": "https://cdn.imweb.me/thumbnail/20230919/17ea824a6d027.jpg"
-    },
-    {
-      "title": "나를 위한 포근한 선물",
-      "subtitle": "우리집 욕실을 따뜻하게 바꾸는 첫번째 방법이에요",
-      "button": "모두 보기",
-      "buttonLink": "/Bathroom",
-      "productIds": [6, 34, 39],
-      "image": "https://cdn.imweb.me/thumbnail/20230919/17ea824a6d027.jpg"
-    }
-  ]'>
-</div>
 
-<!-- 
-	상품 리스트 섹션
--->
-<div class='houseboy-products-list-section'
-  data-prod-list-content='[[10, "category1"], [33, "category2"], [38, "category3"]]'>
-</div>
+              </div>
+            </div>
+          </div>
+          <div data-type="grid" class="inline-col">
+            <div data-type="widget" id="w20251003e5fc490a05c65" class="inline-widget">
+              <div class="_widget_data" data-widget-type="inline_padding">
+                <div class="widget inline_widget padding" data-height="30" data-width="30">
+                  <button class="hb-mobile-menu-button in-home">
 
-<div class="overlay-banner">
-  <div class="overlay-text">
-    <h2>Houseboy Story</h2>
-    <p>집안 가득 채우는 작은 특별함 ></p>
+                    <svg width="15" height="15" viewBox="0 0 25 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0.119629 1.02606H24.188" stroke="#fff" stroke-width="2"></path>
+                      <path d="M0.119629 12.3075H24.188" stroke="#fff" stroke-width="2"></path>
+                    </svg>
+
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div></div>
+  <div data-type="carousel_menu" class="inline-section-wrap _fixed_header_section" id="mobile_carousel_menu"
+    style="display: none;">
+    <div class="inline-inside _inline-inside">
+      <div class="mobile_carousel_nav fixed_transform _mobile_nav " id="mobile_carousel_nav">
+        <div class="mobile_nav_depth depth_0 depth_first st05 _mobile_navigation_menu" id="mobile_carousel_menu_0">
+
+          <div class="nav-item _item   " data-code="m20251230d5f7f844e57c4" data-url="45">
+            <a href="/45" class=" _fade_link " style="">
+              <span class="plain_name" data-hover="" style="display: inline-flex; align-items: center;">제품 가이드<div
+                  class="dotted"></div></span>
+            </a>
+          </div>
+
+          <div class="nav-item _item   " data-code="m20251208d3d1963bbb3f6" data-url="clean">
+            <a href="/clean" class=" _fade_link " style="">
+              <span class="plain_name" data-hover="">CLEAN</span>
+            </a>
+          </div>
+
+          <div class="nav-item _item   " data-code="m2025123062e2cd4bec3f1" data-url="towel">
+            <a href="/towel" class=" _fade_link " style="">
+              <span class="plain_name" data-hover="">TOWEL</span>
+            </a>
+          </div>
+
+          <div class="nav-item _item   " data-code="m20230804eff6f97d87e31" data-url="Review">
+            <a href="/Review" class=" _fade_link " style="">
+              <span class="plain_name" data-hover="">온라인 집들이</span>
+            </a>
+          </div>
+
+          <div class="nav-item _item   " data-code="m20260109e94b9be78e5f9" data-url="54">
+            <a href="/brand_story" class=" _fade_link " style="">
+              <span class="plain_name" data-hover="">ABOUT</span>
+            </a>
+          </div>
+
+          <div class="nav-item _item   " data-code="m20251230487c30706e3ca" data-url="48">
+            <a href="/Notice" class=" _fade_link " style="">
+              <span class="plain_name" data-hover="">고객지원</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+  <div></div>
+  <div class="hb-mobile-slide-menu hidden">
+    <div class="hb-mobile-slide-menu__container">
+      <div class="hb-mobile-slide-menu__main">
+        <div class="hb-mobile-slide-menu__sidebar">
+          <div class="hb-mobile-slide-menu__nav-list">
+            <div class="hb-mobile-slide-menu__nav-item hb-mobile-slide-menu__nav-item--online">
+              <a href="">
+                <span>온라인 집들이</span>
+              </a>
+            </div>
+            <div class="hb-mobile-slide-menu__nav-item hb-mobile-slide-menu-button-products selected">
+              <span>모든 제품</span>
+            </div>
+            <div class="hb-mobile-slide-menu__nav-item">
+              <a href="">
+                <span>1인가구</span>
+              </a>
+            </div>
+            <div class="hb-mobile-slide-menu__nav-item">
+              <a href="">
+                <span>2인가구</span>
+              </a>
+            </div>
+            <div class="hb-mobile-slide-menu__nav-item">
+              <a href="">
+                <span style="display: inline-flex; align-items: center;">선물하기<div class="dotted"></div></span>
+              </a>
+            </div>
+            <div class="hb-mobile-slide-menu__nav-item">
+              <a href="">
+                <span>벌크포장</span>
+              </a>
+            </div>
+          </div>
+          <div class="hb-mobile-slide-menu__secondary">
+            <div class="hb-mobile-slide-menu__nav-item hb-mobile-slide-menu-button-about">
+              <span>ABOUT</span>
+            </div>
+            <div class="hb-mobile-slide-menu__nav-item hb-mobile-slide-menu-button-support">
+              <span>고객지원</span>
+            </div>
+          </div>
+        </div>
+        <div class="hb-mobile-slide-menu-page">
+          <div class="hb-mobile-slide-menu-products-page">
+            <div>
+              <a href="">
+                <span>ALL</span>
+
+                <svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L7.04834 4.54L1 8.08" stroke="#080506" stroke-linecap="round" stroke-linejoin="round">
+                  </path>
+                </svg>
+
+              </a>
+              <div>
+                <a href="">
+                  <img src="https://cdn.imweb.me/thumbnail/20250916/f840975643633.jpg">
+                  <span>Clean</span>
+                </a>
+                <a href="">
+                  <img src="https://cdn.imweb.me/thumbnail/20250916/f840975643633.jpg">
+                  <span>Bath</span>
+                </a>
+                <a href="">
+                  <img src="https://cdn.imweb.me/thumbnail/20250916/f840975643633.jpg">
+                  <span>Kitchen</span>
+                </a>
+              </div>
+            </div>
+            <div>
+              <a href="">
+                <span>구성원 별</span>
+
+                <svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L7.04834 4.54L1 8.08" stroke="#080506" stroke-linecap="round" stroke-linejoin="round">
+                  </path>
+                </svg>
+
+              </a>
+              <div>
+                <a href="">
+                  <img src="https://cdn.imweb.me/thumbnail/20250916/f840975643633.jpg">
+                  <span>1인가구</span>
+                </a>
+                <a href="">
+                  <img src="https://cdn.imweb.me/thumbnail/20250916/f840975643633.jpg">
+                  <span>2인가구</span>
+                </a>
+              </div>
+            </div>
+            <div>
+              <a href="">
+                <span>선물하기</span>
+
+                <svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L7.04834 4.54L1 8.08" stroke="#080506" stroke-linecap="round" stroke-linejoin="round">
+                  </path>
+                </svg>
+
+              </a>
+              <div>
+                <a href="">
+                  <img src="https://cdn.imweb.me/thumbnail/20250916/f840975643633.jpg">
+                  <span>2만원대</span>
+                </a>
+                <a href="">
+                  <img src="https://cdn.imweb.me/thumbnail/20250916/f840975643633.jpg">
+                  <span>4만원대</span>
+                </a>
+                <a href="">
+                  <img src="https://cdn.imweb.me/thumbnail/20250916/f840975643633.jpg">
+                  <span>5만원대 이상</span>
+                </a>
+              </div>
+            </div>
+            <div>
+              <a href="">
+                <span>벌크포장</span>
+
+                <svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L7.04834 4.54L1 8.08" stroke="#080506" stroke-linecap="round" stroke-linejoin="round">
+                  </path>
+                </svg>
+
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hb-mobile-slide-menu__footer">
+        <div class="hb-mobile-slide-menu__actions">
+          <a class="hb-mypage-link-button" href="/shop_mypage">
+            <button>마이페이지</button>
+          </a>
+          <a class="hb-logout-link-button" href="/logout.cm?back_url=L0hvbWU%2FcHJldmlld19tb2RlPTE%3D">
+            <button>로그아웃</button>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-<style>
-  .overlay-banner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    /* 필요시 높이 조정 */
-  }
-
-  .overlay-banner::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(33, 33, 33, 0.4);
-    /* #212121 40% */
-    z-index: 1;
-  }
-
-  .overlay-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    text-align: center;
-    color: #fff;
-    padding: 0 20px;
-    font-family: 'Pretendard', sans-serif;
-    font-weight: 600;
-    /* SemiBold */
-  }
-
-  .overlay-text h2 {
-    font-size: 24px;
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
-
-  .overlay-text p {
-    font-size: 16px;
-    font-weight: 500;
-  }
-</style>
